@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  spring:
+    container_name: spring_app
+    image: ${DOCKER_REPO}/linker
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${MYSQL_DB}?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: mysql:8.0.33
+    volumes:
+      - ${WRITABLE_DIR}/mysqldata:/var/lib/mysql
+      - ${DEPLOY_DIR}/init.sql:/docker-entrypoint-initdb.d/initdb.sql
+    ports:
+      - "3306:3306"
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
