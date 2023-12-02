@@ -57,6 +57,6 @@ jobs:
         # 도커 작업
         script: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/linker:latest
-          docker-compose up -d
+          docker-compose -f docker-compose.dev.yml up -d
           docker rm $(docker ps --filter 'status=exited' -a -q)
           docker image prune -a -f
