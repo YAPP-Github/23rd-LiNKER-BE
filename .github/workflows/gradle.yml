@@ -29,7 +29,9 @@ jobs:
         distribution: 'temurin'
 
     - name: make .env
-      run: echo "${{ secrets.ENV }}" > ./.env
+      run: |
+        touch ./.env
+        echo "${{ secrets.ENV }}" > ./.env
 
     - name: NCP transfer
       uses: appleboy/scp-action@master
