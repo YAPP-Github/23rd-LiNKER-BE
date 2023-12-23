@@ -20,6 +20,8 @@ services:
     volumes:
       - ${WRITABLE_DIR}/mysqldata:/var/lib/mysql
       - ${DEPLOY_DIR}/init.sql:/docker-entrypoint-initdb.d/initdb.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
