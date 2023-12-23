@@ -65,6 +65,7 @@ jobs:
         port: ${{ secrets.NCP_PORT }} # port
         # 도커 작업
         script: |
+          cd /home/linker
           docker-compose -f docker-compose.dev.yml down
           docker pull ${{ secrets.DOCKER_USERNAME }}/linker:latest
           docker-compose -f docker-compose.dev.yml up -d
