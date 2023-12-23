@@ -68,6 +68,6 @@ jobs:
           cd /home/linker
           docker-compose -f docker-compose.dev.yml down
           docker pull ${{ secrets.DOCKER_USERNAME }}/linker:latest
-          docker-compose -f docker-compose.dev.yml up -d
+          docker-compose -f docker-compose.dev.yml up --build -d
           docker rm $(docker ps --filter 'status=exited' -a -q)
           docker image prune -a -f
