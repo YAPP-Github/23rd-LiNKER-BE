@@ -38,7 +38,6 @@ jobs:
         username: ${{ secrets.NCP_USERNAME }}
         password: ${{ secrets.NCP_PASSWORD }}
         port: ${{ secrets.NCP_PORT }} 
-        rm: true
         source: ${{ secrets.SOURCE_PATH }}
         target: ${{ secrets.DIST_PATH }}
     
