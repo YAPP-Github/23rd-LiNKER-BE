@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> businessExceptionHandle(BusinessException e) {
-        log.error("businessException : {}", e.getMessage());
+        log.warn("businessException : {}", e.getMessage());
         return ResponseEntity.internalServerError()
                 .body(ErrorResponse.of(e.getCode(), e.getMessage()));
     }
