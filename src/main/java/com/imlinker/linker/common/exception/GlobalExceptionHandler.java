@@ -23,7 +23,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> allUncaughtHandle(Exception e) {
         log.error("allUncaughtHandle : {}", e.getMessage());
-        return ResponseEntity.internalServerError().build();
+        return ResponseEntity.internalServerError()
+                .body(ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
