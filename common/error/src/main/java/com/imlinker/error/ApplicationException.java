@@ -7,5 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApplicationException extends RuntimeException {
   private final ErrorType errorType;
+  private final Object data;
   private final Throwable cause;
 }

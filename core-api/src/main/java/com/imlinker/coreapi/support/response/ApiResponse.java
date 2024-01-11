@@ -18,7 +18,7 @@ public class ApiResponse<T> {
     return new ApiResponse<>(ResponseType.SUCCESS, data, null, null);
   }
 
-  public static ApiResponse fail(ErrorType errorType, String errorData, String debug) {
+  public static ApiResponse<Object> error(ErrorType errorType, String errorData, String debug) {
     return new ApiResponse<>(
         ResponseType.ERROR, null, new ErrorMessage(errorType, errorData), debug);
   }

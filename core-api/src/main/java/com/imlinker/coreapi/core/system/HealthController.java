@@ -1,4 +1,4 @@
-package com.imlinker.coreapi;
+package com.imlinker.coreapi.core.system;
 
 import com.imlinker.coreapi.support.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
