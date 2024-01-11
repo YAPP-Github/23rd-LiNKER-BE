@@ -1,35 +1,56 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.0'
-	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.springframework.boot'
+	id 'com.diffplug.spotless'
+	id 'io.spring.dependency-management'
 }
 
-group = 'com.im-linker'
-version = '0.0.1-SNAPSHOT'
 
-java {
+
+allprojects{
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'com.diffplug.spotless'
+
+	group = 'com.im-linker'
+	version = '0.0.1-SNAPSHOT'
 	sourceCompatibility = '17'
-}
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
 	}
-}
 
-repositories {
-	mavenCentral()
-}
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${project.springCloudVersion}"
+		}
+	}
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
+	repositories {
+		mavenCentral()
+	}
 
-tasks.named('test') {
-	useJUnitPlatform()
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	}
+
+	tasks.named('test',Test) {
+		useJUnitPlatform()
+	}
+
+	spotless {
+		java {
+			targetExclude("build/**")
+			googleJavaFormat()
+		}
+	}
+
 }
