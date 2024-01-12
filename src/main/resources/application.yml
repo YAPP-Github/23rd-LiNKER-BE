@@ -5,6 +5,17 @@ spring:
     hibernate:
       ddl-auto: update
 
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+  jwt:
+    secret: linker
+    token:
+      access-expiration-time: 86400000    # 24시간
+      refresh-expiration-time: 604800000  # 7일
+
 server:
   tomcat:
     remoteip:

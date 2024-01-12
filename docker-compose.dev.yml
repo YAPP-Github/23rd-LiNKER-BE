@@ -11,9 +11,10 @@ services:
       - "8080:8080"
     depends_on:
       - db
+      - redis
 
   db:
-    container_name: db
+    container_name: mysql
     image: mysql:8.0.33
     volumes:
       - ${WRITABLE_DIR}/mysqldata:/var/lib/mysql
@@ -23,3 +24,11 @@ services:
     ports:
       - "3306:3306"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    hostname: redis
+    ports:
+      - "6379:6379"
