@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,17 +24,27 @@ public class CoreApiControllerAdvice {
     private final ObjectMapper objectMapper;
 
     @ExceptionHandler(ApplicationException.class)
-    public ApiResponse<Object> handleApplicationException(ApplicationException e) {
-        return ApiResponse.error(e.getErrorType(), toErrorData(e.getData()), toDebugData(e.getCause()));
+    public ResponseEntity<ApiResponse<Object>> handleApplicationException(ApplicationException e) {
+        return handleException(e);
     }
 
     @ExceptionHandler(Throwable.class)
-    public ApiResponse<Object> handleThrowable(Throwable throwable) {
-        return ApiResponse.error(
-                ErrorType.INTERNAL_PROCESSING_ERROR, throwable.getMessage(), toDebugData(throwable));
+    public ResponseEntity<ApiResponse<Object>> handleThrowable(Throwable throwable) {
+        return handleException(
+                new ApplicationException(
+                        ErrorType.INTERNAL_PROCESSING_ERROR, throwable.getMessage(), throwable));
+    }
+
+    private ResponseEntity<ApiResponse<Object>> handleException(ApplicationException e) {
+        return new ResponseEntity<>(
+                ApiResponse.error(e.getErrorType(), toErrorData(e.getData()), toDebugData(e.getCause())),
+                HttpStatus.valueOf(e.getErrorType().getStatus()));
     }
 
     private String toErrorData(Object errorData) {
+        if (errorData == null) {
+            return null;
+        }
         try {
             return objectMapper.writeValueAsString(errorData);
         } catch (Exception e) {
@@ -41,7 +53,7 @@ public class CoreApiControllerAdvice {
     }
 
     private String toDebugData(Throwable throwable) {
-        if (!isDevProfile()) {
+        if (!isDevProfile() || throwable == null) {
             return null;
         }
         try {
