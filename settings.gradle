@@ -31,4 +31,5 @@ include(":common:enums")
 include(":common:error")
 
 include(":modules:logging")
+include(":modules:monitoring")
 include(":modules:local-cache")

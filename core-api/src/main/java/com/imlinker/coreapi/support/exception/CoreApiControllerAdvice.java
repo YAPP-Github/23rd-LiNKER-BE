@@ -10,12 +10,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class CoreApiControllerAdvice {
@@ -30,6 +32,7 @@ public class CoreApiControllerAdvice {
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ApiResponse<Object>> handleThrowable(Throwable throwable) {
+        log.error("[CoreApiExceptionHandler][UnHandledException] (cause= {})", toDebugData(throwable));
         return handleException(
                 new ApplicationException(
                         ErrorType.INTERNAL_PROCESSING_ERROR, throwable.getMessage(), throwable));
