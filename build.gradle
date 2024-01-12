@@ -45,7 +45,11 @@ allprojects{
 	spotless {
 		java {
 			targetExclude("build/**")
+			removeUnusedImports()
 			googleJavaFormat()
+			indentWithTabs(2)
+			indentWithSpaces(4)
+			endWithNewline()
 		}
 	}
 

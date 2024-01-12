@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ErrorTriggerController {
 
-  @GetMapping("/trigger")
-  public void triggerError() {
-    throw new RuntimeException("Error triggered");
-  }
+    @GetMapping("/trigger")
+    public void triggerError() {
+        throw new RuntimeException("Error triggered");
+    }
 }

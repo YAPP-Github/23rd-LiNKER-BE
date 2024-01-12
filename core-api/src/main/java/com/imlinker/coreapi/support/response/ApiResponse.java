@@ -9,17 +9,17 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiResponse<T> {
 
-  private ResponseType responseType;
-  private T data;
-  private ErrorMessage error;
-  private String debug;
+    private ResponseType responseType;
+    private T data;
+    private ErrorMessage error;
+    private String debug;
 
-  public static <T> ApiResponse<T> success(T data) {
-    return new ApiResponse<>(ResponseType.SUCCESS, data, null, null);
-  }
+    public static <T> ApiResponse<T> success(T data) {
+        return new ApiResponse<>(ResponseType.SUCCESS, data, null, null);
+    }
 
-  public static ApiResponse<Object> error(ErrorType errorType, String errorData, String debug) {
-    return new ApiResponse<>(
-        ResponseType.ERROR, null, new ErrorMessage(errorType, errorData), debug);
-  }
+    public static ApiResponse<Object> error(ErrorType errorType, String errorData, String debug) {
+        return new ApiResponse<>(
+                ResponseType.ERROR, null, new ErrorMessage(errorType, errorData), debug);
+    }
 }

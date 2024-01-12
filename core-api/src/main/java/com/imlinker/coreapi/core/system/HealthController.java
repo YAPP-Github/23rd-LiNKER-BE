@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class HealthController {
 
-  @GetMapping("/ping")
-  public ApiResponse<String> ping() {
-    return ApiResponse.success("pong");
-  }
+    @GetMapping("/ping")
+    public ApiResponse<String> ping() {
+        return ApiResponse.success("pong");
+    }
 }
