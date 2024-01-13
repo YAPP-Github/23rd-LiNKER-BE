@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: api-cd
 
 on:
   push:
