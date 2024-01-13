@@ -1,0 +1,12 @@
+dependencies {
+    implementation("ch.qos.logback:logback-core:$logbackVersion")
+    implementation("io.micrometer:micrometer-tracing-bridge-brave")
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

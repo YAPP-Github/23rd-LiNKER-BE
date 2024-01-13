@@ -1,0 +1,11 @@
+dependencies {
+    implementation("com.github.ben-manes.caffeine:caffeine:${property("caffeineVersion")}")
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

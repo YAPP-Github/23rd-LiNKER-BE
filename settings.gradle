@@ -1,1 +1,35 @@
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            switch (requested.id.id) {
+                case "org.springframework.boot":
+                    useVersion(springBootVersion)
+                    break
+                case "io.spring.dependency-management":
+                    useVersion(springDependencyManagementVersion)
+                    break
+                case "com.diffplug.spotless":
+                    useVersion(spotlessVersion)
+                    break
+            }
+        }
+    }
+    plugins {
+        id 'org.jetbrains.kotlin.jvm' version '1.9.21'
+    }
+}
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
+}
+
 rootProject.name = 'linker'
+include("core-api")
+include("domain")
+include("storage")
+
+include(":common:enums")
+include(":common:error")
+
+include(":modules:logging")
+include(":modules:monitoring")
+include(":modules:local-cache")
