@@ -2,7 +2,7 @@ name: api-ci
 
 on:
   pull_request:
-    branches: [ de ]
+    branches: [ dev ]
   push:
     branches: [ dev ]
 jobs:
