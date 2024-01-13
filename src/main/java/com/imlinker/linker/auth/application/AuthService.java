@@ -40,7 +40,6 @@ public class AuthService {
         User user = userRepository.findBySocialId(kakaoUserDto.getSocialId())
                 .orElse(signUpUser(kakaoUserDto));
 
-        System.out.println(user.getSocialId() + " !!!! " + user.getEmail());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         user.getSocialId(),
@@ -72,7 +71,6 @@ public class AuthService {
     }
 
     public User signUpUser(KakaoUserDto kakaoUserDto){
-        System.out.println("signup User1!!!!");
         return userRepository.save(User.builder()
                 .socialId(kakaoUserDto.getSocialId())
                 .name(kakaoUserDto.getNickname())
