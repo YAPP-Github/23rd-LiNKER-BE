@@ -1,5 +1,6 @@
 package com.imlinker.coreapi.core.my.response;
 
+import com.imlinker.domain.common.Tag;
 import java.util.List;
 
 public record GetMyResponse(
@@ -8,6 +9,6 @@ public record GetMyResponse(
         String job,
         String association,
         String email,
-        List<String> tags,
+        List<Tag> tags,
         int contactsNum,
         int scheduleNum) {}
