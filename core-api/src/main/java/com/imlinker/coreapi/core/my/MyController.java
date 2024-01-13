@@ -23,8 +23,10 @@ public class MyController {
                         "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                         "Json 상하차 담당",
                         "Yapp23기 Web1팀",
-                        "이메일",
-                        List.of("태그1", "태그2"),
+                        "rlaxowns7916@gmail.com",
+                        List.of(
+                                new com.imlinker.domain.common.Tag(1L, "스포츠"),
+                                new com.imlinker.domain.common.Tag(2L, "게임")),
                         0,
                         0);
 
