@@ -1,0 +1,15 @@
+= API Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+:snippets: build/generated-snippets
+
+
+[[error-types]]
+== 에러타입 조회
+
+=== HTTP Response
+include::{snippets}/error-types/http-response.adoc[]

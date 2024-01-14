@@ -3,22 +3,26 @@ plugins {
 	id 'org.springframework.boot'
 	id 'com.diffplug.spotless'
 	id 'io.spring.dependency-management'
-}
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+	id 'org.asciidoctor.jvm.convert'
 }
 
 allprojects{
-	apply plugin: 'java'
+	apply plugin: 'java-library'
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'com.diffplug.spotless'
+	apply plugin: 'org.asciidoctor.jvm.convert'
 
 	group = 'com.im-linker'
 	version = '0.0.1-SNAPSHOT'
 	sourceCompatibility = '17'
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+		asciidoctorExt
+	}
 
 	dependencyManagement {
 		imports {

@@ -1,7 +1,11 @@
 package com.imlinker.coreapi.core.system;
 
+import com.imlinker.coreapi.core.system.response.ErrorTypeResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
+import com.imlinker.error.ErrorType;
 import io.swagger.v3.oas.annotations.Hidden;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -17,8 +21,16 @@ public class SystemController {
     @Hidden
     @GetMapping("/ping")
     public ApiResponse<String> ping() {
-        log.info("[HealthController][Ping]");
         return ApiResponse.success("pong");
+    }
+
+    @Hidden
+    @GetMapping("/error-types")
+    public ApiResponse<List<ErrorTypeResponse>> listErrorTypes() {
+        return ApiResponse.success(
+                Arrays.stream(ErrorType.values())
+                        .map(type -> new ErrorTypeResponse(type.getCode(), type.getMessage(), type.getStatus()))
+                        .toList());
     }
 
     @Hidden
