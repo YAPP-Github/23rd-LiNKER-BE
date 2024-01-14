@@ -1,0 +1,5 @@
+database:
+  encryption:
+      enable: false
+      key: 1234567890123456
+      iv: 1234567890123456

@@ -23,9 +23,9 @@ plugins {
 }
 
 rootProject.name = 'linker'
-include("core-api")
-include("domain")
-include("storage")
+include(":core-api")
+include(":domain")
+include(":storage")
 
 include(":common:enums")
 include(":common:error")
