@@ -1,4 +1,4 @@
-package com.imlinker.coreapi;
+package com.imlinker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

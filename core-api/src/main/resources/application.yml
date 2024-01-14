@@ -3,13 +3,17 @@ server:
     remoteip:
       remote-ip-header: "x-forwarded-for"
       protocol-header: "x-forwarded-proto"
-springdoc:
-  swagger-ui:
-    path: /swagger
 spring:
+  web:
+    resources:
+      add-mappings: false
   profiles:
     active: local
   config:
     import:
         - logging.yml
         - monitoring.yml
+        - application-storage-${spring.profiles.active}.yml
+springdoc:
+  swagger-ui:
+    path: /swagger

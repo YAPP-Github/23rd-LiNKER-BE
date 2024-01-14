@@ -4,6 +4,11 @@ plugins {
 	id 'com.diffplug.spotless'
 	id 'io.spring.dependency-management'
 }
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
 
 allprojects{
 	apply plugin: 'java'
@@ -14,12 +19,6 @@ allprojects{
 	group = 'com.im-linker'
 	version = '0.0.1-SNAPSHOT'
 	sourceCompatibility = '17'
-
-	configurations {
-		compileOnly {
-			extendsFrom annotationProcessor
-		}
-	}
 
 	dependencyManagement {
 		imports {
@@ -34,6 +33,11 @@ allprojects{
 	dependencies {
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
+		annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+		implementation("org.springframework.boot:spring-boot-starter-json")
+		implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	}
 

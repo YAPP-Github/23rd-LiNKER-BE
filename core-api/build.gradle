@@ -1,19 +1,17 @@
-plugins {
-    id 'org.jetbrains.kotlin.jvm'
-}
 dependencies {
-    implementation(project(":common:error"))
-    implementation(project(":common:enums"))
+    runtimeOnly(project(":storage"))
 
     implementation(project(":domain"))
+    implementation(project(":common:error"))
+    implementation(project(":common:enums"))
 
     implementation(project(":modules:logging"))
     implementation(project(":modules:monitoring"))
     implementation(project(":modules:local-cache"))
 
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${project.openApiVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 bootJar{
@@ -22,10 +20,4 @@ bootJar{
 
 jar{
     enabled = false
-}
-repositories {
-    mavenCentral()
-}
-kotlin {
-    jvmToolchain(17)
 }

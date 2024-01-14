@@ -1,7 +1,8 @@
 dependencies {
-    compileOnly(project(":domain"))
+    runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    implementation(project(":domain"))
     implementation(project(":common:error"))
     implementation(project(":modules:local-cache"))
 
