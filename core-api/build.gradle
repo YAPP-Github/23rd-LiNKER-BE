@@ -9,15 +9,17 @@ dependencies {
     implementation(project(":modules:monitoring"))
     implementation(project(":modules:local-cache"))
 
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${project.openApiVersion}"
-}
 
-bootJar{
-    archiveFileName="linker.jar"
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }
 
 jar{
     enabled = false
+}
+
+bootJar{
+    enabled = true
+    archiveFileName="linker.jar"
 }

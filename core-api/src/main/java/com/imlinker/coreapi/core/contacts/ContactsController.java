@@ -10,7 +10,6 @@ import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,19 +26,19 @@ public class ContactsController {
         List<GetContactsResponse.SimpleContact> contacts =
                 List.of(
                         new GetContactsResponse.SimpleContact(
-                                UUID.randomUUID().toString(),
+                                1L,
                                 "윤대용",
                                 "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                                 "프론트앤드 개발자",
                                 "Yapp23기 Web1팀"),
                         new GetContactsResponse.SimpleContact(
-                                UUID.randomUUID().toString(),
+                                2L,
                                 "이우성",
                                 "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                                 "프론트앤드 개발자",
                                 "Yapp23기 Web1팀"),
                         new GetContactsResponse.SimpleContact(
-                                UUID.randomUUID().toString(),
+                                3L,
                                 "이정민",
                                 "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                                 "프론트앤드 개발자",
@@ -55,19 +54,19 @@ public class ContactsController {
                 new SearchContactResponse.Contacts(
                         List.of(
                                 new SearchContactResponse.SimpleContact(
-                                        UUID.randomUUID().toString(),
+                                        1L,
                                         "윤대용",
                                         "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                                         "프론트앤드 개발자",
                                         "Yapp23기 Web1팀"),
                                 new SearchContactResponse.SimpleContact(
-                                        UUID.randomUUID().toString(),
+                                        2L,
                                         "이우성",
                                         "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                                         "프론트앤드 개발자",
                                         "Yapp23기 Web1팀"),
                                 new SearchContactResponse.SimpleContact(
-                                        UUID.randomUUID().toString(),
+                                        3L,
                                         "이정민",
                                         "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                                         "프론트앤드 개발자",
@@ -78,7 +77,7 @@ public class ContactsController {
 
     @GetMapping("/{contactId}")
     @Operation(summary = "연락처 가져오기")
-    public ApiResponse<GetContactResponse> getContact(@PathVariable String contactId) {
+    public ApiResponse<GetContactResponse> getContact(@PathVariable Long contactId) {
         List<com.imlinker.domain.common.Tag> tags =
                 List.of(
                         new com.imlinker.domain.common.Tag(1L, "스포츠"),
@@ -87,7 +86,7 @@ public class ContactsController {
 
         GetContactResponse response =
                 new GetContactResponse(
-                        "1",
+                        1L,
                         "김태준",
                         "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                         "Json 상하차 담당",
@@ -106,7 +105,7 @@ public class ContactsController {
     @PutMapping("/{contactId}")
     @Operation(summary = "연락처 수정하기")
     public ApiResponse<OperationResult> updateContact(
-            @PathVariable String contactId, @RequestBody UpdateContactRequest request) {
+            @PathVariable Long contactId, @RequestBody UpdateContactRequest request) {
         return ApiResponse.success(OperationResult.SUCCESS);
     }
 }
