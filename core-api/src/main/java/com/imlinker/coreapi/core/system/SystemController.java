@@ -10,35 +10,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class SystemController {
 
     @Hidden
-    @ResponseBody
     @GetMapping("/ping")
     public ApiResponse<String> ping() {
         return ApiResponse.success("pong");
     }
 
-    @ResponseBody
     @GetMapping("/error-types")
     public ApiResponse<List<ErrorTypeResponse>> listErrorTypes() {
         return ApiResponse.success(
                 Arrays.stream(ErrorType.values())
                         .map(type -> new ErrorTypeResponse(type.getCode(), type.getMessage(), type.getStatus()))
                         .toList());
-    }
-
-    @Hidden
-    @GetMapping("/api-docs")
-    public String apiDocs() {
-        return "docs/index.html";
     }
 
     @Hidden
