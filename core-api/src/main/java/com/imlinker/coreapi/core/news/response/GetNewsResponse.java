@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.news.response;
 
-import com.imlinker.domain.common.Tag;
+import com.imlinker.domain.tag.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.AccessLevel;

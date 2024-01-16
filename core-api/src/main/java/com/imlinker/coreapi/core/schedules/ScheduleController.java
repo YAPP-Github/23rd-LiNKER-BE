@@ -125,7 +125,7 @@ public class ScheduleController {
                         LocalDateTime.now().plusHours(2),
                         List.of(
                                 new GetUpComingScheduleRecommendationResponse.Recommendation(
-                                        new com.imlinker.domain.common.Tag(1L, "스포츠"),
+                                        new com.imlinker.domain.tag.Tag(1L, "스포츠"),
                                         List.of(
                                                 new GetUpComingScheduleRecommendationResponse.SimpleNews(
                                                         1L,
