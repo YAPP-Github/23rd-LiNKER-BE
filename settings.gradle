@@ -11,9 +11,6 @@ pluginManagement {
                 case "com.diffplug.spotless":
                     useVersion(spotlessVersion)
                     break
-                case "org.asciidoctor.jvm.convert":
-                    useVersion(asciidoctorVersion)
-                    break
             }
         }
     }

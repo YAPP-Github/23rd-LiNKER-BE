@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class ScheduleController {
         for (int i = 1; i <= limit; i++) {
             schedules.add(
                     new GetUpComingSchedulesResponse.SimpleSchedule(
-                            UUID.randomUUID().toString(),
+                            1L,
                             "일정" + i,
                             "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                             type == NearTermSearchType.PREV ? now.minusHours(i + 1) : now.plusHours(i),
@@ -56,31 +55,30 @@ public class ScheduleController {
         List<SearchSchedulesResponse.SimpleSchedule> schedules =
                 List.of(
                         new SearchSchedulesResponse.SimpleSchedule(
-                                UUID.randomUUID().toString(),
+                                1L,
                                 "일정 1",
                                 LocalDateTime.now().plusHours(1),
                                 LocalDateTime.now().plusHours(2),
                                 List.of(
                                         new SearchSchedulesResponse.SimpleContact(
-                                                UUID.randomUUID().toString(),
+                                                1L,
                                                 "김태준",
                                                 "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966"),
-                                        new SearchSchedulesResponse.SimpleContact(
-                                                UUID.randomUUID().toString(), "이우성", null))));
+                                        new SearchSchedulesResponse.SimpleContact(2L, "이우성", null))));
 
         return ApiResponse.success(new SearchSchedulesResponse.Schedules(schedules));
     }
 
     @GetMapping("/{scheduleId}")
     @Operation(summary = "일정 상세 가져오기")
-    public ApiResponse<GetScheduleResponse> getSchedule(@PathVariable String scheduleId) {
+    public ApiResponse<GetScheduleResponse> getSchedule(@PathVariable Long scheduleId) {
         return ApiResponse.success(new GetScheduleResponse());
     }
 
     @GetMapping("/contacts/{contactId}")
     @Operation(summary = "연락처기반 일정 검색하기")
     public ApiResponse<SearchSchedulesResponse.Schedules> getContactSchedules(
-            @PathVariable String contactId,
+            @PathVariable Long contactId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime from,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime to,
             @RequestParam int limit) {
@@ -88,17 +86,16 @@ public class ScheduleController {
         List<SearchSchedulesResponse.SimpleSchedule> schedules =
                 List.of(
                         new SearchSchedulesResponse.SimpleSchedule(
-                                UUID.randomUUID().toString(),
+                                1L,
                                 "일정 1",
                                 LocalDateTime.now().plusHours(1),
                                 LocalDateTime.now().plusHours(2),
                                 List.of(
                                         new SearchSchedulesResponse.SimpleContact(
-                                                UUID.randomUUID().toString(),
+                                                1L,
                                                 "김태준",
                                                 "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966"),
-                                        new SearchSchedulesResponse.SimpleContact(
-                                                UUID.randomUUID().toString(), "이우성", null))));
+                                        new SearchSchedulesResponse.SimpleContact(2L, "이우성", null))));
 
         return ApiResponse.success(new SearchSchedulesResponse.Schedules(schedules));
     }
@@ -121,7 +118,7 @@ public class ScheduleController {
             getUpComingScheduleRecommendation() {
         GetUpComingScheduleRecommendationResponse.Schedule response =
                 new GetUpComingScheduleRecommendationResponse.Schedule(
-                        UUID.randomUUID().toString(),
+                        1L,
                         "일정 1",
                         "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                         LocalDateTime.now().plusHours(1),
