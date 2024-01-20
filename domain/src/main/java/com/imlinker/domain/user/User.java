@@ -1,6 +1,7 @@
 package com.imlinker.domain.user;
 
 import com.imlinker.domain.common.Email;
+import com.imlinker.domain.common.URL;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,10 @@ public class User{
 
     private String name;
 
+
     private Email email;
+
+    private URL profileImgUrl;
 
     private String association;
 
