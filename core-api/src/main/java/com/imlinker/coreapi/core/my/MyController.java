@@ -25,8 +25,8 @@ public class MyController {
                         "Yapp23기 Web1팀",
                         "rlaxowns7916@gmail.com",
                         List.of(
-                                new com.imlinker.domain.common.Tag(1L, "스포츠"),
-                                new com.imlinker.domain.common.Tag(2L, "게임")),
+                                new com.imlinker.domain.tag.Tag(1L, "스포츠"),
+                                new com.imlinker.domain.tag.Tag(2L, "게임")),
                         0,
                         0);
 
