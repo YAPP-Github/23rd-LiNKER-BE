@@ -8,15 +8,16 @@ import com.imlinker.storage.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 @RequiredArgsConstructor
 public class UserAdaptor implements UserRepository {
 
     private final UserJpaRepository repo;
+
     @Override
     public User findById(Long id) {
-        UserEntity entity =  repo.findById(id).orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
+        UserEntity entity =
+                repo.findById(id).orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
         return UserMapper.toModel(entity);
     }
 

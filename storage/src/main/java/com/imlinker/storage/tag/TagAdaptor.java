@@ -5,21 +5,20 @@ import com.imlinker.domain.tag.TagRepository;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import com.imlinker.storage.tag.mapper.TagMapper;
-import com.imlinker.storage.user.UserTagEntity;
-import com.imlinker.storage.user.mapper.UserTagMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
 public class TagAdaptor implements TagRepository {
 
     private final TagJpaRepository repo;
+
     @Override
     public Tag findById(Long id) {
-        TagEntity entity = repo.findById(id).orElseThrow(() -> new ApplicationException(ErrorType.TAG_NOT_FOUND));
+        TagEntity entity =
+                repo.findById(id).orElseThrow(() -> new ApplicationException(ErrorType.TAG_NOT_FOUND));
         return TagMapper.toModel(entity);
     }
 
