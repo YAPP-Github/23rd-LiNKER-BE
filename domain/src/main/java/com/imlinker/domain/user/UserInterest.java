@@ -6,11 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UserInterest {
-
         private Long id;
-
-        private Long tagId;
 
         private Long userId;
 
+        private Long tagId;
 }

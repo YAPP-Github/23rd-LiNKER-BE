@@ -1,5 +1,6 @@
 package com.imlinker.storage.user;
 
+import com.imlinker.storage.common.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,33 +11,27 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity {
+public class UserEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
-    @Column
+    @Column(name = "association")
     private String association;
 
-    @Column
+    @Column(name = "job")
     private String job;
 
-    @Column
+    @Column(name = "contact_num")
     private int contactNum;
 
-    @Column
+    @Column(name = "schedule_num")
     private int scheduleNum;
-
-    @Column
-    private LocalDateTime createAt;
-
-    @Column
-    private LocalDateTime updatedAt;
 }
