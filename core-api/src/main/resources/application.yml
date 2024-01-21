@@ -13,7 +13,7 @@ spring:
     import:
         - logging.yml
         - monitoring.yml
-        - application-oauth.yml
+        - oauth/application-oauth-${spring.profiles.active}.yml
         - application-storage-${spring.profiles.active}.yml
 springdoc:
   swagger-ui:
