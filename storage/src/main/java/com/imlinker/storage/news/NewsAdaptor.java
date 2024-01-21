@@ -1,6 +1,5 @@
 package com.imlinker.storage.news;
 
-
 import com.imlinker.domain.news.News;
 import com.imlinker.domain.news.NewsRepository;
 import com.imlinker.error.ApplicationException;
@@ -16,21 +15,25 @@ public class NewsAdaptor implements NewsRepository {
     private final NewsJpaRepository newsJpaRepository;
 
     @Override
-    public News findById(Long id){
-        NewsEntity newsEntity = newsJpaRepository.findById(id)
-                .orElseThrow(() -> new ApplicationException(ErrorType.NEWS_NOT_FOUND));
+    public News findById(Long id) {
+        NewsEntity newsEntity =
+                newsJpaRepository
+                        .findById(id)
+                        .orElseThrow(() -> new ApplicationException(ErrorType.NEWS_NOT_FOUND));
         return NewsMapper.toModel(newsEntity);
     }
 
     @Override
-    public News findBytagId(Long tagId){
-        NewsEntity newsEntity = newsJpaRepository.findBytagId(tagId)
-                .orElseThrow(() -> new ApplicationException(ErrorType.NEWS_NOT_FOUND));
+    public News findBytagId(Long tagId) {
+        NewsEntity newsEntity =
+                newsJpaRepository
+                        .findBytagId(tagId)
+                        .orElseThrow(() -> new ApplicationException(ErrorType.NEWS_NOT_FOUND));
         return NewsMapper.toModel(newsEntity);
     }
 
     @Override
-    public News save(News news){
+    public News save(News news) {
         NewsEntity newsEntity = newsJpaRepository.save(NewsMapper.toEntity(news));
         return NewsMapper.toModel(newsEntity);
     }

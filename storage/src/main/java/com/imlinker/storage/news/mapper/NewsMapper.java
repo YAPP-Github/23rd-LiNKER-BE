@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NewsMapper {
-    public static News toModel(NewsEntity entity){
+    public static News toModel(NewsEntity entity) {
         return News.builder()
                 .id(entity.getId())
                 .tagId(entity.getTagId())

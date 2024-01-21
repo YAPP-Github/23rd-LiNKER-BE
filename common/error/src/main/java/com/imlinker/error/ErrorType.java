@@ -15,7 +15,6 @@ public enum ErrorType {
     NEWS_NOT_FOUND(404, "NEWS_NOT_FOUND", "뉴스를 찾을 수 없습니다."),
     TAG_NOT_FOUND(404, "TAG_NOT_FOUND", "태그를 찾을 수 없습니다.");
 
-
     private final int status;
     private final String code;
     private final String message;
