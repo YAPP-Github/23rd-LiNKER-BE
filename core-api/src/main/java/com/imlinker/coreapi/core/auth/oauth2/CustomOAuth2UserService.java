@@ -1,6 +1,6 @@
-package com.imlinker.coreapi.core.auth;
+package com.imlinker.coreapi.core.auth.oauth2;
 
-import com.imlinker.coreapi.core.auth.vendor.OAuthVendor;
+import com.imlinker.coreapi.core.auth.oauth2.vendor.OAuthVendor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("userRequest: {}", userRequest);
-
         ClientRegistration registration = userRequest.getClientRegistration();
         OAuth2User user = new DefaultOAuth2UserService().loadUser(userRequest);
 

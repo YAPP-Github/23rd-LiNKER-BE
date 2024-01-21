@@ -1,8 +1,9 @@
 package com.imlinker.coreapi.configuration;
 
-import com.imlinker.coreapi.core.auth.CustomAuthenticationSuccessHandler;
-import com.imlinker.coreapi.core.auth.CustomOAuth2UserService;
-import com.imlinker.coreapi.core.auth.StatefulParameterOAuth2AuthorizationRequestResolver;
+import com.imlinker.coreapi.core.auth.oauth2.CustomAccessDeniedHandler;
+import com.imlinker.coreapi.core.auth.oauth2.CustomAuthenticationSuccessHandler;
+import com.imlinker.coreapi.core.auth.oauth2.CustomAuthorizationRequestResolver;
+import com.imlinker.coreapi.core.auth.oauth2.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +18,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    private final StatefulParameterOAuth2AuthorizationRequestResolver
-            statefulParameterOAuth2AuthorizationRequestResolver;
+    private final CustomAuthorizationRequestResolver customOAuth2AuthorizationRequestResolver;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,7 +37,14 @@ public class SecurityConfiguration {
                                 .authorizationEndpoint(
                                         authorizationEndpoint ->
                                                 authorizationEndpoint.authorizationRequestResolver(
-                                                        statefulParameterOAuth2AuthorizationRequestResolver)));
+                                                        customOAuth2AuthorizationRequestResolver)));
+
+        http.exceptionHandling(
+                exceptionHandling -> exceptionHandling.accessDeniedHandler(customAccessDeniedHandler));
+
+        http.authorizeHttpRequests(
+                authorizeRequests -> authorizeRequests.requestMatchers("/oauth/**").permitAll());
+
         return http.build();
     }
 

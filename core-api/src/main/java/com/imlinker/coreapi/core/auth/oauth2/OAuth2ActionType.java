@@ -1,4 +1,4 @@
-package com.imlinker.coreapi.core.auth;
+package com.imlinker.coreapi.core.auth.oauth2;
 
 public enum OAuth2ActionType {
     LOGIN,

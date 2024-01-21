@@ -1,4 +1,4 @@
-package com.imlinker.coreapi.core.auth.vendor;
+package com.imlinker.coreapi.core.auth.oauth2.vendor;
 
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;

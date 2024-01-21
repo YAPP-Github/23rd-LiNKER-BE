@@ -1,5 +1,7 @@
-package com.imlinker.coreapi.core.auth;
+package com.imlinker.coreapi.core.auth.oauth2;
 
+import com.imlinker.error.ApplicationException;
+import com.imlinker.error.ErrorType;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientPropertiesMapper;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -19,6 +21,13 @@ public class CustomClientRegistrationRepository implements ClientRegistrationRep
 
     @Override
     public ClientRegistration findByRegistrationId(String registrationId) {
-        return inMemoryClientRegistrationRepository.findByRegistrationId(registrationId);
+        ClientRegistration registration =
+                inMemoryClientRegistrationRepository.findByRegistrationId(registrationId);
+        if (registration == null) {
+            throw new ApplicationException(
+                    ErrorType.INTERNAL_PROCESSING_ERROR, "Unsupported oAuth2 Vendor", null);
+        }
+
+        return registration;
     }
 }

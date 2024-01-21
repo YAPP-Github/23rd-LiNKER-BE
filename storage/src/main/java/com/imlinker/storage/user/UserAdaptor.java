@@ -1,12 +1,14 @@
 package com.imlinker.storage.user;
 
+import com.imlinker.domain.common.Email;
 import com.imlinker.domain.user.User;
 import com.imlinker.domain.user.UserRepository;
-import com.imlinker.error.ApplicationException;
-import com.imlinker.error.ErrorType;
 import com.imlinker.storage.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,10 +17,15 @@ public class UserAdaptor implements UserRepository {
     private final UserJpaRepository repo;
 
     @Override
-    public User findById(Long id) {
-        UserEntity entity =
-                repo.findById(id).orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
-        return UserMapper.toModel(entity);
+    public Optional<User> findById(Long id) {
+        Optional<UserEntity> entity = repo.findById(id);
+        return entity.map(UserMapper::toModel);
+    }
+
+    @Override
+    public Optional<User> findByEmail(Email email) {
+        Optional<UserEntity> entity = repo.findByEmail(email.getValue());
+        return entity.map(UserMapper::toModel);
     }
 
     @Override

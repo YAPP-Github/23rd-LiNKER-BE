@@ -1,6 +1,6 @@
-package com.imlinker.coreapi.core.auth;
+package com.imlinker.coreapi.core.auth.oauth2;
 
-import com.imlinker.coreapi.core.auth.vendor.OAuthVendor;
+import com.imlinker.coreapi.core.auth.oauth2.vendor.OAuthVendor;
 import java.util.Collection;
 import java.util.Map;
 import lombok.AllArgsConstructor;
