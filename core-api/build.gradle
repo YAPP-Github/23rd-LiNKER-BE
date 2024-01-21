@@ -3,6 +3,7 @@ plugins {
 }
 dependencies {
     runtimeOnly(project(":storage"))
+    runtimeOnly(project(":crawler"))
 
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jsonWebTokenVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jsonWebTokenVersion")
