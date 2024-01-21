@@ -2,10 +2,12 @@ package com.imlinker.coreapi.core.auth.oauth2;
 
 import com.imlinker.coreapi.core.auth.oauth2.vendor.OAuthVendor;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @Getter
@@ -26,8 +28,7 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO: 권한 부여
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

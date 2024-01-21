@@ -1,5 +1,7 @@
 package com.imlinker.coreapi.core.auth.oauth2;
 
+import com.imlinker.coreapi.core.auth.jwt.JwtTokenProvider;
+import com.imlinker.coreapi.core.auth.jwt.TokenType;
 import com.imlinker.coreapi.core.auth.oauth2.vendor.OAuthVendor;
 import com.imlinker.coreapi.core.auth.oauth2.vendor.OAuthVendorAttributeResolver;
 import com.imlinker.domain.common.Email;
@@ -23,15 +25,18 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private final UserService userService;
 
+    private final JwtTokenProvider jwtTokenProvider;
     private final CustomClientOriginHostCache clientOriginHostCache;
     private final Map<OAuthVendor, OAuthVendorAttributeResolver> vendorAttributeResolverRegistry;
 
     public CustomAuthenticationSuccessHandler(
             UserService userService,
+            JwtTokenProvider jwtTokenProvider,
             CustomClientOriginHostCache clientOriginHostCache,
             List<OAuthVendorAttributeResolver> vendorAttributeResolvers) {
 
         this.userService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.clientOriginHostCache = clientOriginHostCache;
         this.vendorAttributeResolverRegistry =
                 vendorAttributeResolvers.stream()
@@ -55,11 +60,15 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         boolean isMember = userService.isMember(email);
 
         if (isMember) {
-            String redirectUri = String.format("%s?email=%s", clientOriginHost, email.getValue());
+            String accessToken = jwtTokenProvider.generateToken(email, TokenType.ACCESS_TOKEN);
+            String refreshToken = jwtTokenProvider.generateToken(email, TokenType.REFRESH_TOKEN);
+
+            String redirectUri =
+                    String.format(
+                            "%s?accessToken=%s&refreshToken=%s", clientOriginHost, accessToken, refreshToken);
             getRedirectStrategy().sendRedirect(request, response, redirectUri);
         } else {
-            String redirectUri =
-                    String.format("%s/%s?accessToken=%s&refreshToken=%s", clientOriginHost, email.getValue());
+            String redirectUri = String.format("%s?email=%s", clientOriginHost, email.getValue());
             getRedirectStrategy().sendRedirect(request, response, redirectUri);
         }
     }

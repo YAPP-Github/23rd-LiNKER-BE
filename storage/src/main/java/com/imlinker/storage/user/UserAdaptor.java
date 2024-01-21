@@ -4,11 +4,9 @@ import com.imlinker.domain.common.Email;
 import com.imlinker.domain.user.User;
 import com.imlinker.domain.user.UserRepository;
 import com.imlinker.storage.user.mapper.UserMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor

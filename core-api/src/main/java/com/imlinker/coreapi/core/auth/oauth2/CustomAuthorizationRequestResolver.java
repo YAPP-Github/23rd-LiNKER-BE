@@ -50,7 +50,7 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
         String origin = request.getHeader("Referer");
 
         if (origin == null) {
-            return "localhost:3000";
+            return "http://localhost:8080";
         }
         return origin;
     }

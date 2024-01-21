@@ -27,10 +27,10 @@ public class JwtTokenProvider {
     private final FilterExceptionHandler filterExceptionHandler;
 
     public String generateToken(Email email, TokenType tokenType) {
-        TokenProperties properties =
+        JwtTokenProperties.TokenProperties properties =
                 tokenType == TokenType.ACCESS_TOKEN
-                        ? jwtTokenProperties.getAccessToken()
-                        : jwtTokenProperties.getRefreshToken();
+                        ? jwtTokenProperties.getAccess()
+                        : jwtTokenProperties.getRefresh();
 
         Instant now = Instant.now();
         Instant expire = now.plus(properties.getExpire(), ChronoUnit.MILLIS);
@@ -48,8 +48,8 @@ public class JwtTokenProvider {
             SecretKey key =
                     Keys.hmacShaKeyFor(
                             (tokenType == TokenType.ACCESS_TOKEN
-                                            ? jwtTokenProperties.getAccessToken()
-                                            : jwtTokenProperties.getRefreshToken())
+                                            ? jwtTokenProperties.getAccess()
+                                            : jwtTokenProperties.getRefresh())
                                     .getSecret()
                                     .getBytes());
 

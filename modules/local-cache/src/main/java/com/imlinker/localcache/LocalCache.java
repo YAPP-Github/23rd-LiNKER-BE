@@ -2,18 +2,13 @@ package com.imlinker.localcache;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import lombok.AllArgsConstructor;
-
 import java.time.Duration;
 
+public class LocalCache<K, V> {
+    private final Cache<K, V> cache;
 
-public class LocalCache<K,V> {
-    private final Cache<K,V> cache;
     public LocalCache(int size, Duration lifeSpan) {
-        this.cache = Caffeine.newBuilder()
-                .maximumSize(size)
-                .expireAfterWrite(lifeSpan)
-                .build();
+        this.cache = Caffeine.newBuilder().maximumSize(size).expireAfterWrite(lifeSpan).build();
     }
 
     public V get(K key) {
@@ -31,7 +26,4 @@ public class LocalCache<K,V> {
     public void delete(K key) {
         cache.invalidate(key);
     }
-
-
-
 }

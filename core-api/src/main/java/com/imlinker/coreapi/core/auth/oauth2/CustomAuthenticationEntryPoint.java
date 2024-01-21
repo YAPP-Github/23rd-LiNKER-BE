@@ -6,23 +6,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final FilterExceptionHandler filterExceptionHandler;
 
     @Override
-    public void handle(
+    public void commence(
             HttpServletRequest request,
             HttpServletResponse response,
-            AccessDeniedException accessDeniedException)
+            AuthenticationException authException)
             throws IOException {
-        filterExceptionHandler.sendErrorMessage(
-                response, ErrorType.UNAUTHORIZED, accessDeniedException);
+        filterExceptionHandler.sendErrorMessage(response, ErrorType.UNAUTHENTICATED, authException);
     }
 }
