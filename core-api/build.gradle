@@ -1,5 +1,6 @@
 dependencies {
     runtimeOnly(project(":storage"))
+    runtimeOnly(project(":crawler"))
 
     implementation(project(":domain"))
     implementation(project(":common:error"))

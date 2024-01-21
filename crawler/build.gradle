@@ -1,0 +1,13 @@
+dependencies {
+    implementation(project(":domain"))
+    implementation(project(":common:error"))
+    implementation(project(":common:enums"))
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+bootJar{
+    enabled = false
+}
+jar{
+    enabled = true
+}
