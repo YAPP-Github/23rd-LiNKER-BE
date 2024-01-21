@@ -70,7 +70,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             throw new ApplicationException(
                     ErrorType.INTERNAL_PROCESSING_ERROR, "ClientHost를 찾을 수 없습니다.", null);
         }
-
+        clientOriginHostCache.deleteClientOriginHost(state);
         return host;
     }
 }

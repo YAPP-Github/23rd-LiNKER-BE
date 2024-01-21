@@ -19,3 +19,11 @@ springdoc:
   swagger-ui:
     path: /swagger
   use-fqn: true
+
+jwt:
+  access-token-properties:
+    secret: ${JWT_ACCESS_TOKEN_SECRET}
+    expiration-time: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME}
+  refresh-token-properties:
+    secret: ${JWT_REFRESH_TOKEN_SECRET}
+    expiration-time: ${JWT_REFRESH_TOKEN_EXPIRATION_TIME}
