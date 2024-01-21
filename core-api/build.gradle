@@ -1,3 +1,6 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
 dependencies {
     runtimeOnly(project(":storage"))
 
@@ -15,6 +18,7 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${project.openApiVersion}"
 
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 jar{
@@ -24,4 +28,10 @@ jar{
 bootJar{
     enabled = true
     archiveFileName="linker.jar"
+}
+repositories {
+    mavenCentral()
+}
+kotlin {
+    jvmToolchain(17)
 }
