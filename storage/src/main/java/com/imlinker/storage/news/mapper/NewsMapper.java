@@ -13,8 +13,8 @@ public class NewsMapper {
                 .id(entity.getId())
                 .tagId(entity.getTagId())
                 .title(entity.getTitle())
-                .thumbnailImgUrl(URL.of(entity.getThumbnailImgUrl()))
-                .company(entity.getCompany())
+                .thumbnailUrl(URL.of(entity.getThumbnailUrl()))
+                .newsProvider(entity.getNewsProvider())
                 .build();
     }
 
@@ -23,8 +23,8 @@ public class NewsMapper {
                 .id(model.getId())
                 .tagId(model.getTagId())
                 .title(model.getTitle())
-                .thumbnailImgUrl(model.getThumbnailImgUrl().getValue())
-                .company(model.getCompany())
+                .thumbnailUrl(model.getThumbnailUrl().getValue())
+                .newsProvider(model.getNewsProvider())
                 .build();
     }
 }

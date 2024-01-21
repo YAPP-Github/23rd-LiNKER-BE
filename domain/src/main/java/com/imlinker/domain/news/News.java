@@ -16,7 +16,7 @@ public class News {
 
     private String title;
 
-    private URL thumbnailImgUrl;
+    private URL thumbnailUrl;
 
-    private String company;
+    private String newsProvider;
 }

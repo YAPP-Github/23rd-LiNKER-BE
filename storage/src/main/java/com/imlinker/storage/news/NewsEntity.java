@@ -18,10 +18,12 @@ public class NewsEntity extends BaseTimeEntity {
     @Column(name = "ref_tag_id")
     private Long tagId;
 
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "thumbnail_img_url")
-    private String thumbnailImgUrl;
+    @Column(name = "thumbnail_url")
+    private String thumbnailUrl;
 
-    private String company;
+    @Column(name = "news_provider")
+    private String newsProvider;
 }
