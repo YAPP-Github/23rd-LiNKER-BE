@@ -1,4 +1,4 @@
-package com.imlinker.coreapi.core.auth.jwt;
+package com.imlinker.coreapi.core.auth.security.jwt;
 
 public enum TokenType {
     ACCESS_TOKEN,

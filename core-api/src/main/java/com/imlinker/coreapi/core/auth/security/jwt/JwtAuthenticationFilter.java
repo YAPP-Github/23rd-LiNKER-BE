@@ -1,4 +1,4 @@
-package com.imlinker.coreapi.core.auth.jwt;
+package com.imlinker.coreapi.core.auth.security.jwt;
 
 import com.imlinker.coreapi.support.exception.FilterExceptionHandler;
 import com.imlinker.error.ErrorType;
