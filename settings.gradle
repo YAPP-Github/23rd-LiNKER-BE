@@ -15,7 +15,6 @@ pluginManagement {
         }
     }
 }
-
 rootProject.name = 'linker'
 include(":core-api")
 include(":crawler")

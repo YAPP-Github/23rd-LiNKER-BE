@@ -2,6 +2,9 @@ dependencies {
     runtimeOnly(project(":storage"))
     runtimeOnly(project(":crawler"))
 
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jsonWebTokenVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jsonWebTokenVersion")
+
     implementation(project(":domain"))
     implementation(project(":common:error"))
     implementation(project(":common:enums"))
@@ -10,7 +13,10 @@ dependencies {
     implementation(project(":modules:monitoring"))
     implementation(project(":modules:local-cache"))
 
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtApiVersion")
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${project.openApiVersion}"
 
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
