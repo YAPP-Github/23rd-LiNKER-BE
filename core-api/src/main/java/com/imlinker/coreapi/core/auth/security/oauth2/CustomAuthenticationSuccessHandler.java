@@ -1,9 +1,9 @@
-package com.imlinker.coreapi.core.auth.oauth2;
+package com.imlinker.coreapi.core.auth.security.oauth2;
 
-import com.imlinker.coreapi.core.auth.jwt.JwtTokenProvider;
-import com.imlinker.coreapi.core.auth.jwt.TokenType;
-import com.imlinker.coreapi.core.auth.oauth2.vendor.OAuthVendor;
-import com.imlinker.coreapi.core.auth.oauth2.vendor.OAuthVendorAttributeResolver;
+import com.imlinker.coreapi.core.auth.security.jwt.JwtTokenProvider;
+import com.imlinker.coreapi.core.auth.security.jwt.TokenType;
+import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendor;
+import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendorAttributeResolver;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.user.UserService;
 import com.imlinker.error.ApplicationException;
@@ -11,6 +11,8 @@ import com.imlinker.error.ErrorType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -64,11 +66,25 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             String refreshToken = jwtTokenProvider.generateToken(email, TokenType.REFRESH_TOKEN);
 
             String redirectUri =
-                    String.format(
-                            "%s?accessToken=%s&refreshToken=%s", clientOriginHost, accessToken, refreshToken);
+                    clientOriginHost
+                            + "?"
+                            + String.format(
+                                    "%s?accessToken=%s&refreshToken=%s", clientOriginHost, accessToken, refreshToken);
             getRedirectStrategy().sendRedirect(request, response, redirectUri);
         } else {
-            String redirectUri = String.format("%s?email=%s", clientOriginHost, email.getValue());
+            String oAuthId = resolver.getOAuthId(oAuth2User.getAttributes());
+            String nickname = resolver.getNickname(oAuth2User.getAttributes());
+            String profileImgUrl = resolver.getProfileImgUrl(oAuth2User.getAttributes());
+
+            String redirectUri =
+                    clientOriginHost
+                            + "?"
+                            + URLEncoder.encode(
+                                    String.format(
+                                            "oAuthId=%s&nickname=%s&profileImgUrl=%s&email=%s",
+                                            oAuthId, nickname, profileImgUrl, email.getValue()),
+                                    StandardCharsets.UTF_8);
+
             getRedirectStrategy().sendRedirect(request, response, redirectUri);
         }
     }

@@ -1,4 +1,4 @@
-package com.imlinker.coreapi.core.auth.jwt;
+package com.imlinker.coreapi.core.auth.security.jwt;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,8 @@
 package com.imlinker.coreapi.configuration;
 
-import com.imlinker.coreapi.core.auth.jwt.JwtTokenProperties;
-import com.imlinker.coreapi.core.auth.jwt.TokenProperties;
-import com.imlinker.coreapi.core.auth.oauth2.*;
+import com.imlinker.coreapi.core.auth.security.jwt.JwtTokenProperties;
+import com.imlinker.coreapi.core.auth.security.jwt.TokenProperties;
+import com.imlinker.coreapi.core.auth.security.oauth2.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

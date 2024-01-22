@@ -1,4 +1,4 @@
-package com.imlinker.coreapi.core.auth.oauth2;
+package com.imlinker.coreapi.core.auth.security.oauth2;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
