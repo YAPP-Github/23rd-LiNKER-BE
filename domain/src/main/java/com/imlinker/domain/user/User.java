@@ -23,5 +23,4 @@ public class User {
     private Email email;
 
     private URL profileImgUrl;
-
 }
