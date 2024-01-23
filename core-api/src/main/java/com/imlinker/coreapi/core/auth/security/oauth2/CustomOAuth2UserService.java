@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.auth.security.oauth2;
 
-import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendor;
+import com.imlinker.domain.auth.OAuthVendor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

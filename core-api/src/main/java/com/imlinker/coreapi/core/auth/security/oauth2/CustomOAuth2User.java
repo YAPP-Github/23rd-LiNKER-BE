@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.auth.security.oauth2;
 
-import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendor;
+import com.imlinker.domain.auth.OAuthVendor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
