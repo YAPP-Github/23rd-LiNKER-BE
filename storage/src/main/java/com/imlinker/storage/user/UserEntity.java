@@ -15,6 +15,12 @@ public class UserEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "oauth_vendor")
+    private String oAuthVendor;
+
+    @Column(name = "oauth_identifier")
+    private String oAuthIdentifier;
+
     @Column(name = "name")
     private String name;
 
@@ -24,15 +30,4 @@ public class UserEntity extends BaseTimeEntity {
     @Column(name = "profile_img_url")
     private String profileImgUrl;
 
-    @Column(name = "association")
-    private String association;
-
-    @Column(name = "job")
-    private String job;
-
-    @Column(name = "contact_num")
-    private int contactNum;
-
-    @Column(name = "schedule_num")
-    private int scheduleNum;
 }

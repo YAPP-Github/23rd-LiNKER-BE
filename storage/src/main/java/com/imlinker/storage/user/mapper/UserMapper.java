@@ -1,5 +1,6 @@
 package com.imlinker.storage.user.mapper;
 
+import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
 import com.imlinker.domain.user.User;
@@ -13,6 +14,8 @@ public class UserMapper {
     public static User toModel(UserEntity entity) {
         return User.builder()
                 .id(entity.getId())
+                .oAuthVendor(OAuthVendor.of(entity.getOAuthVendor()))
+                .oAuthIdentifier(entity.getOAuthIdentifier())
                 .name(entity.getName())
                 .profileImgUrl(URL.of(entity.getProfileImgUrl()))
                 .email(Email.of(entity.getEmail()))
@@ -22,6 +25,8 @@ public class UserMapper {
     public static UserEntity toEntity(User model) {
         return UserEntity.builder()
                 .id(model.getId())
+                .oAuthVendor(model.getOAuthVendor().name())
+                .oAuthIdentifier(model.getOAuthIdentifier())
                 .name(model.getName())
                 .profileImgUrl(model.getProfileImgUrl().getValue())
                 .email(model.getEmail().getValue())

@@ -1,5 +1,6 @@
 package com.imlinker.domain.user;
 
+import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
 import lombok.AllArgsConstructor;
@@ -13,17 +14,14 @@ public class User {
 
     private Long id;
 
+    private OAuthVendor oAuthVendor;
+
+    private String oAuthIdentifier;
+
     private String name;
 
     private Email email;
 
     private URL profileImgUrl;
 
-    private String association;
-
-    private String job;
-
-    private int contactNum;
-
-    private int scheduleNum;
 }
