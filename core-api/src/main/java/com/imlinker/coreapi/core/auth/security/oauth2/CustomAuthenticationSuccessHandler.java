@@ -5,14 +5,13 @@ import com.imlinker.coreapi.core.auth.security.jwt.TokenType;
 import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendorAttributeResolver;
 import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
+import com.imlinker.domain.common.URL;
 import com.imlinker.domain.user.UserService;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
     private final UserService userService;
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -58,35 +56,25 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         OAuthVendorAttributeResolver resolver =
                 vendorAttributeResolverRegistry.get(oAuth2User.getVendor());
 
+        String oAuthId = resolver.getOAuthId(oAuth2User.getAttributes());
         Email email = resolver.getEmail(oAuth2User.getAttributes());
-        boolean isMember = userService.isMember(email);
 
-        if (isMember) {
-            String accessToken = jwtTokenProvider.generateToken(email, TokenType.ACCESS_TOKEN);
-            String refreshToken = jwtTokenProvider.generateToken(email, TokenType.REFRESH_TOKEN);
+        boolean isMember = userService.isMember(oAuth2User.getVendor(), oAuthId);
 
-            String redirectUri =
-                    clientOriginHost
-                            + "?"
-                            + String.format(
-                                    "%s?accessToken=%s&refreshToken=%s", clientOriginHost, accessToken, refreshToken);
-            getRedirectStrategy().sendRedirect(request, response, redirectUri);
-        } else {
-            String oAuthId = resolver.getOAuthId(oAuth2User.getAttributes());
+        if (!isMember) {
             String nickname = resolver.getNickname(oAuth2User.getAttributes());
-            String profileImgUrl = resolver.getProfileImgUrl(oAuth2User.getAttributes());
+            URL profileImgUrl = URL.of(resolver.getProfileImgUrl(oAuth2User.getAttributes()));
 
-            String redirectUri =
-                    clientOriginHost
-                            + "?"
-                            + URLEncoder.encode(
-                                    String.format(
-                                            "oAuthId=%s&nickname=%s&profileImgUrl=%s&email=%s",
-                                            oAuthId, nickname, profileImgUrl, email.getValue()),
-                                    StandardCharsets.UTF_8);
-
-            getRedirectStrategy().sendRedirect(request, response, redirectUri);
+            userService.createUser(oAuthId, nickname, email, profileImgUrl, oAuth2User.getVendor());
         }
+
+        String accessToken = jwtTokenProvider.generateToken(email, TokenType.ACCESS_TOKEN);
+        String refreshToken = jwtTokenProvider.generateToken(email, TokenType.REFRESH_TOKEN);
+
+        String redirectUri =
+                String.format(
+                        "%s?accessToken=%s&refreshToken=%s", clientOriginHost, accessToken, refreshToken);
+        getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
 
     private String getHostFromCache(String state) {
