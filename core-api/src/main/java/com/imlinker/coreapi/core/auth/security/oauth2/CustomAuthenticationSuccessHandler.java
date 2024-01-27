@@ -6,6 +6,7 @@ import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendorAttribut
 import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
+import com.imlinker.domain.user.User;
 import com.imlinker.domain.user.UserService;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
@@ -68,8 +69,11 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             userService.createUser(oAuthId, nickname, email, profileImgUrl, oAuth2User.getVendor());
         }
 
-        String accessToken = jwtTokenProvider.generateToken(email, TokenType.ACCESS_TOKEN);
-        String refreshToken = jwtTokenProvider.generateToken(email, TokenType.REFRESH_TOKEN);
+        User user = userService.findByOAuthInfo(oAuth2User.getVendor(), oAuthId);
+        String accessToken =
+                jwtTokenProvider.generateToken(user.getId(), email, TokenType.ACCESS_TOKEN);
+        String refreshToken =
+                jwtTokenProvider.generateToken(user.getId(), email, TokenType.REFRESH_TOKEN);
 
         String redirectUri =
                 String.format(

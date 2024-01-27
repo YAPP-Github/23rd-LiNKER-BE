@@ -26,7 +26,7 @@ public class JwtTokenProvider {
     private final JwtTokenProperties jwtTokenProperties;
     private final FilterExceptionHandler filterExceptionHandler;
 
-    public String generateToken(Email email, TokenType tokenType) {
+    public String generateToken(Long id, Email email, TokenType tokenType) {
         JwtTokenProperties.TokenProperties properties =
                 tokenType == TokenType.ACCESS_TOKEN
                         ? jwtTokenProperties.getAccess()
@@ -36,6 +36,7 @@ public class JwtTokenProvider {
         Instant expire = now.plus(properties.getExpire(), ChronoUnit.MILLIS);
 
         return Jwts.builder()
+                .claim("id", id)
                 .claim("email", email.getValue())
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(expire))

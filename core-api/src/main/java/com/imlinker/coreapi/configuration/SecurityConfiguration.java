@@ -1,28 +1,44 @@
 package com.imlinker.coreapi.configuration;
 
+import com.imlinker.coreapi.core.auth.security.jwt.JwtAuthenticationFilter;
 import com.imlinker.coreapi.core.auth.security.jwt.JwtTokenProperties;
+import com.imlinker.coreapi.core.auth.security.jwt.JwtTokenProvider;
 import com.imlinker.coreapi.core.auth.security.jwt.TokenProperties;
 import com.imlinker.coreapi.core.auth.security.oauth2.*;
+import com.imlinker.coreapi.support.exception.FilterExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableConfigurationProperties({JwtTokenProperties.class, TokenProperties.class})
 public class SecurityConfiguration {
+    private final JwtTokenProvider jwtTokenProvider;
+    private final FilterExceptionHandler filterExceptionHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomAuthorizationRequestResolver customOAuth2AuthorizationRequestResolver;
+
+    private final String[] ignoredPath = {
+        "/ping",
+        "/error-types",
+        "/favicon.ico",
+        "/v3/api-docs/**",
+        "/swagger-resources/**",
+        "/swagger-ui/**",
+        "/webjars/**",
+        "/swagger/**"
+    };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,6 +46,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable);
 
+        // oAuthHandler
         http.oauth2Login(
                 loginHandler ->
                         loginHandler
@@ -41,27 +58,29 @@ public class SecurityConfiguration {
                                                 authorizationEndpoint.authorizationRequestResolver(
                                                         customOAuth2AuthorizationRequestResolver)));
 
+        // SpringSecurity ExceptionHandler
         http.exceptionHandling(
                 exceptionHandling ->
                         exceptionHandling
                                 .accessDeniedHandler(customAccessDeniedHandler)
                                 .authenticationEntryPoint(customAuthenticationEntryPoint));
 
-        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll());
+        // Authorization Check
+        http.authorizeHttpRequests(
+                authorization ->
+                        authorization
+                                .requestMatchers(ignoredPath)
+                                .permitAll()
+                                .requestMatchers("/oauth2/**")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated());
+
+        // CustomFilter
+        http.addFilterBefore(
+                new JwtAuthenticationFilter(jwtTokenProvider, filterExceptionHandler),
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) ->
-                web.ignoring()
-                        .requestMatchers(
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/swagger-ui/**",
-                                "/webjars/**",
-                                "/swagger/**",
-                                "/favicon.ico");
     }
 }
