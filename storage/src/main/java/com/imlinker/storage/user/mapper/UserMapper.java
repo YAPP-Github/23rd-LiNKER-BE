@@ -14,8 +14,8 @@ public class UserMapper {
     public static User toModel(UserEntity entity) {
         return User.builder()
                 .id(entity.getId())
-                .oAuthVendor(OAuthVendor.of(entity.getOAuthVendor()))
-                .oAuthIdentifier(entity.getOAuthIdentifier())
+                .oAuthVendor(OAuthVendor.of(entity.getOauthVendor()))
+                .oAuthIdentifier(entity.getOauthIdentifier())
                 .name(entity.getName())
                 .profileImgUrl(URL.of(entity.getProfileImgUrl()))
                 .email(Email.of(entity.getEmail()))
@@ -25,8 +25,8 @@ public class UserMapper {
     public static UserEntity toEntity(User model) {
         return UserEntity.builder()
                 .id(model.getId())
-                .oAuthVendor(model.getOAuthVendor().name())
-                .oAuthIdentifier(model.getOAuthIdentifier())
+                .oauthVendor(model.getOAuthVendor().name())
+                .oauthIdentifier(model.getOAuthIdentifier())
                 .name(model.getName())
                 .profileImgUrl(model.getProfileImgUrl().getValue())
                 .email(model.getEmail().getValue())

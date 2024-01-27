@@ -3,12 +3,10 @@ package com.imlinker.domain.common;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import java.util.regex.Pattern;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Email {

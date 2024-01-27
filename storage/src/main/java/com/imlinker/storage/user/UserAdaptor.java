@@ -1,6 +1,6 @@
 package com.imlinker.storage.user;
 
-import com.imlinker.domain.common.Email;
+import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.user.User;
 import com.imlinker.domain.user.UserRepository;
 import com.imlinker.storage.user.mapper.UserMapper;
@@ -21,9 +21,10 @@ public class UserAdaptor implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByEmail(Email email) {
-        Optional<UserEntity> entity = repo.findByEmail(email.getValue());
-        return entity.map(UserMapper::toModel);
+    public Optional<User> findByOAuthVendorAndOAuthIdentifier(
+            OAuthVendor oAuthVendor, String oAuthIdentifier) {
+        return repo.findByOauthVendorAndOauthIdentifier(oAuthVendor.name(), oAuthIdentifier)
+                .map(UserMapper::toModel);
     }
 
     @Override

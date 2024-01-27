@@ -16,10 +16,10 @@ public class UserEntity extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "oauth_vendor")
-    private String oAuthVendor;
+    private String oauthVendor;
 
     @Column(name = "oauth_identifier")
-    private String oAuthIdentifier;
+    private String oauthIdentifier;
 
     @Column(name = "name")
     private String name;
