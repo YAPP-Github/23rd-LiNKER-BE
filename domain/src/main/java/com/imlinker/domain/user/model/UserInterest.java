@@ -1,4 +1,4 @@
-package com.imlinker.domain.user;
+package com.imlinker.domain.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

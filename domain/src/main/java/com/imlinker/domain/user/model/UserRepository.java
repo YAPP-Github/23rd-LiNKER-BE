@@ -1,4 +1,4 @@
-package com.imlinker.domain.user;
+package com.imlinker.domain.user.model;
 
 import com.imlinker.domain.auth.OAuthVendor;
 import java.util.Optional;

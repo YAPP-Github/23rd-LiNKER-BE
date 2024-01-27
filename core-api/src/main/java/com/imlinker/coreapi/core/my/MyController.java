@@ -1,36 +1,32 @@
 package com.imlinker.coreapi.core.my;
 
+import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContext;
+import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContextHolder;
 import com.imlinker.coreapi.core.my.request.UpdateMyInfoRequest;
 import com.imlinker.coreapi.core.my.response.GetMyResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
+import com.imlinker.domain.user.UserService;
+import com.imlinker.domain.user.model.MyProfile;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/my")
 @Tag(name = "My API", description = "내 정보 관련 API")
 public class MyController {
 
+    private final UserService service;
+
     @GetMapping
     @Operation(summary = "내 정보 가져오기")
-    public ApiResponse<GetMyResponse> getMyInfo() {
-        GetMyResponse response =
-                new GetMyResponse(
-                        "김태준",
-                        "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                        "Json 상하차 담당",
-                        "Yapp23기 Web1팀",
-                        "rlaxowns7916@gmail.com",
-                        List.of(
-                                new com.imlinker.domain.tag.Tag(1L, "스포츠"),
-                                new com.imlinker.domain.tag.Tag(2L, "게임")),
-                        0,
-                        0);
-
-        return ApiResponse.success(response);
+    public ApiResponse<GetMyResponse> getMyProfile(
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        MyProfile profile = service.getMyProfile(userContext.getId());
+        return ApiResponse.success(GetMyResponse.of(profile));
     }
 
     @PutMapping
