@@ -3,8 +3,8 @@ package com.imlinker.domain.user;
 import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
-import com.imlinker.error.ApplicationException;
-import com.imlinker.error.ErrorType;
+import com.imlinker.domain.user.model.MyProfile;
+import com.imlinker.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,21 +13,25 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
+    private final UserReader userReader;
+    private final UserUpdater userUpdater;
+    private final UserContactReader userContactReader;
+    private final UserInterestReader userInterestReader;
+    private final UserScheduleReader userScheduleReader;
 
+    public MyProfile getMyProfile(Long userId){
+        User user = userReader.findById(userId);
+
+    }
     public User findByOAuthInfo(OAuthVendor oAuthVendor, String oAuthIdentifier) {
-        return userRepository
-                .findByOAuthVendorAndOAuthIdentifier(oAuthVendor, oAuthIdentifier)
-                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
+        return userReader.findByOAuthInfo(oAuthVendor,oAuthIdentifier);
     }
 
     public boolean isMember(OAuthVendor oAuthVendor, String oAuthIdentifier) {
-        return userRepository
-                .findByOAuthVendorAndOAuthIdentifier(oAuthVendor, oAuthIdentifier)
-                .isPresent();
+       return userReader.existByOAuthInfo(oAuthVendor,oAuthIdentifier);
     }
 
-    public User createUser(
+    public User create(
             String oAuthId, String name, Email email, URL profileImgUrl, OAuthVendor oAuthVendor) {
         log.info(
                 "[회원가입][시작] oAuthId: {}, name: {}, email: {}, profileImgUrl: {}, oAuthVendor: {}",
@@ -36,13 +40,13 @@ public class UserService {
                 email,
                 profileImgUrl,
                 oAuthVendor);
-        return userRepository.save(
-                User.builder()
-                        .oAuthIdentifier(oAuthId)
-                        .name(name)
-                        .email(email)
-                        .profileImgUrl(profileImgUrl)
-                        .oAuthVendor(oAuthVendor)
-                        .build());
+
+        return userUpdater.create(
+                name,
+                email,
+                profileImgUrl,
+                oAuthId,
+                oAuthVendor
+        );
     }
 }

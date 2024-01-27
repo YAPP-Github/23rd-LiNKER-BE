@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.auth.security.jwt;
 
-import com.imlinker.coreapi.support.exception.FilterExceptionHandler;
+import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContextHolder;
 import com.imlinker.domain.common.Email;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
     private final JwtTokenProperties jwtTokenProperties;
-    private final FilterExceptionHandler filterExceptionHandler;
 
     public String generateToken(Long id, Email email, TokenType tokenType) {
         JwtTokenProperties.TokenProperties properties =
@@ -68,7 +67,9 @@ public class JwtTokenProvider {
     }
 
     public Authentication generateAuthentication(Claims claims) {
-        Email email = Email.of(claims.get("email").toString());
-        return new UsernamePasswordAuthenticationToken(email, null, null);
+        AuthenticatedUserContextHolder userContext =
+                new AuthenticatedUserContextHolder(
+                        Long.parseLong(claims.get("id").toString()), Email.of(claims.get("email").toString()));
+        return new UsernamePasswordAuthenticationToken(userContext, null, null);
     }
 }

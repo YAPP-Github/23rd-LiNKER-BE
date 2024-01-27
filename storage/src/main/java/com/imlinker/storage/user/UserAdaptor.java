@@ -1,8 +1,8 @@
 package com.imlinker.storage.user;
 
 import com.imlinker.domain.auth.OAuthVendor;
-import com.imlinker.domain.user.User;
-import com.imlinker.domain.user.UserRepository;
+import com.imlinker.domain.user.model.User;
+import com.imlinker.domain.user.model.UserRepository;
 import com.imlinker.storage.user.mapper.UserMapper;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

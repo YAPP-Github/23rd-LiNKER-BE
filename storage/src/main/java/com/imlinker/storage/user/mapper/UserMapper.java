@@ -3,7 +3,7 @@ package com.imlinker.storage.user.mapper;
 import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
-import com.imlinker.domain.user.User;
+import com.imlinker.domain.user.model.User;
 import com.imlinker.storage.user.UserEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

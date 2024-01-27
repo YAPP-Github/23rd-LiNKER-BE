@@ -6,7 +6,7 @@ import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendorAttribut
 import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
-import com.imlinker.domain.user.User;
+import com.imlinker.domain.user.model.User;
 import com.imlinker.domain.user.UserService;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final UserService userService;
-
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomClientOriginHostCache clientOriginHostCache;
     private final Map<OAuthVendor, OAuthVendorAttributeResolver> vendorAttributeResolverRegistry;
@@ -66,14 +65,14 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             String nickname = resolver.getNickname(oAuth2User.getAttributes());
             URL profileImgUrl = URL.of(resolver.getProfileImgUrl(oAuth2User.getAttributes()));
 
-            userService.createUser(oAuthId, nickname, email, profileImgUrl, oAuth2User.getVendor());
+            userService.create(oAuthId, nickname, email, profileImgUrl, oAuth2User.getVendor());
         }
 
         User user = userService.findByOAuthInfo(oAuth2User.getVendor(), oAuthId);
         String accessToken =
-                jwtTokenProvider.generateToken(user.getId(), email, TokenType.ACCESS_TOKEN);
+                jwtTokenProvider.generateToken(user.getId(), user.getEmail(), TokenType.ACCESS_TOKEN);
         String refreshToken =
-                jwtTokenProvider.generateToken(user.getId(), email, TokenType.REFRESH_TOKEN);
+                jwtTokenProvider.generateToken(user.getId(), user.getEmail(), TokenType.REFRESH_TOKEN);
 
         String redirectUri =
                 String.format(
