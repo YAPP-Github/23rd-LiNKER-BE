@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final UserService userService;
-
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomClientOriginHostCache clientOriginHostCache;
     private final Map<OAuthVendor, OAuthVendorAttributeResolver> vendorAttributeResolverRegistry;
@@ -77,7 +76,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String redirectUri =
                 String.format(
-                        "%s?accessToken=%s&refreshToken=%s", clientOriginHost, accessToken, refreshToken);
+                        "%s/my/feed?accessToken=%s&refreshToken=%s",
+                        clientOriginHost, accessToken, refreshToken);
         getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
 
