@@ -26,6 +26,11 @@ public class UserUpdater {
                 new User(null, oAuthVendor, oAuthIdentifier, name, email, profileImgUrl));
     }
 
+    public User update(Long userId, String name, Email email) {
+        User updatedUser = fetch(userId).update(name, email);
+        return userRepository.save(updatedUser);
+    }
+
     public User fetch(Long id) {
         return userRepository
                 .findById(id)

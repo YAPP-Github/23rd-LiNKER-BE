@@ -1,3 +1,11 @@
 package com.imlinker.domain.tag;
 
-public record Tag(Long id, String name) {}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class Tag {
+    private Long id;
+    private String name;
+}
