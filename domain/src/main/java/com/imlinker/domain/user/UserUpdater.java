@@ -21,22 +21,14 @@ public class UserUpdater {
             Email email,
             URL profileImgUrl,
             String oAuthIdentifier,
-            OAuthVendor oAuthVendor
-    ) {
+            OAuthVendor oAuthVendor) {
         return userRepository.save(
-                new User(
-                     null,
-                       oAuthVendor,
-                        oAuthIdentifier,
-                        name,
-                        email,
-                        profileImgUrl
-                )
-        );
+                new User(null, oAuthVendor, oAuthIdentifier, name, email, profileImgUrl));
     }
 
-    public User fetch(Long id){
-     return userRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
+    public User fetch(Long id) {
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
     }
-
 }

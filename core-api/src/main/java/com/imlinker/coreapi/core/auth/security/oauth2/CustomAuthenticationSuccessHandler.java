@@ -6,8 +6,8 @@ import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendorAttribut
 import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
-import com.imlinker.domain.user.model.User;
 import com.imlinker.domain.user.UserService;
+import com.imlinker.domain.user.model.User;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import jakarta.servlet.http.HttpServletRequest;

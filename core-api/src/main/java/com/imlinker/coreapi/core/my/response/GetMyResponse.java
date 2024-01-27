@@ -13,14 +13,13 @@ public record GetMyResponse(
         @Schema(description = "연락처 수") int contactsNum,
         @Schema(description = "일정 수") int scheduleNum) {
 
-    public static GetMyResponse of(MyProfile profile){
+    public static GetMyResponse of(MyProfile profile) {
         return new GetMyResponse(
                 profile.name(),
                 profile.profileImgUrl().getValue(),
                 profile.email().getValue(),
-                profile.tags(),
+                profile.interests(),
                 profile.contactsNum(),
-                profile.scheduleNum()
-        );
+                profile.scheduleNum());
     }
 }

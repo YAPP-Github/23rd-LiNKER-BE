@@ -12,22 +12,20 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserReader {
     private final UserRepository userRepository;
-    public User findById(Long id){
-        return userRepository.findById(id).orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
+
+    public User findById(Long id) {
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
     }
-    public User findByOAuthInfo(
-            OAuthVendor oAuthVendor,
-            String oAuthIdentifier
-    ){
+
+    public User findByOAuthInfo(OAuthVendor oAuthVendor, String oAuthIdentifier) {
         return userRepository
                 .findByOAuthVendorAndOAuthIdentifier(oAuthVendor, oAuthIdentifier)
                 .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
     }
 
-    public boolean existByOAuthInfo(
-            OAuthVendor oAuthVendor,
-            String oAuthIdentifier
-    ){
+    public boolean existByOAuthInfo(OAuthVendor oAuthVendor, String oAuthIdentifier) {
         return userRepository
                 .findByOAuthVendorAndOAuthIdentifier(oAuthVendor, oAuthIdentifier)
                 .isPresent();

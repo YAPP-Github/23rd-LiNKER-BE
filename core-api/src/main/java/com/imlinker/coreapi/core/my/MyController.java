@@ -10,8 +10,6 @@ import com.imlinker.domain.user.model.MyProfile;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class MyController {
 
     private final UserService service;
+
     @GetMapping
     @Operation(summary = "내 정보 가져오기")
     public ApiResponse<GetMyResponse> getMyProfile(

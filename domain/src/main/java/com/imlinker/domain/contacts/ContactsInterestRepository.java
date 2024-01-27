@@ -1,4 +1,3 @@
 package com.imlinker.domain.contacts;
 
-public interface ContactsInterestRepository {
-}
+public interface ContactsInterestRepository {}

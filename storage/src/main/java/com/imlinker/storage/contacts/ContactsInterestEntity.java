@@ -1,4 +1,3 @@
 package com.imlinker.storage.contacts;
 
-public class ContactsInterestEntity {
-}
+public class ContactsInterestEntity {}

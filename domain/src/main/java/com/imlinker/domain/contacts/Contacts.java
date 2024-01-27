@@ -10,6 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Contacts {
     private Long id;
+    private Long userId;
     private String name;
     private URL profileImgUrl;
     private String description;
