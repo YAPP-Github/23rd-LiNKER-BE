@@ -76,7 +76,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String redirectUri =
                 String.format(
-                        "%s?accessToken=%s&refreshToken=%s", clientOriginHost, accessToken, refreshToken);
+                        "%s/my/feed?accessToken=%s&refreshToken=%s",
+                        clientOriginHost, accessToken, refreshToken);
         getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
 
