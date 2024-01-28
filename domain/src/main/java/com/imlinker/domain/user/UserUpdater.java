@@ -23,11 +23,16 @@ public class UserUpdater {
             String oAuthIdentifier,
             OAuthVendor oAuthVendor) {
         return userRepository.save(
-                new User(null, oAuthVendor, oAuthIdentifier, name, email, profileImgUrl));
+                new User(null, oAuthVendor, oAuthIdentifier, name, email, profileImgUrl, null));
     }
 
     public User update(Long userId, String name, Email email) {
         User updatedUser = fetch(userId).update(name, email);
+        return userRepository.save(updatedUser);
+    }
+
+    public User updateRefreshToken(Long id, String refreshToken) {
+        User updatedUser = fetch(id).update(refreshToken);
         return userRepository.save(updatedUser);
     }
 

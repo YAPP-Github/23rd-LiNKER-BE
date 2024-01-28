@@ -27,6 +27,9 @@ public class UserEntity extends BaseTimeEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "refresh_token")
+    private String refreshToken;
+
     @Column(name = "profile_img_url")
     private String profileImgUrl;
 }

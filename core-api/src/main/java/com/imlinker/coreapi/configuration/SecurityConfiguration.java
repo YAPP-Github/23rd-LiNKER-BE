@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -45,7 +46,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable);
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .headers(
+                        httpSecurityHeadersConfigurer ->
+                                httpSecurityHeadersConfigurer.frameOptions(
+                                        HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
         // oAuthHandler
         http.oauth2Login(
@@ -72,7 +77,7 @@ public class SecurityConfiguration {
                         authorization
                                 .requestMatchers(ignoredPath)
                                 .permitAll()
-                                .requestMatchers("/oauth2/**")
+                                .requestMatchers("/oauth2/**", "/api/v1/auth/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated());
