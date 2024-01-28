@@ -84,7 +84,7 @@ public class UserService {
 
     public OperationResult updateProfileImage(Long userId, MultipartFile file) {
         String fileName = String.format("user:%s-profile-%s", userId, LocalDateTime.now());
-        URL fileUrl = fileUploader.uploadImage(new UploadFileRequest(fileName, FileType.JPEG, file));
+        URL fileUrl = fileUploader.uploadImage(new UploadFileRequest(fileName, FileType.IMAGE, file));
 
         userUpdater.updateProfileImage(userId, fileUrl);
         return OperationResult.SUCCESS;

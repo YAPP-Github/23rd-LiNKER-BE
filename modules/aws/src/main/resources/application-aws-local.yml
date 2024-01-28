@@ -2,4 +2,4 @@ aws:
   accessKey: ${AWS_ACCESS_KEY}
   secretKey: ${AWS_SECRET_KEY}
   s3:
-    bucket: ${AWS_S3_BUCKET:dangle-image}
+    bucket: ${AWS_S3_BUCKET}
