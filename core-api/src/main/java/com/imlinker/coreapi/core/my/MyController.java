@@ -31,7 +31,11 @@ public class MyController {
 
     @PutMapping
     @Operation(summary = "내 정보 수정하기")
-    public ApiResponse<OperationResult> updateMyInfo(@RequestBody UpdateMyInfoRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
+    public ApiResponse<OperationResult> updateMyInfo(
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext,
+            @RequestBody UpdateMyInfoRequest request) {
+        System.out.println(request.interests());
+        OperationResult result = service.update(request.toParam(userContext.getId()));
+        return ApiResponse.success(result);
     }
 }

@@ -31,6 +31,7 @@ public class SecurityConfiguration {
 
     private final String[] ignoredPath = {
         "/ping",
+        "/h2-console/**",
         "/error-types",
         "/favicon.ico",
         "/v3/api-docs/**",
