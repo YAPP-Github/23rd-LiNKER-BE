@@ -19,6 +19,7 @@ public class UserMapper {
                 .name(entity.getName())
                 .profileImgUrl(URL.of(entity.getProfileImgUrl()))
                 .email(Email.of(entity.getEmail()))
+                .refreshToken(entity.getRefreshToken())
                 .build();
     }
 
@@ -30,6 +31,7 @@ public class UserMapper {
                 .name(model.getName())
                 .profileImgUrl(model.getProfileImgUrl().getValue())
                 .email(model.getEmail().getValue())
+                .refreshToken(model.getRefreshToken())
                 .build();
     }
 }

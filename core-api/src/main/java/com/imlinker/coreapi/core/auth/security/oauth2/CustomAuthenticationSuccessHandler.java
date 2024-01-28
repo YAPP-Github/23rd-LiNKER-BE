@@ -3,10 +3,10 @@ package com.imlinker.coreapi.core.auth.security.oauth2;
 import com.imlinker.coreapi.core.auth.security.jwt.JwtTokenProvider;
 import com.imlinker.coreapi.core.auth.security.jwt.TokenType;
 import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendorAttributeResolver;
+import com.imlinker.domain.auth.AuthService;
 import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
-import com.imlinker.domain.user.UserService;
 import com.imlinker.domain.user.model.User;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
@@ -24,18 +24,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private final UserService userService;
+    private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomClientOriginHostCache clientOriginHostCache;
     private final Map<OAuthVendor, OAuthVendorAttributeResolver> vendorAttributeResolverRegistry;
 
     public CustomAuthenticationSuccessHandler(
-            UserService userService,
+            AuthService authService,
             JwtTokenProvider jwtTokenProvider,
             CustomClientOriginHostCache clientOriginHostCache,
             List<OAuthVendorAttributeResolver> vendorAttributeResolvers) {
 
-        this.userService = userService;
+        this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.clientOriginHostCache = clientOriginHostCache;
         this.vendorAttributeResolverRegistry =
@@ -59,20 +59,22 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String oAuthId = resolver.getOAuthId(oAuth2User.getAttributes());
         Email email = resolver.getEmail(oAuth2User.getAttributes());
 
-        boolean isMember = userService.isMember(oAuth2User.getVendor(), oAuthId);
+        boolean isMember = authService.isMember(oAuth2User.getVendor(), oAuthId);
 
         if (!isMember) {
             String nickname = resolver.getNickname(oAuth2User.getAttributes());
             URL profileImgUrl = URL.of(resolver.getProfileImgUrl(oAuth2User.getAttributes()));
 
-            userService.create(oAuthId, nickname, email, profileImgUrl, oAuth2User.getVendor());
+            authService.create(oAuthId, nickname, email, profileImgUrl, oAuth2User.getVendor());
         }
 
-        User user = userService.findByOAuthInfo(oAuth2User.getVendor(), oAuthId);
+        User user = authService.findByOAuthInfo(oAuth2User.getVendor(), oAuthId);
         String accessToken =
                 jwtTokenProvider.generateToken(user.getId(), user.getEmail(), TokenType.ACCESS_TOKEN);
         String refreshToken =
                 jwtTokenProvider.generateToken(user.getId(), user.getEmail(), TokenType.REFRESH_TOKEN);
+
+        authService.updateRefreshToken(user.getId(), refreshToken);
 
         String redirectUri =
                 String.format(
