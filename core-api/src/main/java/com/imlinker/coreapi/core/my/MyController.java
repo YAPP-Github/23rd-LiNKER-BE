@@ -11,7 +11,9 @@ import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,8 +36,19 @@ public class MyController {
     public ApiResponse<OperationResult> updateMyInfo(
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext,
             @RequestBody UpdateMyInfoRequest request) {
-        System.out.println(request.interests());
         OperationResult result = service.update(request.toParam(userContext.getId()));
+        return ApiResponse.success(result);
+    }
+
+    @PutMapping(
+            value = "/profile-image",
+            consumes = {MediaType.ALL_VALUE})
+    @Operation(summary = "내 프로필 이미지 수정하기")
+    public ApiResponse<OperationResult> updateMyProfileImage(
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext,
+            @RequestPart MultipartFile file) {
+
+        OperationResult result = service.updateProfileImage(userContext.getId(), file);
         return ApiResponse.success(result);
     }
 }

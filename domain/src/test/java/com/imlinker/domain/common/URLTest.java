@@ -18,6 +18,7 @@ class URLTest {
                 "http://www.example.com",
                 "https://example.com",
                 "http://example.com:8080",
+                "https://image.s3.ap-northeast-2.amazonaws.com/user%3A1-profile-2024-01-28T20%3A11%3A06.682821"
             })
     public void URL_형식이라면_객체를_생성한다(String validURL) {
         URL url = assertDoesNotThrow(() -> URL.of(validURL));

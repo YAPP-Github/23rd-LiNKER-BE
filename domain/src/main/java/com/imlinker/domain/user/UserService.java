@@ -3,6 +3,9 @@ package com.imlinker.domain.user;
 import com.imlinker.domain.auth.OAuthVendor;
 import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.file.FileType;
+import com.imlinker.domain.common.file.FileUploader;
+import com.imlinker.domain.common.file.UploadFileRequest;
 import com.imlinker.domain.contacts.Contacts;
 import com.imlinker.domain.schedules.Schedules;
 import com.imlinker.domain.tag.Tag;
@@ -16,11 +19,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final FileUploader fileUploader;
     private final UserReader userReader;
     private final UserUpdater userUpdater;
     private final UserContactReader userContactReader;
@@ -74,6 +79,14 @@ public class UserService {
         List<UserInterest> userInterests =
                 userInterestUpdater.update(param.getId(), param.getInterests());
 
+        return OperationResult.SUCCESS;
+    }
+
+    public OperationResult updateProfileImage(Long userId, MultipartFile file) {
+        String fileName = String.format("user:%s-profile-%s", userId, LocalDateTime.now());
+        URL fileUrl = fileUploader.uploadImage(new UploadFileRequest(fileName, FileType.JPEG, file));
+
+        userUpdater.updateProfileImage(userId, fileUrl);
         return OperationResult.SUCCESS;
     }
 }

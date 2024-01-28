@@ -1,6 +1,7 @@
 dependencies {
     runtimeOnly(project(":storage"))
     runtimeOnly(project(":crawler"))
+    runtimeOnly(project(":modules:aws"))
 
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jsonWebTokenVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jsonWebTokenVersion")

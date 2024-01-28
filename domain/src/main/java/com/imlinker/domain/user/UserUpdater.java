@@ -31,6 +31,11 @@ public class UserUpdater {
         return userRepository.save(updatedUser);
     }
 
+    public User updateProfileImage(Long userId, URL profileImgUrl) {
+        User updatedUser = fetch(userId).update(profileImgUrl);
+        return userRepository.save(updatedUser);
+    }
+
     public User fetch(Long id) {
         return userRepository
                 .findById(id)
