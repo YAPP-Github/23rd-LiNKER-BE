@@ -51,27 +51,6 @@ public class UserService {
                 .build();
     }
 
-    public User findByOAuthInfo(OAuthVendor oAuthVendor, String oAuthIdentifier) {
-        return userReader.findByOAuthInfo(oAuthVendor, oAuthIdentifier);
-    }
-
-    public boolean isMember(OAuthVendor oAuthVendor, String oAuthIdentifier) {
-        return userReader.existByOAuthInfo(oAuthVendor, oAuthIdentifier);
-    }
-
-    public User create(
-            String oAuthId, String name, Email email, URL profileImgUrl, OAuthVendor oAuthVendor) {
-        log.info(
-                "[회원가입][시작] oAuthId: {}, name: {}, email: {}, profileImgUrl: {}, oAuthVendor: {}",
-                oAuthId,
-                name,
-                email,
-                profileImgUrl,
-                oAuthVendor);
-
-        return userUpdater.create(name, email, profileImgUrl, oAuthId, oAuthVendor);
-    }
-
     @Transactional
     public OperationResult update(UpdateUserParam param) {
         User user = userUpdater.update(param.getId(), param.getName(), param.getEmail());
