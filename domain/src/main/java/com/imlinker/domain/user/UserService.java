@@ -1,7 +1,5 @@
 package com.imlinker.domain.user;
 
-import com.imlinker.domain.auth.OAuthVendor;
-import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
 import com.imlinker.domain.common.file.FileType;
 import com.imlinker.domain.common.file.FileUploader;
