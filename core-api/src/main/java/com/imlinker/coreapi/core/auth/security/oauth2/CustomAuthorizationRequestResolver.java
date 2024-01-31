@@ -42,8 +42,9 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
             String state = oAuthRequest.getState();
             clientOriginHostCache.putClientOriginHost(state, getClientOriginHost(request));
         }
+        throw new RuntimeException("Not implemented");
 
-        return oAuthRequest;
+        // return oAuthRequest;
     }
 
     private String getClientOriginHost(HttpServletRequest request) {

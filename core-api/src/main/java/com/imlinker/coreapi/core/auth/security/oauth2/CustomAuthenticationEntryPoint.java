@@ -22,6 +22,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             HttpServletResponse response,
             AuthenticationException authException)
             throws IOException {
-        filterExceptionHandler.sendErrorMessage(response, ErrorType.UNAUTHENTICATED, authException);
+        filterExceptionHandler.sendErrorMessage(
+                response, ErrorType.UNAUTHENTICATED, ErrorType.UNAUTHENTICATED.getMessage(), authException);
     }
 }
