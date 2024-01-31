@@ -23,6 +23,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             AccessDeniedException accessDeniedException)
             throws IOException {
         filterExceptionHandler.sendErrorMessage(
-                response, ErrorType.UNAUTHORIZED, accessDeniedException);
+                response, ErrorType.UNAUTHORIZED, "권한이 없습니다.", accessDeniedException);
     }
 }
