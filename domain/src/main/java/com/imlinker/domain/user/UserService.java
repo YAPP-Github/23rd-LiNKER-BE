@@ -1,18 +1,18 @@
 package com.imlinker.domain.user;
 
-import com.imlinker.domain.auth.OAuthVendor;
-import com.imlinker.domain.common.Email;
-import com.imlinker.domain.common.URL;
 import com.imlinker.domain.contacts.Contacts;
 import com.imlinker.domain.schedules.Schedules;
 import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.domain.user.model.MyProfile;
 import com.imlinker.domain.user.model.User;
+import com.imlinker.domain.user.model.UserInterest;
+import com.imlinker.enums.OperationResult;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -22,6 +22,7 @@ public class UserService {
     private final UserUpdater userUpdater;
     private final UserContactReader userContactReader;
     private final UserInterestReader userInterestReader;
+    private final UserInterestUpdater userInterestUpdater;
     private final UserScheduleReader userScheduleReader;
 
     public MyProfile getMyProfile(Long userId) {
@@ -42,24 +43,13 @@ public class UserService {
                 .build();
     }
 
-    public User findByOAuthInfo(OAuthVendor oAuthVendor, String oAuthIdentifier) {
-        return userReader.findByOAuthInfo(oAuthVendor, oAuthIdentifier);
-    }
+    @Transactional
+    public OperationResult update(UpdateUserParam param) {
+        User user = userUpdater.update(param.getId(), param.getName(), param.getEmail());
 
-    public boolean isMember(OAuthVendor oAuthVendor, String oAuthIdentifier) {
-        return userReader.existByOAuthInfo(oAuthVendor, oAuthIdentifier);
-    }
+        List<UserInterest> userInterests =
+                userInterestUpdater.update(param.getId(), param.getInterests());
 
-    public User create(
-            String oAuthId, String name, Email email, URL profileImgUrl, OAuthVendor oAuthVendor) {
-        log.info(
-                "[회원가입][시작] oAuthId: {}, name: {}, email: {}, profileImgUrl: {}, oAuthVendor: {}",
-                oAuthId,
-                name,
-                email,
-                profileImgUrl,
-                oAuthVendor);
-
-        return userUpdater.create(name, email, profileImgUrl, oAuthId, oAuthVendor);
+        return OperationResult.SUCCESS;
     }
 }

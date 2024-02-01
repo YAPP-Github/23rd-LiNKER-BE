@@ -23,4 +23,22 @@ public class User {
     private Email email;
 
     private URL profileImgUrl;
+
+    private String refreshToken;
+
+    public User update(String name, Email email) {
+        this.name = name;
+        this.email = email;
+        return this;
+    }
+
+    public User update(URL profileImgUrl) {
+        this.profileImgUrl = profileImgUrl;
+        return this;
+    }
+
+    public User update(String refreshToken) {
+        this.refreshToken = refreshToken;
+        return this;
+    }
 }

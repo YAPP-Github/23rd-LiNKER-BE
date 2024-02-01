@@ -1,6 +1,7 @@
 package com.imlinker.coreapi.core.auth.security.jwt;
 
 import com.imlinker.coreapi.support.exception.FilterExceptionHandler;
+import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -37,9 +38,15 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 }
             }
             filterChain.doFilter(servletRequest, servletResponse);
+        } catch (ApplicationException e) {
+            filterExceptionHandler.sendErrorMessage(
+                    (HttpServletResponse) servletResponse, e.getErrorType(), e.getData(), e.getCause());
         } catch (Exception e) {
             filterExceptionHandler.sendErrorMessage(
-                    (HttpServletResponse) servletResponse, ErrorType.INTERNAL_PROCESSING_ERROR, e.getCause());
+                    (HttpServletResponse) servletResponse,
+                    ErrorType.INTERNAL_PROCESSING_ERROR,
+                    null,
+                    e.getCause());
         }
     }
 }

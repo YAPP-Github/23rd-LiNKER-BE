@@ -25,4 +25,16 @@ public class UserInterestAdaptor implements UserInterestRepository {
         UserInterestEntity entity = repo.save(UserInterestMapper.toEntity(userInterest));
         return UserInterestMapper.toModel(entity);
     }
+
+    @Override
+    public List<UserInterest> saveAll(List<UserInterest> userInterests) {
+        List<UserInterestEntity> entities =
+                userInterests.stream().map(UserInterestMapper::toEntity).toList();
+        return repo.saveAll(entities).stream().map(UserInterestMapper::toModel).toList();
+    }
+
+    @Override
+    public void deleteAllByUserId(Long userId) {
+        repo.deleteAllByUserId(userId);
+    }
 }
