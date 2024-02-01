@@ -1,7 +1,7 @@
 package com.imlinker.coreapi.core.my.request;
 
-import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.domain.common.Email;
+import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.domain.user.UpdateUserParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
