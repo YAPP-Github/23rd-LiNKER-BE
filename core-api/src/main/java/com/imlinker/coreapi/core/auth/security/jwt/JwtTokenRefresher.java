@@ -19,29 +19,17 @@ public class JwtTokenRefresher {
     private final AuthService authService;
 
     public TokenResponse refresh(String accessToken, String refreshToken) {
-        try {
-            Long userId =
-                    Long.parseLong(
-                            provider.parseClaims(accessToken, TokenType.ACCESS_TOKEN).get("id").toString());
-            log.info("[토큰][재발급][시작] (expired=false, userId={})", userId);
-            return refresh(userId, refreshToken);
-        } catch (ExpiredJwtException e) {
-            Long userId = Long.parseLong(e.getClaims().get("id").toString());
-            log.info("[토큰][재발급][시작] (expired=true, userId={})", userId);
-            return refresh(userId, refreshToken);
-        }
-    }
-
-    private TokenResponse refresh(Long userId, String refreshToken) {
+        Long userId = extractUserId(accessToken);
         User user = authService.findByUserId(userId);
+
         if (user.getRefreshToken() == null || !user.getRefreshToken().equals(refreshToken)) {
-            log.info("[AccessToken][재발급][실패] refreshToken이 존재하지 않거나, 일치하지 않음 (userId={})", userId);
+            log.info("[AccessToken][재발급][실패] refreshToken이 존재하지 않거나, 일치하지 않음 (userId={})", user.getId());
             throw new ApplicationException(ErrorType.UNAUTHORIZED);
         }
 
         Date expiration = provider.parseClaims(refreshToken, TokenType.REFRESH_TOKEN).getExpiration();
         if (expiration.before(new Date())) {
-            log.info("[AccessToken][재발급][실패] 이미 만료된 RefreshToken (userId={})", userId);
+            log.info("[AccessToken][재발급][실패] 이미 만료된 RefreshToken (userId={})", user.getId());
             throw new ApplicationException(ErrorType.UNAUTHORIZED);
         }
 
@@ -49,5 +37,17 @@ public class JwtTokenRefresher {
                 provider.generateToken(user.getId(), user.getEmail(), TokenType.ACCESS_TOKEN);
 
         return new TokenResponse(reIssuedAccessToken, refreshToken);
+    }
+
+    private Long extractUserId(String token) {
+        try {
+            return Long.parseLong(
+                    provider.parseClaims(token, TokenType.ACCESS_TOKEN).get("id").toString());
+        } catch (ExpiredJwtException e) {
+            return Long.parseLong(e.getClaims().get("id").toString());
+        } catch (Exception e) {
+            log.error("[토큰][오류] 잘못된 형식의 토큰 (error={})", e.getMessage());
+            throw new ApplicationException(ErrorType.UNAUTHORIZED);
+        }
     }
 }
