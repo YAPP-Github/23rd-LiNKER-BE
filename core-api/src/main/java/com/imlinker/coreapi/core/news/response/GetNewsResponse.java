@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.news.response;
 
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.AccessLevel;
@@ -18,5 +18,6 @@ public class GetNewsResponse {
             @Schema(description = "식별자") Long id,
             @Schema(description = "제목") String title,
             @Schema(description = "뉴스 제공자") String newsProvider,
+            @Schema(description = "뉴스 URL") String newsUrl,
             @Schema(description = "섬네일 이미지 URL") String thumbnailUrl) {}
 }

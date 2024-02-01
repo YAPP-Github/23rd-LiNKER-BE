@@ -1,4 +1,5 @@
 dependencies {
+    implementation(project(":common:enums"))
     implementation(project(":common:error"))
     compileOnly("org.springframework:spring-tx")
     compileOnly("org.springframework:spring-context")

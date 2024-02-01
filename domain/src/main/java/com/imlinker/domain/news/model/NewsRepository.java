@@ -1,4 +1,6 @@
-package com.imlinker.domain.news;
+package com.imlinker.domain.news.model;
+
+import java.util.List;
 
 public interface NewsRepository {
     News findById(Long id);
@@ -6,4 +8,6 @@ public interface NewsRepository {
     News findBytagId(Long tagId);
 
     News save(News news);
+
+    List<News> saveAll(List<News> news);
 }

@@ -5,7 +5,7 @@ import com.imlinker.domain.common.Email;
 import com.imlinker.domain.common.URL;
 import com.imlinker.domain.contacts.Contacts;
 import com.imlinker.domain.schedules.Schedules;
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.domain.user.model.MyProfile;
 import com.imlinker.domain.user.model.User;
 import java.time.LocalDateTime;

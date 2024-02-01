@@ -1,4 +1,4 @@
-package com.imlinker.domain.tag;
+package com.imlinker.domain.tag.model;
 
 import java.util.List;
 

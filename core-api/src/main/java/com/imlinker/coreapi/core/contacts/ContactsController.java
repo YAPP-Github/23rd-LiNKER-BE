@@ -78,11 +78,11 @@ public class ContactsController {
     @GetMapping("/{contactId}")
     @Operation(summary = "연락처 가져오기")
     public ApiResponse<GetContactResponse> getContact(@PathVariable Long contactId) {
-        List<com.imlinker.domain.tag.Tag> tags =
+        List<com.imlinker.domain.tag.model.Tag> tags =
                 List.of(
-                        new com.imlinker.domain.tag.Tag(1L, "스포츠"),
-                        new com.imlinker.domain.tag.Tag(2L, "엔터테인먼트"),
-                        new com.imlinker.domain.tag.Tag(3L, "비즈니스"));
+                        new com.imlinker.domain.tag.model.Tag(1L, "101/101", "스포츠"),
+                        new com.imlinker.domain.tag.model.Tag(2L, "101/101", "엔터테인먼트"),
+                        new com.imlinker.domain.tag.model.Tag(3L, "101/101", "비즈니스"));
 
         GetContactResponse response =
                 new GetContactResponse(

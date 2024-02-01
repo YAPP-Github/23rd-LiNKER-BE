@@ -24,6 +24,9 @@ public class NewsEntity extends BaseTimeEntity {
     @Column(name = "thumbnail_url")
     private String thumbnailUrl;
 
+    @Column(name = "news_url")
+    private String newsUrl;
+
     @Column(name = "news_provider")
     private String newsProvider;
 }

@@ -1,4 +1,4 @@
-package com.imlinker.domain.news;
+package com.imlinker.domain.news.model;
 
 import com.imlinker.domain.common.URL;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,9 @@ public class News {
 
     private String title;
 
-    private URL thumbnailUrl;
+    private String thumbnailUrl;
+
+    private URL newsUrl;
 
     private String newsProvider;
 }

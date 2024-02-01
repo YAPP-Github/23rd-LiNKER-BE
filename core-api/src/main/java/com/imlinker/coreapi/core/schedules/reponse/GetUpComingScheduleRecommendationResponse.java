@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.schedules.reponse;
 
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;

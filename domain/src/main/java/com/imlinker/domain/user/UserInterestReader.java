@@ -1,7 +1,7 @@
 package com.imlinker.domain.user;
 
-import com.imlinker.domain.tag.Tag;
-import com.imlinker.domain.tag.TagRepository;
+import com.imlinker.domain.tag.model.Tag;
+import com.imlinker.domain.tag.model.TagRepository;
 import com.imlinker.domain.user.model.UserInterest;
 import com.imlinker.domain.user.model.UserInterestRepository;
 import java.util.List;
