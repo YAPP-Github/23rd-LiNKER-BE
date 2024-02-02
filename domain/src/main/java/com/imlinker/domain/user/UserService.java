@@ -28,16 +28,16 @@ public class UserService {
 
     public MyProfile getMyProfile(Long userId) {
         User user = userReader.findById(userId);
-        List<Tag> userInterests = userInterestReader.findAllByUserId(user.getId());
-        List<Contacts> contacts = contactsReader.findContactsByUserId(user.getId());
+        List<Tag> userInterests = userInterestReader.findAllByUserId(user.id());
+        List<Contacts> contacts = contactsReader.findContactsByUserId(user.id());
         List<Schedules> upcomingSchedules =
                 userScheduleReader.findUpcomingSchedules(userId, LocalDateTime.now());
 
         return MyProfile.builder()
                 .id(userId)
-                .name(user.getName())
-                .profileImgUrl(user.getProfileImgUrl())
-                .email(user.getEmail())
+                .name(user.name())
+                .profileImgUrl(user.profileImgUrl())
+                .email(user.email())
                 .interests(userInterests)
                 .contactsNum(contacts.size())
                 .scheduleNum(upcomingSchedules.size())
@@ -46,10 +46,9 @@ public class UserService {
 
     @Transactional
     public OperationResult update(UpdateUserParam param) {
-        User user = userUpdater.update(param.getId(), param.getName(), param.getEmail());
+        User user = userUpdater.update(param.id(), param.name(), param.email());
 
-        List<UserInterest> userInterests =
-                userInterestUpdater.update(param.getId(), param.getInterests());
+        List<UserInterest> userInterests = userInterestUpdater.update(param.id(), param.interests());
 
         return OperationResult.SUCCESS;
     }

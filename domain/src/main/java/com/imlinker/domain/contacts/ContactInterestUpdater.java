@@ -18,7 +18,7 @@ public class ContactInterestUpdater {
         contactInterestRepository.deleteAllByContactId(contactId);
         List<ContactInterest> updatedInterests =
                 interests.stream()
-                        .map(interest -> new ContactInterest(null, contactId, interest.getId()))
+                        .map(interest -> new ContactInterest(null, contactId, interest.id()))
                         .toList();
 
         return contactInterestRepository.saveAll(updatedInterests);

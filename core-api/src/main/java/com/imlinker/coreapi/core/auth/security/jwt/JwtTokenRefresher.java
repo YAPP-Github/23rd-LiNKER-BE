@@ -22,19 +22,19 @@ public class JwtTokenRefresher {
         Long userId = extractUserId(accessToken);
         User user = authService.findByUserId(userId);
 
-        if (user.getRefreshToken() == null || !user.getRefreshToken().equals(refreshToken)) {
-            log.info("[AccessToken][재발급][실패] refreshToken이 존재하지 않거나, 일치하지 않음 (userId={})", user.getId());
+        if (user.refreshToken() == null || !user.refreshToken().equals(refreshToken)) {
+            log.info("[AccessToken][재발급][실패] refreshToken이 존재하지 않거나, 일치하지 않음 (userId={})", user.id());
             throw new ApplicationException(ErrorType.UNAUTHORIZED);
         }
 
         Date expiration = provider.parseClaims(refreshToken, TokenType.REFRESH_TOKEN).getExpiration();
         if (expiration.before(new Date())) {
-            log.info("[AccessToken][재발급][실패] 이미 만료된 RefreshToken (userId={})", user.getId());
+            log.info("[AccessToken][재발급][실패] 이미 만료된 RefreshToken (userId={})", user.id());
             throw new ApplicationException(ErrorType.UNAUTHORIZED);
         }
 
         String reIssuedAccessToken =
-                provider.generateToken(user.getId(), user.getEmail(), TokenType.ACCESS_TOKEN);
+                provider.generateToken(user.id(), user.email(), TokenType.ACCESS_TOKEN);
 
         return new TokenResponse(reIssuedAccessToken, refreshToken);
     }

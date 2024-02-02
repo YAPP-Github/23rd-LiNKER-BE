@@ -77,7 +77,7 @@ public class SecurityConfiguration {
                         authorization
                                 .requestMatchers(ignoredPath)
                                 .permitAll()
-                                .requestMatchers("/oauth2/**", "/api/v1/auth/**")
+                                .requestMatchers("/oauth2/**", "/api/v1/auth/**", "/api/v1/tags/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated());

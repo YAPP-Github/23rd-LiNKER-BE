@@ -4,6 +4,9 @@ database:
     key: 1234567890123456
     iv: 1234567890123456
 spring:
+  sql:
+    init:
+      mode: always
   datasource:
     url: jdbc:h2:mem:test
     username: sa
@@ -17,6 +20,7 @@ spring:
         show_sql: true
         format_sql: true
     open-in-view: false
+    defer-datasource-initialization: true
   h2:
     console:
       enabled: true

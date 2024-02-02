@@ -13,6 +13,6 @@ public class TagMapper {
     }
 
     public static TagEntity toEntity(Tag model) {
-        return new TagEntity(model.getId(), model.getName());
+        return new TagEntity(model.id(), model.name());
     }
 }

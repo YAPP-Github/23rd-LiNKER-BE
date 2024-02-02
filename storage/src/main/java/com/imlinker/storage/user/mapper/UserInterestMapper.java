@@ -13,6 +13,6 @@ public class UserInterestMapper {
     }
 
     public static UserInterestEntity toEntity(UserInterest model) {
-        return new UserInterestEntity(model.getId(), model.getUserId(), model.getTagId());
+        return new UserInterestEntity(model.id(), model.userId(), model.tagId());
     }
 }

@@ -17,9 +17,7 @@ public class UserInterestUpdater {
     public List<UserInterest> update(Long userId, List<Tag> interests) {
         userInterestRepository.deleteAllByUserId(userId);
         List<UserInterest> updatedInterests =
-                interests.stream()
-                        .map(interest -> new UserInterest(null, userId, interest.getId()))
-                        .toList();
+                interests.stream().map(interest -> new UserInterest(null, userId, interest.id())).toList();
 
         return userInterestRepository.saveAll(updatedInterests);
     }
