@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ContactsRepository {
+    Optional<Contacts> findById(Long contactId);
+
     Optional<Contacts> findByIdAndUserId(Long id, Long userId);
 
     List<Contacts> findAllByUserId(Long userId);
+
+    public Contacts save(Contacts contacts);
 }
