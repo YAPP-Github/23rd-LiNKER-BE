@@ -70,11 +70,11 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         User user = authService.findByOAuthInfo(oAuth2User.getVendor(), oAuthId);
         String accessToken =
-                jwtTokenProvider.generateToken(user.getId(), user.getEmail(), TokenType.ACCESS_TOKEN);
+                jwtTokenProvider.generateToken(user.id(), user.email(), TokenType.ACCESS_TOKEN);
         String refreshToken =
-                jwtTokenProvider.generateToken(user.getId(), user.getEmail(), TokenType.REFRESH_TOKEN);
+                jwtTokenProvider.generateToken(user.id(), user.email(), TokenType.REFRESH_TOKEN);
 
-        authService.updateRefreshToken(user.getId(), refreshToken);
+        authService.updateRefreshToken(user.id(), refreshToken);
 
         String redirectUri =
                 String.format(

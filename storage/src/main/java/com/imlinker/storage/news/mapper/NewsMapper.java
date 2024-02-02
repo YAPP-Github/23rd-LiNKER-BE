@@ -20,11 +20,11 @@ public class NewsMapper {
 
     public static NewsEntity toEntity(News model) {
         return NewsEntity.builder()
-                .id(model.getId())
-                .tagId(model.getTagId())
-                .title(model.getTitle())
-                .thumbnailUrl(model.getThumbnailUrl().getValue())
-                .newsProvider(model.getNewsProvider())
+                .id(model.id())
+                .tagId(model.tagId())
+                .title(model.title())
+                .thumbnailUrl(model.thumbnailUrl().getValue())
+                .newsProvider(model.newsProvider())
                 .build();
     }
 }

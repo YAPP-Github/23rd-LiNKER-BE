@@ -25,13 +25,13 @@ public class UserMapper {
 
     public static UserEntity toEntity(User model) {
         return UserEntity.builder()
-                .id(model.getId())
-                .oauthVendor(model.getOAuthVendor().name())
-                .oauthIdentifier(model.getOAuthIdentifier())
-                .name(model.getName())
-                .profileImgUrl(model.getProfileImgUrl().getValue())
-                .email(model.getEmail().getValue())
-                .refreshToken(model.getRefreshToken())
+                .id(model.id())
+                .oauthVendor(model.oAuthVendor().name())
+                .oauthIdentifier(model.oAuthIdentifier())
+                .name(model.name())
+                .profileImgUrl(model.profileImgUrl().getValue())
+                .email(model.email().getValue())
+                .refreshToken(model.refreshToken())
                 .build();
     }
 }
