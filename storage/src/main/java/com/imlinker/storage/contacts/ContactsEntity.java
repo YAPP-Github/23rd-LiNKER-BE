@@ -8,6 +8,7 @@ import lombok.*;
 @Entity
 @Builder
 @AllArgsConstructor
+@Table(name = "contacts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ContactsEntity extends BaseTimeEntity {
     @Id
