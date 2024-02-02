@@ -22,12 +22,12 @@ public class ContactsMapper {
 
     public static ContactsEntity toEntity(Contacts model) {
         return ContactsEntity.builder()
-                .id(model.getId())
-                .userId(model.getUserId())
-                .job(model.getJob())
-                .association(model.getAssociation())
-                .description(model.getDescription())
-                .profileImgUrl(model.getProfileImgUrl().getValue())
+                .id(model.id())
+                .userId(model.userId())
+                .job(model.job())
+                .association(model.association())
+                .description(model.description())
+                .profileImgUrl(model.profileImgUrl().getValue())
                 .build();
     }
 }

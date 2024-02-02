@@ -9,6 +9,7 @@ import com.imlinker.coreapi.core.contacts.response.GetContactsResponse;
 import com.imlinker.coreapi.core.contacts.response.SearchContactResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
 import com.imlinker.domain.contacts.ContactsService;
+import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,11 +36,11 @@ public class ContactsController {
                         .map(
                                 contact ->
                                         new GetContactsResponse.SimpleContact(
-                                                contact.getId(),
-                                                contact.getName(),
-                                                contact.getProfileImgUrl().getValue(),
-                                                contact.getJob(),
-                                                contact.getAssociation()))
+                                                contact.id(),
+                                                contact.name(),
+                                                contact.profileImgUrl().getValue(),
+                                                contact.job(),
+                                                contact.association()))
                         .toList();
 
         return ApiResponse.success(new GetContactsResponse.Contacts(simpleContacts));
@@ -75,21 +76,19 @@ public class ContactsController {
 
     @GetMapping("/{contactId}")
     @Operation(summary = "연락처 가져오기")
-    public ApiResponse<GetContactResponse> getContact(@PathVariable Long contactId) {
-        List<com.imlinker.domain.tag.Tag> tags =
-                List.of(
-                        new com.imlinker.domain.tag.Tag(1L, "스포츠"),
-                        new com.imlinker.domain.tag.Tag(2L, "엔터테인먼트"),
-                        new com.imlinker.domain.tag.Tag(3L, "비즈니스"));
+    public ApiResponse<GetContactResponse> getContact(
+            @PathVariable Long contactId,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        ContactProfile contactProfile = service.getContactProfile(contactId, userContext.getId());
 
         GetContactResponse response =
                 new GetContactResponse(
-                        1L,
-                        "김태준",
-                        "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                        "Json 상하차 담당",
-                        "Yapp23기 Web1팀",
-                        tags);
+                        contactProfile.id(),
+                        contactProfile.name(),
+                        contactProfile.profileImgUrl().getValue(),
+                        contactProfile.job(),
+                        contactProfile.association(),
+                        contactProfile.interests());
 
         return ApiResponse.success(response);
     }
