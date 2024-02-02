@@ -5,6 +5,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.jsoup:jsoup:1.17.2'
+    implementation project(path: ':core-api')
 }
 bootJar{
     enabled = false

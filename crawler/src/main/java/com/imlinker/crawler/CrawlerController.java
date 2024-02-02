@@ -1,5 +1,7 @@
 package com.imlinker.crawler;
 
+import com.imlinker.coreapi.support.response.ApiResponse;
+import com.imlinker.enums.OperationResult;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +15,8 @@ public class CrawlerController {
     private final CrawlerService crawlerService;
 
     @GetMapping
-    public String crawling() throws IOException {
+    public ApiResponse<OperationResult> crawling() throws IOException {
         crawlerService.getNewsDatas();
-        return "test";
+        return ApiResponse.success(OperationResult.SUCCESS);
     }
 }
