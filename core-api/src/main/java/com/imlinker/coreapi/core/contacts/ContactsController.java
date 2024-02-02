@@ -9,6 +9,7 @@ import com.imlinker.coreapi.core.contacts.response.GetContactsResponse;
 import com.imlinker.coreapi.core.contacts.response.SearchContactResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
 import com.imlinker.domain.contacts.ContactsService;
+import com.imlinker.domain.contacts.CreateContactParam;
 import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.enums.OperationResult;
@@ -95,8 +96,12 @@ public class ContactsController {
 
     @PostMapping
     @Operation(summary = "연락처 생성하기")
-    public ApiResponse<OperationResult> createContact(@RequestBody CreateContactRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
+    public ApiResponse<OperationResult> createContact(
+            @RequestBody CreateContactRequest request,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        CreateContactParam param = request.toParam(userContext.getId());
+        OperationResult result = service.createContact(param);
+        return ApiResponse.success(result);
     }
 
     @PutMapping("/{contactId}")
