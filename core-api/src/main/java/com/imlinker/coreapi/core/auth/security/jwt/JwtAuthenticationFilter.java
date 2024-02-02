@@ -1,7 +1,6 @@
 package com.imlinker.coreapi.core.auth.security.jwt;
 
 import com.imlinker.coreapi.support.exception.FilterExceptionHandler;
-import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -45,18 +44,34 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             }
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (SecurityException e) {
-            throw new ApplicationException(ErrorType.UNAUTHORIZED, "유효하지 않은 토큰입니다.", e.getCause());
+            filterExceptionHandler.sendErrorMessage(
+                    (HttpServletResponse) servletResponse,
+                    ErrorType.UNAUTHORIZED,
+                    "유효하지 않은 토큰입니다.",
+                    e.getCause());
         } catch (ExpiredJwtException e) {
-            throw new ApplicationException(ErrorType.UNAUTHORIZED, "만료된 토큰입니다.", e.getCause());
+            filterExceptionHandler.sendErrorMessage(
+                    (HttpServletResponse) servletResponse,
+                    ErrorType.UNAUTHORIZED,
+                    "만료된 토큰입니다.",
+                    e.getCause());
         } catch (DecodingException e) {
-            throw new ApplicationException(ErrorType.UNAUTHORIZED, "잘못된 인증입니다.", e.getCause());
+            filterExceptionHandler.sendErrorMessage(
+                    (HttpServletResponse) servletResponse,
+                    ErrorType.UNAUTHORIZED,
+                    "잘못된 인증입니다.",
+                    e.getCause());
         } catch (MalformedJwtException e) {
-            throw new ApplicationException(ErrorType.UNAUTHORIZED, "손상된 토큰입니다.", e.getCause());
+            filterExceptionHandler.sendErrorMessage(
+                    (HttpServletResponse) servletResponse,
+                    ErrorType.UNAUTHORIZED,
+                    "손상된 토큰입니다.",
+                    e.getCause());
         } catch (Exception e) {
             filterExceptionHandler.sendErrorMessage(
                     (HttpServletResponse) servletResponse,
                     ErrorType.INTERNAL_PROCESSING_ERROR,
-                    null,
+                    ErrorType.INTERNAL_PROCESSING_ERROR.getMessage(),
                     e.getCause());
         }
     }
