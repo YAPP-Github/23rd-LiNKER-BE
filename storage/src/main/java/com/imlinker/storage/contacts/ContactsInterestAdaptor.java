@@ -1,6 +1,6 @@
 package com.imlinker.storage.contacts;
 
-import com.imlinker.domain.contacts.ContactsInterestRepository;
+import com.imlinker.domain.contacts.model.ContactsInterestRepository;
 import org.springframework.stereotype.Component;
 
 @Component

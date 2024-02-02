@@ -1,7 +1,7 @@
 package com.imlinker.storage.contacts.mapper;
 
 import com.imlinker.domain.common.URL;
-import com.imlinker.domain.contacts.Contacts;
+import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.storage.contacts.ContactsEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,8 @@ public class ContactsMapper {
                 .id(entity.getId())
                 .userId(entity.getUserId())
                 .name(entity.getName())
+                .job(entity.getJob())
+                .association(entity.getAssociation())
                 .profileImgUrl(URL.of(entity.getProfileImgUrl()))
                 .description(entity.getDescription())
                 .build();
@@ -22,6 +24,8 @@ public class ContactsMapper {
         return ContactsEntity.builder()
                 .id(model.getId())
                 .userId(model.getUserId())
+                .job(model.getJob())
+                .association(model.getAssociation())
                 .description(model.getDescription())
                 .profileImgUrl(model.getProfileImgUrl().getValue())
                 .build();

@@ -1,11 +1,15 @@
 package com.imlinker.coreapi.core.contacts;
 
+import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContext;
+import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContextHolder;
 import com.imlinker.coreapi.core.contacts.request.CreateContactRequest;
 import com.imlinker.coreapi.core.contacts.request.UpdateContactRequest;
 import com.imlinker.coreapi.core.contacts.response.GetContactResponse;
 import com.imlinker.coreapi.core.contacts.response.GetContactsResponse;
 import com.imlinker.coreapi.core.contacts.response.SearchContactResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
+import com.imlinker.domain.contacts.ContactsService;
+import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,32 +23,26 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Contacts API", description = "연락처 관련 API")
 public class ContactsController {
 
+    private final ContactsService service;
+
     @GetMapping
     @Operation(summary = "연락처 모두 가져오기")
-    public ApiResponse<GetContactsResponse.Contacts> getContacts() {
+    public ApiResponse<GetContactsResponse.Contacts> getContacts(
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        List<Contacts> contacts = service.getAllContacts(userContext.getId());
+        List<GetContactsResponse.SimpleContact> simpleContacts =
+                contacts.stream()
+                        .map(
+                                contact ->
+                                        new GetContactsResponse.SimpleContact(
+                                                contact.getId(),
+                                                contact.getName(),
+                                                contact.getProfileImgUrl().getValue(),
+                                                contact.getJob(),
+                                                contact.getAssociation()))
+                        .toList();
 
-        List<GetContactsResponse.SimpleContact> contacts =
-                List.of(
-                        new GetContactsResponse.SimpleContact(
-                                1L,
-                                "윤대용",
-                                "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                                "프론트앤드 개발자",
-                                "Yapp23기 Web1팀"),
-                        new GetContactsResponse.SimpleContact(
-                                2L,
-                                "이우성",
-                                "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                                "프론트앤드 개발자",
-                                "Yapp23기 Web1팀"),
-                        new GetContactsResponse.SimpleContact(
-                                3L,
-                                "이정민",
-                                "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                                "프론트앤드 개발자",
-                                "Yapp23기 Web1팀"));
-
-        return ApiResponse.success(new GetContactsResponse.Contacts(contacts));
+        return ApiResponse.success(new GetContactsResponse.Contacts(simpleContacts));
     }
 
     @GetMapping("/search")

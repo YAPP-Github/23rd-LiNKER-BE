@@ -8,6 +8,7 @@ import lombok.*;
 @Entity
 @Builder
 @AllArgsConstructor
+@Table(name = "contacts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ContactsEntity extends BaseTimeEntity {
     @Id
@@ -19,6 +20,12 @@ public class ContactsEntity extends BaseTimeEntity {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "job")
+    private String job;
+
+    @Column(name = "association")
+    private String association;
 
     @Column(name = "profile_img_url")
     private String profileImgUrl;

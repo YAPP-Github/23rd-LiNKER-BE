@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @AllArgsConstructor
+@Table(name = "tags")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TagEntity extends BaseTimeEntity {
 

@@ -1,7 +1,7 @@
 package com.imlinker.storage.contacts;
 
-import com.imlinker.domain.contacts.Contacts;
-import com.imlinker.domain.contacts.ContactsRepository;
+import com.imlinker.domain.contacts.model.Contacts;
+import com.imlinker.domain.contacts.model.ContactsRepository;
 import com.imlinker.storage.contacts.mapper.ContactsMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

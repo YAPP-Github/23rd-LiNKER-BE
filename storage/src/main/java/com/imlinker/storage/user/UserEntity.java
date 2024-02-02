@@ -8,6 +8,7 @@ import lombok.*;
 @Entity
 @Builder
 @AllArgsConstructor
+@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity extends BaseTimeEntity {
 
