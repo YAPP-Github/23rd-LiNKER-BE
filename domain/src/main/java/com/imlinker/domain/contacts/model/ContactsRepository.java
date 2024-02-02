@@ -1,4 +1,4 @@
-package com.imlinker.domain.contacts;
+package com.imlinker.domain.contacts.model;
 
 import java.util.List;
 

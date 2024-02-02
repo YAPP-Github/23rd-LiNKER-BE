@@ -21,6 +21,12 @@ public class ContactsEntity extends BaseTimeEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "job")
+    private String job;
+
+    @Column(name = "association")
+    private String association;
+
     @Column(name = "profile_img_url")
     private String profileImgUrl;
     // memo: 400자

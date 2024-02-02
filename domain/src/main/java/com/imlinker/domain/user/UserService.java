@@ -1,6 +1,7 @@
 package com.imlinker.domain.user;
 
-import com.imlinker.domain.contacts.Contacts;
+import com.imlinker.domain.contacts.ContactsReader;
+import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.schedules.Schedules;
 import com.imlinker.domain.tag.Tag;
 import com.imlinker.domain.user.model.MyProfile;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserReader userReader;
     private final UserUpdater userUpdater;
-    private final UserContactReader userContactReader;
+    private final ContactsReader contactsReader;
     private final UserInterestReader userInterestReader;
     private final UserInterestUpdater userInterestUpdater;
     private final UserScheduleReader userScheduleReader;
@@ -28,7 +29,7 @@ public class UserService {
     public MyProfile getMyProfile(Long userId) {
         User user = userReader.findById(userId);
         List<Tag> userInterests = userInterestReader.findAllByUserId(user.getId());
-        List<Contacts> contacts = userContactReader.findContactsByUserId(user.getId());
+        List<Contacts> contacts = contactsReader.findContactsByUserId(user.getId());
         List<Schedules> upcomingSchedules =
                 userScheduleReader.findUpcomingSchedules(userId, LocalDateTime.now());
 
