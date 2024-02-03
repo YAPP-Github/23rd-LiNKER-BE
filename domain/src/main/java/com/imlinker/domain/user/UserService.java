@@ -46,7 +46,7 @@ public class UserService {
 
     @Transactional
     public OperationResult update(UpdateUserParam param) {
-        User user = userUpdater.update(param.id(), param.name(), param.email());
+        User user = userUpdater.update(param.id(), param.name(), param.profileImgUrl(), param.email());
 
         List<UserInterest> userInterests = userInterestUpdater.update(param.id(), param.interests());
 

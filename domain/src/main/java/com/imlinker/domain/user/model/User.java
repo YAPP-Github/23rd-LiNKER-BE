@@ -15,11 +15,7 @@ public record User(
         URL profileImgUrl,
         String refreshToken) {
 
-    public User update(String name, Email email) {
-        return new User(id, oAuthVendor, oAuthIdentifier, name, email, profileImgUrl, refreshToken);
-    }
-
-    public User update(URL profileImgUrl) {
+    public User update(String name, URL profileImgUrl, Email email) {
         return new User(id, oAuthVendor, oAuthIdentifier, name, email, profileImgUrl, refreshToken);
     }
 
