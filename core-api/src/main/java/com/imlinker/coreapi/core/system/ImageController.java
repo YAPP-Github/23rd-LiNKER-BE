@@ -42,6 +42,8 @@ public class ImageController {
             @RequestParam List<String> imageUrls,
             @AuthenticatedUserContext AuthenticatedUserContextHolder authenticatedUserContextHolder) {
 
+        service.deleteImage(
+                authenticatedUserContextHolder.getId(), imageUrls.stream().map(URL::of).toList());
         return ApiResponse.success(OperationResult.SUCCESS);
     }
 }

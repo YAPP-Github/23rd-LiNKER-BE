@@ -1,10 +1,12 @@
 package com.imlinker.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.imlinker.domain.common.file.FileUploader;
 import com.imlinker.domain.common.file.UploadFile;
 import com.imlinker.domain.common.model.URL;
+import com.imlinker.enums.OperationResult;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import java.io.InputStream;
@@ -55,5 +57,13 @@ public class S3FileUploader implements FileUploader {
                     e.getMessage());
             throw new ApplicationException(ErrorType.INTERNAL_PROCESSING_ERROR, null, e.getCause());
         }
+    }
+
+    @Override
+    public OperationResult deleteFile(String fileName) {
+        log.info("[S3][FileDelete][시작] (fileName={}", fileName);
+        s3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+        boolean isDeleted = s3Client.getUrl(bucket, fileName) == null;
+        return OperationResult.of(isDeleted);
     }
 }
