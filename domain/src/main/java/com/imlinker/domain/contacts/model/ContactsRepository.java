@@ -10,5 +10,5 @@ public interface ContactsRepository {
 
     List<Contacts> findAllByUserId(Long userId);
 
-    public Contacts save(Contacts contacts);
+    Contacts save(Contacts contacts);
 }

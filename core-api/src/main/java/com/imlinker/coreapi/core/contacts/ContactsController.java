@@ -49,29 +49,23 @@ public class ContactsController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "연락처 검색하기 (mock)")
-    public ApiResponse<SearchContactResponse.Contacts> searchContacts(@RequestParam String query) {
+    @Operation(summary = "연락처 검색하기")
+    public ApiResponse<SearchContactResponse.Contacts> searchContacts(
+            @RequestParam String query,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        List<Contacts> searchedContacts = service.search(query, userContext.getId());
         SearchContactResponse.Contacts contacts =
                 new SearchContactResponse.Contacts(
-                        List.of(
-                                new SearchContactResponse.SimpleContact(
-                                        1L,
-                                        "윤대용",
-                                        "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                                        "프론트앤드 개발자",
-                                        "Yapp23기 Web1팀"),
-                                new SearchContactResponse.SimpleContact(
-                                        2L,
-                                        "이우성",
-                                        "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                                        "프론트앤드 개발자",
-                                        "Yapp23기 Web1팀"),
-                                new SearchContactResponse.SimpleContact(
-                                        3L,
-                                        "이정민",
-                                        "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                                        "프론트앤드 개발자",
-                                        "Yapp23기 Web1팀")));
+                        searchedContacts.stream()
+                                .map(
+                                        contact ->
+                                                new SearchContactResponse.SimpleContact(
+                                                        contact.id(),
+                                                        contact.name(),
+                                                        contact.profileImgUrl().getValue(),
+                                                        contact.job(),
+                                                        contact.association()))
+                                .toList());
 
         return ApiResponse.success(contacts);
     }
