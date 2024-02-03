@@ -37,11 +37,13 @@ public class ImageController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "이미지 삭제하기 (mock)")
+    @Operation(summary = "이미지 삭제하기")
     public ApiResponse<OperationResult> deleteImages(
             @RequestParam List<String> imageUrls,
             @AuthenticatedUserContext AuthenticatedUserContextHolder authenticatedUserContextHolder) {
 
+        service.deleteImage(
+                authenticatedUserContextHolder.getId(), imageUrls.stream().map(URL::of).toList());
         return ApiResponse.success(OperationResult.SUCCESS);
     }
 }

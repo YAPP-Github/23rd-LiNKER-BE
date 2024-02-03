@@ -34,7 +34,6 @@ public class MyController {
     public ApiResponse<OperationResult> updateMyInfo(
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext,
             @RequestBody UpdateMyInfoRequest request) {
-        System.out.println(request.interests());
         OperationResult result = service.update(request.toParam(userContext.getId()));
         return ApiResponse.success(result);
     }
