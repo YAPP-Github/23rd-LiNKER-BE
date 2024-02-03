@@ -1,5 +1,6 @@
 package com.imlinker.domain.contacts;
 
+import com.imlinker.domain.common.PhoneNumber;
 import com.imlinker.domain.common.URL;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.contacts.model.ContactsRepository;
@@ -19,16 +20,32 @@ public class ContactsUpdater {
             Long userId,
             String profileImgUrl,
             String job,
+            PhoneNumber phoneNumber,
             String association,
             String description) {
 
         return contactsRepository.save(
-                new Contacts(null, userId, name, job, association, URL.of(profileImgUrl), description));
+                new Contacts(
+                        null, userId, name, job, association, phoneNumber, URL.of(profileImgUrl), description));
     }
 
-    public Contacts fetch(Long id) {
+    public Contacts update(
+            Long id,
+            String name,
+            Long userId,
+            URL profileImgUrl,
+            String job,
+            PhoneNumber phoneNumber,
+            String association,
+            String description) {
+        Contacts updatedContact =
+                fetch(id, userId).update(name, job, association, phoneNumber, profileImgUrl, description);
+        return contactsRepository.save(updatedContact);
+    }
+
+    public Contacts fetch(Long id, Long userId) {
         return contactsRepository
-                .findById(id)
+                .findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new ApplicationException(ErrorType.CONTACT_NOT_FOUND));
     }
 }

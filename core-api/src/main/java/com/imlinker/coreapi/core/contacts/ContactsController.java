@@ -10,6 +10,7 @@ import com.imlinker.coreapi.core.contacts.response.SearchContactResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
 import com.imlinker.domain.contacts.ContactsService;
 import com.imlinker.domain.contacts.CreateContactParam;
+import com.imlinker.domain.contacts.UpdateContactParam;
 import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.enums.OperationResult;
@@ -87,6 +88,7 @@ public class ContactsController {
                         contactProfile.id(),
                         contactProfile.name(),
                         contactProfile.profileImgUrl().getValue(),
+                        contactProfile.phoneNumber().getValue(),
                         contactProfile.job(),
                         contactProfile.association(),
                         contactProfile.interests());
@@ -101,13 +103,19 @@ public class ContactsController {
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
         CreateContactParam param = request.toParam(userContext.getId());
         OperationResult result = service.createContact(param);
+
         return ApiResponse.success(result);
     }
 
     @PutMapping("/{contactId}")
     @Operation(summary = "연락처 수정하기")
     public ApiResponse<OperationResult> updateContact(
-            @PathVariable Long contactId, @RequestBody UpdateContactRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
+            @PathVariable Long contactId,
+            @RequestBody UpdateContactRequest request,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        UpdateContactParam param = request.toParam(contactId, userContext.getId());
+        OperationResult result = service.updateContact(param);
+
+        return ApiResponse.success(result);
     }
 }

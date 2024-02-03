@@ -1,5 +1,6 @@
 package com.imlinker.domain.contacts.model;
 
+import com.imlinker.domain.common.PhoneNumber;
 import com.imlinker.domain.common.URL;
 import lombok.Builder;
 
@@ -10,5 +11,18 @@ public record Contacts(
         String name,
         String job,
         String association,
+        PhoneNumber phoneNumber,
         URL profileImgUrl,
-        String description) {}
+        String description) {
+
+    public Contacts update(
+            String name,
+            String job,
+            String association,
+            PhoneNumber phoneNumber,
+            URL profileImgUrl,
+            String description) {
+        return new Contacts(
+                id, userId, name, job, association, phoneNumber, profileImgUrl, description);
+    }
+}

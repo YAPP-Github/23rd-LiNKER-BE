@@ -19,7 +19,8 @@ public class URL {
     private String value;
 
     public static URL of(String value) {
-        if (!URL_PATTERN.matcher(value).matches()) {
+
+        if (value != null && !URL_PATTERN.matcher(value).matches()) {
             throw new ApplicationException(ErrorType.INVALID_REQUEST_PARAMETER);
         }
 

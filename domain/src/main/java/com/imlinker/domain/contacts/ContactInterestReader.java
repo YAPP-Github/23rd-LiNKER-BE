@@ -23,7 +23,7 @@ public class ContactInterestReader {
     List<Tag> findAllByContact(Contacts contact) {
         List<Long> contactInterestTags =
                 contactInterestRepository.findAllByContactId(contact.id()).stream()
-                        .map(ContactInterest::contactId)
+                        .map(ContactInterest::interestId)
                         .toList();
         return tagRepository.findAllByIdIn(contactInterestTags);
     }

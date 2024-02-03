@@ -37,6 +37,26 @@ public class ContactsService {
                         param.userId(),
                         param.profileImgUrl(),
                         param.job(),
+                        param.phoneNumber(),
+                        param.association(),
+                        param.description());
+
+        List<ContactInterest> contactInterests =
+                contactInterestUpdater.update(contact.id(), param.interests());
+
+        return OperationResult.SUCCESS;
+    }
+
+    @Transactional
+    public OperationResult updateContact(UpdateContactParam param) {
+        Contacts contact =
+                contactsUpdater.update(
+                        param.id(),
+                        param.name(),
+                        param.userId(),
+                        param.profileImgUrl(),
+                        param.job(),
+                        param.phoneNumber(),
                         param.association(),
                         param.description());
 
