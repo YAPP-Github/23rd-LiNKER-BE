@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/news")
 public class NewsController {
     @GetMapping
-    @Operation(summary = "태그에 맞는 뉴스 가져오기")
+    @Operation(summary = "태그에 맞는 뉴스 가져오기 (mock)")
     public ApiResponse<List<GetNewsResponse.Entry>> getNews(@RequestParam List<String> tag) {
         List<GetNewsResponse.Entry> entries =
                 List.of(

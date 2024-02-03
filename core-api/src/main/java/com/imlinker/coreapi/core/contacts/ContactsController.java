@@ -49,7 +49,7 @@ public class ContactsController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "연락처 검색하기")
+    @Operation(summary = "연락처 검색하기 (mock)")
     public ApiResponse<SearchContactResponse.Contacts> searchContacts(@RequestParam String query) {
         SearchContactResponse.Contacts contacts =
                 new SearchContactResponse.Contacts(
