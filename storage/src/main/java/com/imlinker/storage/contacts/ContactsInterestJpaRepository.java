@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContactsInterestJpaRepository extends JpaRepository<ContactInterestEntity, Long> {
     List<ContactInterestEntity> findAllByContactId(Long contactId);
+
+    void deleteAllByContactId(Long contactId);
 }

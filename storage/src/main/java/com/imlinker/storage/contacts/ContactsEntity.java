@@ -1,6 +1,8 @@
 package com.imlinker.storage.contacts;
 
+import com.imlinker.storage.common.converters.SecureStringConverter;
 import com.imlinker.storage.common.model.BaseTimeEntity;
+import com.imlinker.storage.common.model.SecureString;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +25,10 @@ public class ContactsEntity extends BaseTimeEntity {
 
     @Column(name = "job")
     private String job;
+
+    @Column(name = "phone_number")
+    @Convert(converter = SecureStringConverter.class)
+    private SecureString phoneNumber;
 
     @Column(name = "association")
     private String association;
