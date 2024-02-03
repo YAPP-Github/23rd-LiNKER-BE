@@ -25,6 +25,7 @@ include(":storage")
 include(":common:enums")
 include(":common:error")
 
+include(":modules:aws")
 include(":modules:logging")
 include(":modules:monitoring")
 include(":modules:local-cache")

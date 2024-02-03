@@ -1,4 +1,4 @@
-package com.imlinker.domain.common;
+package com.imlinker.domain.common.model;
 
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
@@ -12,7 +12,7 @@ import lombok.*;
 public class URL {
 
     private static final String URL_REGEX =
-            "^((http|https)://)?(www\\.)?([a-zA-Z0-9가-힣.]+)\\.[a-z]{2,6}(:\\d{1,5})?(/[a-zA-Z0-9가-힣%._~/?#-]*)?$";
+            "^((http|https)://)?(www\\.)?([a-zA-Z0-9가-힣-.]+)\\.[a-z]{2,6}(:\\d{1,5})?(/[a-zA-Z0-9가-힣%._~/?#-]*)?";
 
     private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 

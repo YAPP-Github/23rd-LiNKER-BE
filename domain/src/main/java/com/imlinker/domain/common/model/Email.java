@@ -1,4 +1,4 @@
-package com.imlinker.domain.common;
+package com.imlinker.domain.common.model;
 
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;

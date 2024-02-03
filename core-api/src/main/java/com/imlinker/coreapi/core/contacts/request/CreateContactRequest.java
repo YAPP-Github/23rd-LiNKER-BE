@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.contacts.request;
 
-import com.imlinker.domain.common.PhoneNumber;
+import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.contacts.CreateContactParam;
 import com.imlinker.domain.tag.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;

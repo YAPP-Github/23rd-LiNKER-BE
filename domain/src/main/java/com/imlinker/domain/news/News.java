@@ -1,6 +1,6 @@
 package com.imlinker.domain.news;
 
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.URL;
 import lombok.Builder;
 
 @Builder
