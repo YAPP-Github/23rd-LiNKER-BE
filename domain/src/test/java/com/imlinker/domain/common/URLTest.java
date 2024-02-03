@@ -3,6 +3,7 @@ package com.imlinker.domain.common;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import org.junit.jupiter.params.ParameterizedTest;

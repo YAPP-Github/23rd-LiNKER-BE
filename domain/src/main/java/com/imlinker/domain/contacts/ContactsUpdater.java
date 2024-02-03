@@ -1,7 +1,7 @@
 package com.imlinker.domain.contacts;
 
-import com.imlinker.domain.common.PhoneNumber;
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.PhoneNumber;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.contacts.model.ContactsRepository;
 import com.imlinker.error.ApplicationException;

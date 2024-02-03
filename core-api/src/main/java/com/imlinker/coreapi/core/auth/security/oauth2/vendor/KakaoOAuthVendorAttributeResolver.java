@@ -1,7 +1,7 @@
 package com.imlinker.coreapi.core.auth.security.oauth2.vendor;
 
 import com.imlinker.domain.auth.OAuthVendor;
-import com.imlinker.domain.common.Email;
+import com.imlinker.domain.common.model.Email;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 

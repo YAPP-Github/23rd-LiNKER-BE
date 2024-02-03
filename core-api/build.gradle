@@ -9,6 +9,7 @@ dependencies {
     implementation(project(":common:error"))
     implementation(project(":common:enums"))
 
+    implementation(project(":modules:aws"))
     implementation(project(":modules:logging"))
     implementation(project(":modules:monitoring"))
     implementation(project(":modules:local-cache"))

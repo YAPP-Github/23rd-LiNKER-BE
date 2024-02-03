@@ -1,8 +1,8 @@
 package com.imlinker.domain.user;
 
 import com.imlinker.domain.auth.OAuthVendor;
-import com.imlinker.domain.common.Email;
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.Email;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.user.model.User;
 import com.imlinker.domain.user.model.UserRepository;
 import com.imlinker.error.ApplicationException;

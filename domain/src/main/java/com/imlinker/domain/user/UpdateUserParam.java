@@ -1,6 +1,6 @@
 package com.imlinker.domain.user;
 
-import com.imlinker.domain.common.Email;
+import com.imlinker.domain.common.model.Email;
 import com.imlinker.domain.tag.Tag;
 import java.util.List;
 

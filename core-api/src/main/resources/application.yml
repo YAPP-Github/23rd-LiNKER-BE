@@ -15,6 +15,7 @@ spring:
         - monitoring.yml
         - oauth/application-oauth-${spring.profiles.active}.yml
         - application-storage-${spring.profiles.active}.yml
+        - aws-${spring.profiles.active}.yml
 springdoc:
   swagger-ui:
     path: /swagger

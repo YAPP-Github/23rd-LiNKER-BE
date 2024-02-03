@@ -1,6 +1,6 @@
 package com.imlinker.domain.contacts;
 
-import com.imlinker.domain.common.PhoneNumber;
+import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.tag.Tag;
 import java.util.List;
 

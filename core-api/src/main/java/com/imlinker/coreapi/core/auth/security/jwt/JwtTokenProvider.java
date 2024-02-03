@@ -1,7 +1,7 @@
 package com.imlinker.coreapi.core.auth.security.jwt;
 
 import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContextHolder;
-import com.imlinker.domain.common.Email;
+import com.imlinker.domain.common.model.Email;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
