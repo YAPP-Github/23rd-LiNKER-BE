@@ -26,6 +26,7 @@ public class ContactsMapper {
     public static ContactsEntity toEntity(Contacts model) {
         return ContactsEntity.builder()
                 .id(model.id())
+                .name(model.name())
                 .userId(model.userId())
                 .job(model.job())
                 .association(model.association())

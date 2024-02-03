@@ -29,6 +29,12 @@ public class ContactsService {
         return contactsReader.findContactsByUserId(userId);
     }
 
+    public List<Contacts> search(String query, Long userId) {
+        List<Contacts> allUserContacts = contactsReader.findContactsByUserId(userId);
+
+        return allUserContacts.stream().filter(contact -> contact.name().contains(query)).toList();
+    }
+
     @Transactional
     public OperationResult createContact(CreateContactParam param) {
         Contacts contact =

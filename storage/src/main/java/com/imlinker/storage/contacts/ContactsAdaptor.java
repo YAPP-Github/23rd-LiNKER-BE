@@ -2,7 +2,9 @@ package com.imlinker.storage.contacts;
 
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.contacts.model.ContactsRepository;
+import com.imlinker.localcache.LocalCache;
 import com.imlinker.storage.contacts.mapper.ContactsMapper;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Component;
 public class ContactsAdaptor implements ContactsRepository {
 
     private final ContactsJpaRepository contactsJpaRepository;
+    private final LocalCache<Long, List<Contacts>> userContactsCache =
+            new LocalCache<>(100, Duration.ofSeconds(5));
 
     @Override
     public Optional<Contacts> findById(Long contactId) {
@@ -26,9 +30,12 @@ public class ContactsAdaptor implements ContactsRepository {
 
     @Override
     public List<Contacts> findAllByUserId(Long userId) {
-        return contactsJpaRepository.findAllByUserId(userId).stream()
-                .map(ContactsMapper::toModel)
-                .toList();
+        return userContactsCache.getOrPut(
+                userId,
+                (k) ->
+                        contactsJpaRepository.findAllByUserId(k).stream()
+                                .map(ContactsMapper::toModel)
+                                .toList());
     }
 
     @Override
