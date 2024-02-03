@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class ScheduleController {
 
     @GetMapping("near-term")
-    @Operation(summary = "현재시점에서 가까운 지나갔거나 다가오는 일정 가져오기 (mock)")
+    @Operation(summary = "현재시점에서 가까운 지나갔거나 다가오는 일정 가져오기")
     public ApiResponse<GetUpComingSchedulesResponse.Schedules> getUpComingSchedules(
             @RequestParam int limit, @RequestParam NearTermSearchType type) {
 
@@ -46,7 +46,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "일정 검색하기 (mock)")
+    @Operation(summary = "일정 검색하기")
     public ApiResponse<SearchSchedulesResponse.Schedules> searchSchedules(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime from,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime to,
@@ -59,6 +59,8 @@ public class ScheduleController {
                                 "일정 1",
                                 LocalDateTime.now().plusHours(1),
                                 LocalDateTime.now().plusHours(2),
+                                "#FF70B0",
+                                "설명",
                                 List.of(
                                         new SearchSchedulesResponse.SimpleContact(
                                                 1L,
@@ -70,13 +72,13 @@ public class ScheduleController {
     }
 
     @GetMapping("/{scheduleId}")
-    @Operation(summary = "일정 상세 가져오기 (mock)")
+    @Operation(summary = "일정 상세 가져오기")
     public ApiResponse<GetScheduleResponse> getSchedule(@PathVariable Long scheduleId) {
         return ApiResponse.success(new GetScheduleResponse());
     }
 
     @GetMapping("/contacts/{contactId}")
-    @Operation(summary = "연락처기반 일정 검색하기 (mock)")
+    @Operation(summary = "연락처기반 일정 검색하기")
     public ApiResponse<SearchSchedulesResponse.Schedules> getContactSchedules(
             @PathVariable Long contactId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime from,
@@ -90,6 +92,8 @@ public class ScheduleController {
                                 "일정 1",
                                 LocalDateTime.now().plusHours(1),
                                 LocalDateTime.now().plusHours(2),
+                                "#FF70B0",
+                                "설명",
                                 List.of(
                                         new SearchSchedulesResponse.SimpleContact(
                                                 1L,
@@ -100,8 +104,20 @@ public class ScheduleController {
         return ApiResponse.success(new SearchSchedulesResponse.Schedules(schedules));
     }
 
+    @PostMapping
+    @Operation(summary = "일정 생성하기")
+    public ApiResponse<OperationResult> createSchedule(@RequestBody CreateScheduleRequest request) {
+        return ApiResponse.success(OperationResult.SUCCESS);
+    }
+
+    @PutMapping
+    @Operation(summary = "일정 수정하기")
+    public ApiResponse<OperationResult> updateSchedule(@RequestBody UpdateScheduleRequest request) {
+        return ApiResponse.success(OperationResult.SUCCESS);
+    }
+
     @GetMapping("/upcoming/recommendation")
-    @Operation(summary = "다가오는 일정 추천 (mock)")
+    @Operation(summary = "다가오는 일정 추천")
     public ApiResponse<GetUpComingScheduleRecommendationResponse.Schedule>
             getUpComingScheduleRecommendation() {
         GetUpComingScheduleRecommendationResponse.Schedule response =
@@ -121,23 +137,5 @@ public class ScheduleController {
                                                         "연합뉴스",
                                                         "https://r.yna.co.kr/global/home/v01/img/yonhapnews_logo_600x600_kr01.jpg")))));
         return ApiResponse.success(response);
-    }
-
-    @PostMapping
-    @Operation(summary = "일정 생성하기 (mock)")
-    public ApiResponse<OperationResult> createSchedule(@RequestBody CreateScheduleRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
-    }
-
-    @PutMapping
-    @Operation(summary = "일정 수정하기 (mock)")
-    public ApiResponse<OperationResult> updateSchedule(@RequestBody UpdateScheduleRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
-    }
-
-    @DeleteMapping("/{scheduleId}")
-    @Operation(summary = "일정 삭제하기 (mock)")
-    public ApiResponse<OperationResult> deleteSchedule(@PathVariable Long scheduleId) {
-        return ApiResponse.success(OperationResult.SUCCESS);
     }
 }
