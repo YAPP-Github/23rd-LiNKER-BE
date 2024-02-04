@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    @Value(value = "${client.oauth-callback-url}")
+    private String clientRedirectUrl;
+
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomClientOriginHostCache clientOriginHostCache;
@@ -78,8 +84,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String redirectUri =
                 String.format(
-                        "%s/my/feed?accessToken=%s&refreshToken=%s",
-                        clientOriginHost, accessToken, refreshToken);
+                        "%s%s?accessToken=%s&refreshToken=%s",
+                        clientOriginHost,clientRedirectUrl, accessToken, refreshToken);
         getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
 
