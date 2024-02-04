@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -85,7 +84,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String redirectUri =
                 String.format(
                         "%s%s?accessToken=%s&refreshToken=%s",
-                        clientOriginHost,clientRedirectUrl, accessToken, refreshToken);
+                        clientOriginHost, clientRedirectUrl, accessToken, refreshToken);
         getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
 
