@@ -1,5 +1,6 @@
 package com.imlinker.crawler;
 
+import com.imlinker.crawler.config.CrawlerProperties;
 import com.imlinker.domain.common.URL;
 import com.imlinker.domain.news.CreateNewsParam;
 import com.imlinker.domain.news.NewsService;
@@ -12,7 +13,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -20,39 +20,23 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AsyncCrawlerService {
-    @Value("${spring.crawler.url}")
-    private String baseUrl;
 
-    @Value("${spring.crawler.class.section}")
-    private String sectionClass;
-
-    @Value("${spring.crawler.class.title}")
-    private String titleClass;
-
-    @Value("${spring.crawler.class.news}")
-    private String newsUrlClass;
-
-    @Value("${spring.crawler.class.provider}")
-    private String newsProviderClass;
-
-    @Value("${spring.crawler.class.thumb}")
-    private String thumbUrlClass;
-
+    private final CrawlerProperties crawlerProperties;
     private final NewsService newsService;
 
     @Async
     protected void crawlingTag(String section, Long tagId) throws IOException {
-        String currentUrl = baseUrl + section;
+        String currentUrl = crawlerProperties.getUrl() + section;
         Document document = Jsoup.connect(currentUrl).get();
 
-        Elements contents = document.getElementsByClass(sectionClass);
+        Elements contents = document.getElementsByClass(crawlerProperties.getSection());
         List<CreateNewsParam> createNewsParamList = new ArrayList<>();
 
         for (Element content : contents) {
-            String title = content.getElementsByClass(titleClass).text();
-            String newsUrl = content.getElementsByClass(newsUrlClass).attr("href");
-            String newsProvider = content.getElementsByClass(newsProviderClass).text();
-            String thumbUrl = content.getElementsByClass(thumbUrlClass).attr("data-src");
+            String title = content.getElementsByClass(crawlerProperties.getTitle()).text();
+            String newsUrl = content.getElementsByClass(crawlerProperties.getNews()).attr("href");
+            String newsProvider = content.getElementsByClass(crawlerProperties.getProvider()).text();
+            String thumbUrl = content.getElementsByClass(crawlerProperties.getThumb()).attr("data-src");
 
             log.info(
                     "[뉴스 크롤링] tagId: {}, title: {}, thumbnailUrl: {}, newsUrl: {}, newsProvider: {}",

@@ -1,9 +1,8 @@
 package com.imlinker.crawler;
 
-import com.imlinker.coreapi.support.response.ApiResponse;
-import com.imlinker.enums.OperationResult;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +14,8 @@ public class CrawlerController {
     private final CrawlerService crawlerService;
 
     @GetMapping
-    public ApiResponse<OperationResult> crawling() throws IOException {
+    public ResponseEntity<Void> crawling() throws IOException {
         crawlerService.getNewsDatas();
-        return ApiResponse.success(OperationResult.SUCCESS);
+        return ResponseEntity.noContent().build();
     }
 }

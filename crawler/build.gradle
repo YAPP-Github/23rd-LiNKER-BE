@@ -4,8 +4,7 @@ dependencies {
     implementation(project(":common:enums"))
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.jsoup:jsoup:1.17.2'
-    implementation project(path: ':core-api')
+    implementation "org.jsoup:jsoup:$jsoupVersion"
 }
 bootJar{
     enabled = false
