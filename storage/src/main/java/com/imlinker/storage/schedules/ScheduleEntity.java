@@ -16,6 +16,7 @@ public class ScheduleEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     String title;
     String category;
     String color;
