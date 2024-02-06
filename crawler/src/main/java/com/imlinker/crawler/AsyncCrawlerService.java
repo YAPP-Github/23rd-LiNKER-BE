@@ -1,7 +1,7 @@
 package com.imlinker.crawler;
 
 import com.imlinker.crawler.config.CrawlerProperties;
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.news.CreateNewsParam;
 import com.imlinker.domain.news.NewsService;
 import java.io.IOException;

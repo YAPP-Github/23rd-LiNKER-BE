@@ -1,0 +1,15 @@
+dependencies {
+    implementation(project(":domain"))
+    implementation(project(":common:enums"))
+    implementation(project(":common:error"))
+    implementation ("javax.xml.bind:jaxb-api:$jaxbVersion")
+    implementation("com.amazonaws:aws-java-sdk-s3:$s3SdkVersion")
+    implementation platform("software.amazon.awssdk:bom:$awsVersion")
+}
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

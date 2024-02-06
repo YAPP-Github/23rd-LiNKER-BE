@@ -1,8 +1,8 @@
 package com.imlinker.storage.user.mapper;
 
 import com.imlinker.domain.auth.OAuthVendor;
-import com.imlinker.domain.common.Email;
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.Email;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.user.model.User;
 import com.imlinker.storage.user.UserEntity;
 import lombok.AccessLevel;
@@ -25,13 +25,13 @@ public class UserMapper {
 
     public static UserEntity toEntity(User model) {
         return UserEntity.builder()
-                .id(model.getId())
-                .oauthVendor(model.getOAuthVendor().name())
-                .oauthIdentifier(model.getOAuthIdentifier())
-                .name(model.getName())
-                .profileImgUrl(model.getProfileImgUrl().getValue())
-                .email(model.getEmail().getValue())
-                .refreshToken(model.getRefreshToken())
+                .id(model.id())
+                .oauthVendor(model.oAuthVendor().name())
+                .oauthIdentifier(model.oAuthIdentifier())
+                .name(model.name())
+                .profileImgUrl(model.profileImgUrl().getValue())
+                .email(model.email().getValue())
+                .refreshToken(model.refreshToken())
                 .build();
     }
 }

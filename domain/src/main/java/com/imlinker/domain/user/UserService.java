@@ -1,6 +1,7 @@
 package com.imlinker.domain.user;
 
-import com.imlinker.domain.contacts.Contacts;
+import com.imlinker.domain.contacts.ContactsReader;
+import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.schedules.Schedules;
 import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.domain.user.model.MyProfile;
@@ -20,23 +21,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserReader userReader;
     private final UserUpdater userUpdater;
-    private final UserContactReader userContactReader;
+    private final ContactsReader contactsReader;
     private final UserInterestReader userInterestReader;
     private final UserInterestUpdater userInterestUpdater;
     private final UserScheduleReader userScheduleReader;
 
     public MyProfile getMyProfile(Long userId) {
         User user = userReader.findById(userId);
-        List<Tag> userInterests = userInterestReader.findAllByUserId(user.getId());
-        List<Contacts> contacts = userContactReader.findContactsByUserId(user.getId());
+        List<Tag> userInterests = userInterestReader.findAllByUserId(user.id());
+        List<Contacts> contacts = contactsReader.findContactsByUserId(user.id());
         List<Schedules> upcomingSchedules =
                 userScheduleReader.findUpcomingSchedules(userId, LocalDateTime.now());
 
         return MyProfile.builder()
                 .id(userId)
-                .name(user.getName())
-                .profileImgUrl(user.getProfileImgUrl())
-                .email(user.getEmail())
+                .name(user.name())
+                .profileImgUrl(user.profileImgUrl())
+                .email(user.email())
                 .interests(userInterests)
                 .contactsNum(contacts.size())
                 .scheduleNum(upcomingSchedules.size())
@@ -45,10 +46,9 @@ public class UserService {
 
     @Transactional
     public OperationResult update(UpdateUserParam param) {
-        User user = userUpdater.update(param.getId(), param.getName(), param.getEmail());
+        User user = userUpdater.update(param.id(), param.name(), param.profileImgUrl(), param.email());
 
-        List<UserInterest> userInterests =
-                userInterestUpdater.update(param.getId(), param.getInterests());
+        List<UserInterest> userInterests = userInterestUpdater.update(param.id(), param.interests());
 
         return OperationResult.SUCCESS;
     }

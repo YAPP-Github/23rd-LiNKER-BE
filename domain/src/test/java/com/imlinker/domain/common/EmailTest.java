@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.imlinker.domain.common.model.Email;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import org.junit.jupiter.params.ParameterizedTest;

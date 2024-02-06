@@ -1,14 +1,3 @@
 package com.imlinker.domain.user.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
-public class UserInterest {
-    private Long id;
-
-    private Long userId;
-
-    private Long tagId;
-}
+public record UserInterest(Long id, Long userId, Long tagId) {}

@@ -37,5 +37,4 @@ out/
 .vscode/
 
 .env
-
-/data
+data/

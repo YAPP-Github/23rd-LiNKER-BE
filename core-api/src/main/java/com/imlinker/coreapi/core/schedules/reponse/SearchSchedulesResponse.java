@@ -18,6 +18,8 @@ public class SearchSchedulesResponse {
             @Schema(description = "제목") String title,
             @Schema(description = "시작 날짜") LocalDateTime startDateTime,
             @Schema(description = "종료 날짜") LocalDateTime endDateTime,
+            @Schema(description = "색") String color,
+            @Schema(description = "설명") String description,
             @Schema(description = "연락처 List") List<SimpleContact> contacts) {}
 
     @Schema(description = "연락처")

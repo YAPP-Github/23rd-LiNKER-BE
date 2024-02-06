@@ -1,7 +1,7 @@
 package com.imlinker.domain.auth;
 
-import com.imlinker.domain.common.Email;
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.Email;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.user.UserReader;
 import com.imlinker.domain.user.UserUpdater;
 import com.imlinker.domain.user.model.User;

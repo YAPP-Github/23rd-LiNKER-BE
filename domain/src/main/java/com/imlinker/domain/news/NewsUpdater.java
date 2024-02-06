@@ -1,6 +1,6 @@
 package com.imlinker.domain.news;
 
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.news.model.News;
 import com.imlinker.domain.news.model.NewsRepository;
 import java.util.List;

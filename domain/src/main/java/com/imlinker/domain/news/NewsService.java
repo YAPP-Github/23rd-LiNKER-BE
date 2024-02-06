@@ -1,6 +1,6 @@
 package com.imlinker.domain.news;
 
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.enums.OperationResult;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

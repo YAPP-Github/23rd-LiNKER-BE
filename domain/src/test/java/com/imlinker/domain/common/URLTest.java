@@ -3,6 +3,7 @@ package com.imlinker.domain.common;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,6 +19,7 @@ class URLTest {
                 "http://www.example.com",
                 "https://example.com",
                 "http://example.com:8080",
+                "https://linker-image-dev.s3.ap-northeast-2.amazonaws.com/1/7031c295880144c98094f2a117c04738/1706968857"
             })
     public void URL_형식이라면_객체를_생성한다(String validURL) {
         URL url = assertDoesNotThrow(() -> URL.of(validURL));

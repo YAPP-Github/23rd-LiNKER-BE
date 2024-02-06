@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.auth.context;
 
-import com.imlinker.domain.common.Email;
+import com.imlinker.domain.common.model.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

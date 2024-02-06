@@ -21,4 +21,4 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 client:
-  oauth-callback-url: /my/feed
+  oauth-callback-url: /login

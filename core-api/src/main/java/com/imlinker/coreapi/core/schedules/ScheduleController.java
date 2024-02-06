@@ -59,6 +59,8 @@ public class ScheduleController {
                                 "일정 1",
                                 LocalDateTime.now().plusHours(1),
                                 LocalDateTime.now().plusHours(2),
+                                "#FF70B0",
+                                "설명",
                                 List.of(
                                         new SearchSchedulesResponse.SimpleContact(
                                                 1L,
@@ -90,6 +92,8 @@ public class ScheduleController {
                                 "일정 1",
                                 LocalDateTime.now().plusHours(1),
                                 LocalDateTime.now().plusHours(2),
+                                "#FF70B0",
+                                "설명",
                                 List.of(
                                         new SearchSchedulesResponse.SimpleContact(
                                                 1L,
@@ -98,6 +102,18 @@ public class ScheduleController {
                                         new SearchSchedulesResponse.SimpleContact(2L, "이우성", null))));
 
         return ApiResponse.success(new SearchSchedulesResponse.Schedules(schedules));
+    }
+
+    @PostMapping
+    @Operation(summary = "일정 생성하기")
+    public ApiResponse<OperationResult> createSchedule(@RequestBody CreateScheduleRequest request) {
+        return ApiResponse.success(OperationResult.SUCCESS);
+    }
+
+    @PutMapping
+    @Operation(summary = "일정 수정하기")
+    public ApiResponse<OperationResult> updateSchedule(@RequestBody UpdateScheduleRequest request) {
+        return ApiResponse.success(OperationResult.SUCCESS);
     }
 
     @GetMapping("/upcoming/recommendation")
@@ -121,23 +137,5 @@ public class ScheduleController {
                                                         "연합뉴스",
                                                         "https://r.yna.co.kr/global/home/v01/img/yonhapnews_logo_600x600_kr01.jpg")))));
         return ApiResponse.success(response);
-    }
-
-    @PostMapping
-    @Operation(summary = "일정 생성하기")
-    public ApiResponse<OperationResult> createSchedule(@RequestBody CreateScheduleRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
-    }
-
-    @PutMapping
-    @Operation(summary = "일정 수정하기")
-    public ApiResponse<OperationResult> updateSchedule(@RequestBody UpdateScheduleRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
-    }
-
-    @DeleteMapping("/{scheduleId}")
-    @Operation(summary = "일정 삭제하기")
-    public ApiResponse<OperationResult> deleteSchedule(@PathVariable Long scheduleId) {
-        return ApiResponse.success(OperationResult.SUCCESS);
     }
 }

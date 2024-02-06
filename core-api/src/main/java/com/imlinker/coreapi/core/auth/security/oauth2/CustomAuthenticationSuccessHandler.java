@@ -5,8 +5,8 @@ import com.imlinker.coreapi.core.auth.security.jwt.TokenType;
 import com.imlinker.coreapi.core.auth.security.oauth2.vendor.OAuthVendorAttributeResolver;
 import com.imlinker.domain.auth.AuthService;
 import com.imlinker.domain.auth.OAuthVendor;
-import com.imlinker.domain.common.Email;
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.Email;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.user.model.User;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    @Value(value = "${client.oauth-callback-url}")
+    private String clientRedirectUrl;
+
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomClientOriginHostCache clientOriginHostCache;
@@ -70,16 +75,16 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         User user = authService.findByOAuthInfo(oAuth2User.getVendor(), oAuthId);
         String accessToken =
-                jwtTokenProvider.generateToken(user.getId(), user.getEmail(), TokenType.ACCESS_TOKEN);
+                jwtTokenProvider.generateToken(user.id(), user.email(), TokenType.ACCESS_TOKEN);
         String refreshToken =
-                jwtTokenProvider.generateToken(user.getId(), user.getEmail(), TokenType.REFRESH_TOKEN);
+                jwtTokenProvider.generateToken(user.id(), user.email(), TokenType.REFRESH_TOKEN);
 
-        authService.updateRefreshToken(user.getId(), refreshToken);
+        authService.updateRefreshToken(user.id(), refreshToken);
 
         String redirectUri =
                 String.format(
-                        "%s/my/feed?accessToken=%s&refreshToken=%s",
-                        clientOriginHost, accessToken, refreshToken);
+                        "%s%s?accessToken=%s&refreshToken=%s",
+                        clientOriginHost, clientRedirectUrl, accessToken, refreshToken);
         getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
 

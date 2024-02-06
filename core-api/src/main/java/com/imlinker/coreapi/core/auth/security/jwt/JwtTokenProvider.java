@@ -1,14 +1,9 @@
 package com.imlinker.coreapi.core.auth.security.jwt;
 
 import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContextHolder;
-import com.imlinker.domain.common.Email;
-import com.imlinker.error.ApplicationException;
-import com.imlinker.error.ErrorType;
+import com.imlinker.domain.common.model.Email;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.io.DecodingException;
 import io.jsonwebtoken.security.Keys;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -44,26 +39,15 @@ public class JwtTokenProvider {
     }
 
     public Claims parseClaims(String token, TokenType tokenType) {
-        try {
-            SecretKey key =
-                    Keys.hmacShaKeyFor(
-                            (tokenType == TokenType.ACCESS_TOKEN
-                                            ? jwtTokenProperties.getAccess()
-                                            : jwtTokenProperties.getRefresh())
-                                    .getSecret()
-                                    .getBytes());
+        SecretKey key =
+                Keys.hmacShaKeyFor(
+                        (tokenType == TokenType.ACCESS_TOKEN
+                                        ? jwtTokenProperties.getAccess()
+                                        : jwtTokenProperties.getRefresh())
+                                .getSecret()
+                                .getBytes());
 
-            return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-
-        } catch (SecurityException e) {
-            throw new ApplicationException(ErrorType.UNAUTHORIZED, "유효하지 않은 토큰입니다.", e.getCause());
-        } catch (ExpiredJwtException e) {
-            throw new ApplicationException(ErrorType.UNAUTHORIZED, "만료된 토큰입니다.", e.getCause());
-        } catch (DecodingException e) {
-            throw new ApplicationException(ErrorType.UNAUTHORIZED, "잘못된 인증입니다.", e.getCause());
-        } catch (MalformedJwtException e) {
-            throw new ApplicationException(ErrorType.UNAUTHORIZED, "손상된 토큰입니다.", e.getCause());
-        }
+        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
     }
 
     public Authentication generateAuthentication(Claims claims) {

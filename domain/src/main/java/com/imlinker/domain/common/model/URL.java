@@ -1,4 +1,4 @@
-package com.imlinker.domain.common;
+package com.imlinker.domain.common.model;
 
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
@@ -19,7 +19,8 @@ public class URL {
     private String value;
 
     public static URL of(String value) {
-        if (!URL_PATTERN.matcher(value).matches()) {
+
+        if (value != null && !URL_PATTERN.matcher(value).matches()) {
             throw new ApplicationException(ErrorType.INVALID_REQUEST_PARAMETER);
         }
 

@@ -19,9 +19,7 @@ public class UserInterestReader {
 
     List<Tag> findAllByUserId(Long userId) {
         List<Long> userInterestTags =
-                userInterestRepository.findAllByUserId(userId).stream()
-                        .map(UserInterest::getUserId)
-                        .toList();
+                userInterestRepository.findAllByUserId(userId).stream().map(UserInterest::tagId).toList();
         return tagRepository.findAllByIdIn(userInterestTags);
     }
 }

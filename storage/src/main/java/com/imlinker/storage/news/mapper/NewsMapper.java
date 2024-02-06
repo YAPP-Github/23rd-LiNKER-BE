@@ -1,6 +1,6 @@
 package com.imlinker.storage.news.mapper;
 
-import com.imlinker.domain.common.URL;
+import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.news.model.News;
 import com.imlinker.storage.news.NewsEntity;
 import lombok.AccessLevel;
