@@ -1,6 +1,6 @@
 package com.imlinker.domain.user;
 
-import com.imlinker.domain.schedules.Schedules;
+import com.imlinker.domain.schedules.model.Schedules;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
