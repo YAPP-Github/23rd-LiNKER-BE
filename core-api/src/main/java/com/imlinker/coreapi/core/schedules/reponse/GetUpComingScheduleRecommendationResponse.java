@@ -15,6 +15,7 @@ public class GetUpComingScheduleRecommendationResponse {
             @Schema(description = "프로필 이미지 URL") String profileImgUrl,
             @Schema(description = "시작 날짜") LocalDateTime startDateTime,
             @Schema(description = "종료 날짜") LocalDateTime endDateTime,
+            @Schema(description = "참여 인원 정보") String participantsSummary,
             @Schema(description = "관심사 및 뉴스 List") List<Recommendation> recommendations) {}
 
     @Schema(description = "관심사 및 뉴스")
