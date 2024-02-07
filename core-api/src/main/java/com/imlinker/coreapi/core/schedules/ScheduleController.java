@@ -127,6 +127,7 @@ public class ScheduleController {
                         "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
                         LocalDateTime.now().plusHours(1),
                         LocalDateTime.now().plusHours(2),
+                        "이지우 외 1명",
                         List.of(
                                 new GetUpComingScheduleRecommendationResponse.Recommendation(
                                         new com.imlinker.domain.tag.Tag(1L, "스포츠"),
