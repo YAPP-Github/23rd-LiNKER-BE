@@ -6,7 +6,6 @@ import java.util.List;
 
 public record ScheduleDetail(
         Long id,
-        Long userId,
         String title,
         String category,
         String color,

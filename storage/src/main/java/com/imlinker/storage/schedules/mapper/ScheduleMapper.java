@@ -10,6 +10,7 @@ public class ScheduleMapper {
     public static Schedules toModel(ScheduleEntity entity) {
         return Schedules.builder()
                 .id(entity.getId())
+                .userId(entity.getUserId())
                 .title(entity.getTitle())
                 .description(entity.getDescription())
                 .color(entity.getColor())
@@ -22,6 +23,7 @@ public class ScheduleMapper {
     public static ScheduleEntity toEntity(Schedules model) {
         return ScheduleEntity.builder()
                 .id(model.id())
+                .userId(model.userId())
                 .title(model.title())
                 .category(model.category())
                 .color(model.color())
