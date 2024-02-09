@@ -41,8 +41,9 @@ public class ContactsController {
                                                 contact.id(),
                                                 contact.name(),
                                                 contact.profileImgUrl().getValue(),
-                                                contact.job(),
-                                                contact.association()))
+                                                contact.email().getValue(),
+                                                contact.school(),
+                                                contact.careers()))
                         .toList();
 
         return ApiResponse.success(new GetContactsResponse.Contacts(simpleContacts));
@@ -63,8 +64,9 @@ public class ContactsController {
                                                         contact.id(),
                                                         contact.name(),
                                                         contact.profileImgUrl().getValue(),
-                                                        contact.job(),
-                                                        contact.association()))
+                                                        contact.email().getValue(),
+                                                        contact.school(),
+                                                        contact.careers()))
                                 .toList());
 
         return ApiResponse.success(contacts);
@@ -83,8 +85,9 @@ public class ContactsController {
                         contactProfile.name(),
                         contactProfile.profileImgUrl().getValue(),
                         contactProfile.phoneNumber().getValue(),
-                        contactProfile.job(),
-                        contactProfile.association(),
+                        contactProfile.email().getValue(),
+                        contactProfile.school(),
+                        contactProfile.careers(),
                         contactProfile.interests());
 
         return ApiResponse.success(response);
@@ -110,6 +113,15 @@ public class ContactsController {
         UpdateContactParam param = request.toParam(contactId, userContext.getId());
         OperationResult result = service.updateContact(param);
 
+        return ApiResponse.success(result);
+    }
+
+    @DeleteMapping("/{contactId}")
+    @Operation(summary = "연락처 삭제하기")
+    public ApiResponse<OperationResult> deleteContact(
+            @PathVariable Long contactId,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        OperationResult result = service.deleteContact(contactId, userContext.getId());
         return ApiResponse.success(result);
     }
 }

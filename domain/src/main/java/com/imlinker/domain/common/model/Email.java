@@ -4,9 +4,11 @@ import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import java.util.regex.Pattern;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @ToString
+@Slf4j
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Email {
@@ -18,7 +20,8 @@ public class Email {
     private String value;
 
     public static Email of(String value) {
-        if (!EMAIL_PATTERN.matcher(value).matches()) {
+        if (value != null && !EMAIL_PATTERN.matcher(value).matches()) {
+            log.info("[Email][Invalid] (value: {})", value);
             throw new ApplicationException(ErrorType.INVALID_REQUEST_PARAMETER);
         }
 

@@ -1,5 +1,6 @@
 package com.imlinker.domain.contacts;
 
+import com.imlinker.domain.common.model.Email;
 import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.contacts.model.Contacts;
@@ -19,14 +20,23 @@ public class ContactsUpdater {
             String name,
             Long userId,
             String profileImgUrl,
-            String job,
             PhoneNumber phoneNumber,
-            String association,
+            Email email,
+            String school,
+            String careers,
             String description) {
 
         return contactsRepository.save(
                 new Contacts(
-                        null, userId, name, job, association, phoneNumber, URL.of(profileImgUrl), description));
+                        null,
+                        userId,
+                        name,
+                        school,
+                        careers,
+                        phoneNumber,
+                        email,
+                        URL.of(profileImgUrl),
+                        description));
     }
 
     public Contacts update(
@@ -34,13 +44,19 @@ public class ContactsUpdater {
             String name,
             Long userId,
             URL profileImgUrl,
-            String job,
             PhoneNumber phoneNumber,
-            String association,
+            Email email,
+            String school,
+            String careers,
             String description) {
         Contacts updatedContact =
-                fetch(id, userId).update(name, job, association, phoneNumber, profileImgUrl, description);
+                fetch(id, userId)
+                        .update(name, school, careers, phoneNumber, email, profileImgUrl, description);
         return contactsRepository.save(updatedContact);
+    }
+
+    public void delete(Long id) {
+        contactsRepository.deleteById(id);
     }
 
     public Contacts fetch(Long id, Long userId) {

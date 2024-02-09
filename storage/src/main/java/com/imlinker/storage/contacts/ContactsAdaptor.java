@@ -42,4 +42,9 @@ public class ContactsAdaptor implements ContactsRepository {
     public Contacts save(Contacts contacts) {
         return ContactsMapper.toModel(contactsJpaRepository.save(ContactsMapper.toEntity(contacts)));
     }
+
+    @Override
+    public void deleteById(Long id) {
+        contactsJpaRepository.deleteById(id);
+    }
 }

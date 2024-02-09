@@ -9,6 +9,7 @@ public record GetContactResponse(
         @Schema(description = "이름") String name,
         @Schema(description = "프로필 이미지 URL", nullable = true) String profileImgUrl,
         @Schema(description = "전화번호", nullable = true) String phoneNumber,
-        @Schema(description = "직업", nullable = true) String job,
-        @Schema(description = "소속", nullable = true) String association,
+        @Schema(description = "이메일", nullable = true) String email,
+        @Schema(description = "학력", nullable = true) String school,
+        @Schema(description = "경력", nullable = true) String careers,
         @Schema(description = "관심사") List<Tag> tags) {}
