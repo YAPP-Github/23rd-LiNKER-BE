@@ -111,7 +111,7 @@ public class ScheduleController {
     }
 
     @PostMapping
-    @Operation(summary = "일정 생성하기 (mock)")
+    @Operation(summary = "일정 생성하기")
     public ApiResponse<OperationResult> createSchedule(
             @RequestBody CreateScheduleRequest request,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
@@ -128,7 +128,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/{scheduleId}")
-    @Operation(summary = "일정 삭제하기 (mock)")
+    @Operation(summary = "일정 삭제하기")
     public ApiResponse<OperationResult> deleteSchedule(@PathVariable Long scheduleId) {
         return ApiResponse.success(OperationResult.SUCCESS);
     }

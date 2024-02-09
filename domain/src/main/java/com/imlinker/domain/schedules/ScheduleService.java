@@ -23,4 +23,9 @@ public class ScheduleService {
 
         return OperationResult.SUCCESS;
     }
+
+    public OperationResult delete(Long userId, Long scheduleId) {
+        scheduleUpdater.delete(userId, scheduleId);
+        return OperationResult.SUCCESS;
+    }
 }
