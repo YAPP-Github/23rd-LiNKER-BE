@@ -19,6 +19,7 @@ public class ContactsService {
     private final ContactInterestUpdater contactInterestUpdater;
 
     public ContactProfile getContactProfile(Long contactId, Long userId) {
+
         Contacts contact = contactsReader.findContactByIdAndUserId(userId, contactId);
         List<Tag> contactInterests = contactInterestReader.findAllByContact(contact);
 
@@ -42,9 +43,10 @@ public class ContactsService {
                         param.name(),
                         param.userId(),
                         param.profileImgUrl(),
-                        param.job(),
                         param.phoneNumber(),
-                        param.association(),
+                        param.email(),
+                        param.school(),
+                        param.careers(),
                         param.description());
 
         List<ContactInterest> contactInterests =
@@ -61,14 +63,22 @@ public class ContactsService {
                         param.name(),
                         param.userId(),
                         param.profileImgUrl(),
-                        param.job(),
                         param.phoneNumber(),
-                        param.association(),
+                        param.email(),
+                        param.school(),
+                        param.careers(),
                         param.description());
 
         List<ContactInterest> contactInterests =
                 contactInterestUpdater.update(contact.id(), param.interests());
 
+        return OperationResult.SUCCESS;
+    }
+
+    @Transactional
+    public OperationResult deleteContact(Long contactId, Long userId) {
+        Contacts contact = contactsReader.findContactByIdAndUserId(userId, contactId);
+        contactsUpdater.delete(contact.id());
         return OperationResult.SUCCESS;
     }
 }

@@ -1,5 +1,6 @@
 package com.imlinker.domain.contacts.model;
 
+import com.imlinker.domain.common.model.Email;
 import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.tag.Tag;
@@ -10,8 +11,9 @@ public record ContactProfile(
         Long userId,
         String name,
         PhoneNumber phoneNumber,
-        String job,
-        String association,
+        Email email,
+        String school,
+        String careers,
         URL profileImgUrl,
         String description,
         List<Tag> interests) {
@@ -21,8 +23,9 @@ public record ContactProfile(
                 contacts.userId(),
                 contacts.name(),
                 contacts.phoneNumber(),
-                contacts.job(),
-                contacts.association(),
+                contacts.email(),
+                contacts.school(),
+                contacts.careers(),
                 contacts.profileImgUrl(),
                 contacts.description(),
                 interests);

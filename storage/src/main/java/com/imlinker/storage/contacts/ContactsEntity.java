@@ -23,15 +23,19 @@ public class ContactsEntity extends BaseTimeEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "job")
-    private String job;
-
     @Column(name = "phone_number")
     @Convert(converter = SecureStringConverter.class)
     private SecureString phoneNumber;
 
-    @Column(name = "association")
-    private String association;
+    @Column(name = "email")
+    @Convert(converter = SecureStringConverter.class)
+    private SecureString email;
+
+    @Column(name = "school")
+    private String school;
+
+    @Column(name = "careers")
+    private String careers;
 
     @Column(name = "profile_img_url")
     private String profileImgUrl;

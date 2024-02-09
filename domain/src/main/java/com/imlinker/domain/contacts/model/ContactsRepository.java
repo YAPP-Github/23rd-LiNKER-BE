@@ -11,4 +11,6 @@ public interface ContactsRepository {
     List<Contacts> findAllByUserId(Long userId);
 
     Contacts save(Contacts contacts);
+
+    void deleteById(Long id);
 }

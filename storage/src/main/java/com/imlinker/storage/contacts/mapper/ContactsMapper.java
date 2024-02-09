@@ -1,5 +1,6 @@
 package com.imlinker.storage.contacts.mapper;
 
+import com.imlinker.domain.common.model.Email;
 import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.contacts.model.Contacts;
@@ -15,9 +16,10 @@ public class ContactsMapper {
                 .id(entity.getId())
                 .userId(entity.getUserId())
                 .name(entity.getName())
-                .job(entity.getJob())
+                .school(entity.getSchool())
                 .phoneNumber(PhoneNumber.of(entity.getPhoneNumber().getValue()))
-                .association(entity.getAssociation())
+                .email(Email.of(entity.getEmail().getValue()))
+                .careers(entity.getCareers())
                 .profileImgUrl(URL.of(entity.getProfileImgUrl()))
                 .description(entity.getDescription())
                 .build();
@@ -28,8 +30,9 @@ public class ContactsMapper {
                 .id(model.id())
                 .name(model.name())
                 .userId(model.userId())
-                .job(model.job())
-                .association(model.association())
+                .careers(model.careers())
+                .school(model.school())
+                .email(new SecureString(model.email().getValue()))
                 .description(model.description())
                 .phoneNumber(new SecureString(model.phoneNumber().getValue()))
                 .profileImgUrl(model.profileImgUrl().getValue())

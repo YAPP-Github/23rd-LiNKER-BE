@@ -4,7 +4,9 @@ import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import java.util.regex.Pattern;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -16,7 +18,8 @@ public class PhoneNumber {
     private String value;
 
     public static PhoneNumber of(String value) {
-        if (!PHONE_NUMBER_PATTERN.matcher(value).matches()) {
+        if (value != null && !PHONE_NUMBER_PATTERN.matcher(value).matches()) {
+            log.info("[PhoneNumber][Invalid] (value: {})", value);
             throw new ApplicationException(ErrorType.INVALID_REQUEST_PARAMETER);
         }
 
