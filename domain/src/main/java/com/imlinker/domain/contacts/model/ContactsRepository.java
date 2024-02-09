@@ -8,6 +8,8 @@ public interface ContactsRepository {
 
     Optional<Contacts> findByIdAndUserId(Long id, Long userId);
 
+    List<Contacts> findAllByIdIn(List<Long> contactIds);
+
     List<Contacts> findAllByUserId(Long userId);
 
     Contacts save(Contacts contacts);

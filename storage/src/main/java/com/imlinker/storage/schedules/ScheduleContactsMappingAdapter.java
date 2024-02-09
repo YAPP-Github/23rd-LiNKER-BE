@@ -51,4 +51,9 @@ public class ScheduleContactsMappingAdapter implements ScheduleParticipantReposi
                 .map(ScheduleContactMappingMapper::toModel)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteAllByScheduleId(Long scheduleId) {
+        repo.deleteAllByScheduleId(scheduleId);
+    }
 }

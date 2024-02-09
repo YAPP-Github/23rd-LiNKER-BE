@@ -11,4 +11,6 @@ public interface ScheduleParticipantRepository {
     List<ScheduleParticipant> findAllByContactId(Long contactId);
 
     List<ScheduleParticipant> findAllByScheduleId(Long scheduleId);
+
+    void deleteAllByScheduleId(Long scheduleId);
 }

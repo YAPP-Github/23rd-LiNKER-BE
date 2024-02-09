@@ -4,6 +4,8 @@ import com.imlinker.domain.schedules.model.ScheduleParticipant;
 import com.imlinker.domain.schedules.model.ScheduleParticipantRepository;
 import com.imlinker.domain.schedules.model.ScheduleRepository;
 import com.imlinker.domain.schedules.model.Schedules;
+import com.imlinker.error.ApplicationException;
+import com.imlinker.error.ErrorType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +44,17 @@ public class ScheduleUpdater {
                                                 schedules.endDateTime()))
                         .toList());
         return schedules;
+    }
+
+    @Transactional
+    public void delete(Long userId, Long scheduleId) {
+
+        Schedules schedule =
+                scheduleRepository
+                        .findByIdAndUserId(scheduleId, userId)
+                        .orElseThrow(() -> new ApplicationException(ErrorType.SCHEDULE_NOT_FOUND));
+
+        scheduleRepository.deleteByIdAndUserId(schedule.id(), schedule.userId());
+        scheduleParticipantRepository.deleteAllByScheduleId(schedule.id());
     }
 }

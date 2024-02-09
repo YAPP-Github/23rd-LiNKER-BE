@@ -15,4 +15,6 @@ public interface ScheduleContactsMappingJpaRepository
     List<ScheduleContactsMappingEntity> findAllByContactId(Long contactId);
 
     List<ScheduleContactsMappingEntity> findAllByScheduleId(Long scheduleId);
+
+    void deleteAllByScheduleId(Long scheduleId);
 }
