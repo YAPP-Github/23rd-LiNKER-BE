@@ -1,6 +1,7 @@
 package com.imlinker.storage.schedules;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.*;
 
 @Getter
@@ -9,13 +10,14 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "schedule_contacts_mapping")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class ScheduleContactsMappingEntity {
+public class ScheduleContactsMappingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    Long scheduleId;
-
-    Long contactId;
+    private Long scheduleId;
+    private Long contactId;
+    private LocalDateTime scheduleStartAt;
+    private LocalDateTime scheduleEndAt;
 }
