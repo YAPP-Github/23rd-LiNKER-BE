@@ -116,6 +116,12 @@ public class ScheduleController {
         return ApiResponse.success(OperationResult.SUCCESS);
     }
 
+    @DeleteMapping("/{scheduleId}")
+    @Operation(summary = "일정 삭제하기 (mock)")
+    public ApiResponse<OperationResult> deleteSchedule(@PathVariable Long scheduleId) {
+        return ApiResponse.success(OperationResult.SUCCESS);
+    }
+
     @GetMapping("/upcoming/recommendation")
     @Operation(summary = "다가오는 일정 추천 (mock)")
     public ApiResponse<GetUpComingScheduleRecommendationResponse.Schedule>
