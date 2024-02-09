@@ -2,6 +2,7 @@ package com.imlinker.coreapi.core.contacts.response;
 
 import com.imlinker.domain.tag.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDate;
 import java.util.List;
 
 public record GetContactResponse(
@@ -12,4 +13,5 @@ public record GetContactResponse(
         @Schema(description = "이메일", nullable = true) String email,
         @Schema(description = "학력", nullable = true) String school,
         @Schema(description = "경력", nullable = true) String careers,
-        @Schema(description = "관심사") List<Tag> tags) {}
+        @Schema(description = "관심사") List<Tag> tags,
+        @Schema(description = "최근 만난 날짜") LocalDate recentMeetingDate) {}

@@ -88,7 +88,8 @@ public class ContactsController {
                         contactProfile.email().getValue(),
                         contactProfile.school(),
                         contactProfile.careers(),
-                        contactProfile.interests());
+                        contactProfile.interests(),
+                        contactProfile.recentMeetingDate());
 
         return ApiResponse.success(response);
     }
