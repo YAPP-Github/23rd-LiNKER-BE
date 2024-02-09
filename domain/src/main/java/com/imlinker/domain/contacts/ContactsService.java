@@ -5,6 +5,7 @@ import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.tag.Tag;
 import com.imlinker.enums.OperationResult;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,9 @@ public class ContactsService {
 
         Contacts contact = contactsReader.findContactByIdAndUserId(userId, contactId);
         List<Tag> contactInterests = contactInterestReader.findAllByContact(contact);
+        LocalDate recentMeetingTime = contactsReader.findContactRecentMeetingTime(contactId);
 
-        return new ContactProfile(contact, contactInterests);
+        return new ContactProfile(contact, contactInterests, recentMeetingTime);
     }
 
     public List<Contacts> getAllContacts(Long userId) {

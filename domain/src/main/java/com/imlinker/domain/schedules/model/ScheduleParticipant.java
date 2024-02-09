@@ -1,3 +1,6 @@
 package com.imlinker.domain.schedules.model;
 
-public record ScheduleParticipant() {}
+import java.time.LocalDateTime;
+
+public record ScheduleParticipant(
+        Long scheduleId, Long contactId, LocalDateTime scheduleStartAt, LocalDateTime scheduleEndAt) {}

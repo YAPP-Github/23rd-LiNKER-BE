@@ -1,5 +1,6 @@
 package com.imlinker.domain.schedules;
 
+import com.imlinker.enums.OperationResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,4 +9,18 @@ import org.springframework.stereotype.Service;
 public class ScheduleService {
     private final ScheduleReader scheduleReader;
     private final ScheduleUpdater scheduleUpdater;
+
+    public OperationResult create(CreateScheduleParam param) {
+        scheduleUpdater.create(
+                param.userId(),
+                param.title(),
+                param.category(),
+                param.color(),
+                param.description(),
+                param.contactIds(),
+                param.startDateTime(),
+                param.endDateTime());
+
+        return OperationResult.SUCCESS;
+    }
 }

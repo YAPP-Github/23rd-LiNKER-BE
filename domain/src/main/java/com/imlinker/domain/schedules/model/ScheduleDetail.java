@@ -1,10 +1,10 @@
 package com.imlinker.domain.schedules.model;
 
+import com.imlinker.domain.contacts.model.Contacts;
 import java.time.LocalDateTime;
-import lombok.Builder;
+import java.util.List;
 
-@Builder
-public record Schedules(
+public record ScheduleDetail(
         Long id,
         Long userId,
         String title,
@@ -12,4 +12,5 @@ public record Schedules(
         String color,
         String description,
         LocalDateTime startDateTime,
-        LocalDateTime endDateTime) {}
+        LocalDateTime endDateTime,
+        List<Contacts> participants) {}

@@ -1,5 +1,7 @@
 package com.imlinker.coreapi.core.schedules;
 
+import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContext;
+import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContextHolder;
 import com.imlinker.coreapi.core.schedules.reponse.GetScheduleResponse;
 import com.imlinker.coreapi.core.schedules.reponse.GetUpComingScheduleRecommendationResponse;
 import com.imlinker.coreapi.core.schedules.reponse.GetUpComingSchedulesResponse;
@@ -8,6 +10,8 @@ import com.imlinker.coreapi.core.schedules.request.CreateScheduleRequest;
 import com.imlinker.coreapi.core.schedules.request.NearTermSearchType;
 import com.imlinker.coreapi.core.schedules.request.UpdateScheduleRequest;
 import com.imlinker.coreapi.support.response.ApiResponse;
+import com.imlinker.domain.schedules.CreateScheduleParam;
+import com.imlinker.domain.schedules.ScheduleService;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/schedules")
 @Tag(name = "Schedule API", description = "일정 관련 API")
 public class ScheduleController {
+
+    private final ScheduleService service;
 
     @GetMapping("near-term")
     @Operation(summary = "현재시점에서 가까운 지나갔거나 다가오는 일정 가져오기 (mock)")
@@ -106,13 +112,24 @@ public class ScheduleController {
 
     @PostMapping
     @Operation(summary = "일정 생성하기 (mock)")
-    public ApiResponse<OperationResult> createSchedule(@RequestBody CreateScheduleRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
+    public ApiResponse<OperationResult> createSchedule(
+            @RequestBody CreateScheduleRequest request,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        CreateScheduleParam param = request.toParam(userContext.getId());
+        OperationResult result = service.create(param);
+
+        return ApiResponse.success(result);
     }
 
     @PutMapping
     @Operation(summary = "일정 수정하기 (mock)")
     public ApiResponse<OperationResult> updateSchedule(@RequestBody UpdateScheduleRequest request) {
+        return ApiResponse.success(OperationResult.SUCCESS);
+    }
+
+    @DeleteMapping("/{scheduleId}")
+    @Operation(summary = "일정 삭제하기 (mock)")
+    public ApiResponse<OperationResult> deleteSchedule(@PathVariable Long scheduleId) {
         return ApiResponse.success(OperationResult.SUCCESS);
     }
 
