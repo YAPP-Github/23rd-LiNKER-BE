@@ -12,6 +12,7 @@ public enum ErrorType {
 
     USER_NOT_FOUND(404, "USER_NOT_FOUND", "사용자를 찾을 수 없습니다."),
     CONTACT_NOT_FOUND(404, "CONTACT_NOT_FOUND", "연락처를 찾을 수 없습니다."),
+    SCHEDULE_NOT_FOUND(404, "SCHEDULE_NOT_FOUND", "일정을 찾을 수 없습니다."),
     NEWS_NOT_FOUND(404, "NEWS_NOT_FOUND", "뉴스를 찾을 수 없습니다."),
     TAG_NOT_FOUND(404, "TAG_NOT_FOUND", "태그를 찾을 수 없습니다."),
 

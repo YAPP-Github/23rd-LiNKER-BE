@@ -2,7 +2,7 @@ package com.imlinker.domain.user;
 
 import com.imlinker.domain.contacts.ContactsReader;
 import com.imlinker.domain.contacts.model.Contacts;
-import com.imlinker.domain.schedules.Schedules;
+import com.imlinker.domain.schedules.model.Schedules;
 import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.domain.user.model.MyProfile;
 import com.imlinker.domain.user.model.User;

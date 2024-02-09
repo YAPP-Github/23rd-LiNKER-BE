@@ -1,5 +1,6 @@
 package com.imlinker.domain.contacts;
 
+import com.imlinker.domain.common.model.Email;
 import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.tag.model.Tag;
@@ -10,8 +11,9 @@ public record UpdateContactParam(
         String name,
         Long userId,
         URL profileImgUrl,
-        String job,
         PhoneNumber phoneNumber,
-        String association,
+        Email email,
+        String school,
+        String careers,
         String description,
         List<Tag> interests) {}

@@ -5,6 +5,7 @@ import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.enums.OperationResult;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,12 @@ public class ContactsService {
     private final ContactInterestUpdater contactInterestUpdater;
 
     public ContactProfile getContactProfile(Long contactId, Long userId) {
+
         Contacts contact = contactsReader.findContactByIdAndUserId(userId, contactId);
         List<Tag> contactInterests = contactInterestReader.findAllByContact(contact);
+        LocalDate recentMeetingTime = contactsReader.findContactRecentMeetingTime(contactId);
 
-        return new ContactProfile(contact, contactInterests);
+        return new ContactProfile(contact, contactInterests, recentMeetingTime);
     }
 
     public List<Contacts> getAllContacts(Long userId) {
@@ -42,9 +45,10 @@ public class ContactsService {
                         param.name(),
                         param.userId(),
                         param.profileImgUrl(),
-                        param.job(),
                         param.phoneNumber(),
-                        param.association(),
+                        param.email(),
+                        param.school(),
+                        param.careers(),
                         param.description());
 
         List<ContactInterest> contactInterests =
@@ -61,14 +65,22 @@ public class ContactsService {
                         param.name(),
                         param.userId(),
                         param.profileImgUrl(),
-                        param.job(),
                         param.phoneNumber(),
-                        param.association(),
+                        param.email(),
+                        param.school(),
+                        param.careers(),
                         param.description());
 
         List<ContactInterest> contactInterests =
                 contactInterestUpdater.update(contact.id(), param.interests());
 
+        return OperationResult.SUCCESS;
+    }
+
+    @Transactional
+    public OperationResult deleteContact(Long contactId, Long userId) {
+        Contacts contact = contactsReader.findContactByIdAndUserId(userId, contactId);
+        contactsUpdater.delete(contact.id());
         return OperationResult.SUCCESS;
     }
 }
