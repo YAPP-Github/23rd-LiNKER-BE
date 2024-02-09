@@ -6,6 +6,7 @@ import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import com.imlinker.storage.news.mapper.NewsMapper;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -25,12 +26,17 @@ public class NewsAdaptor implements NewsRepository {
     }
 
     @Override
-    public News findBytagId(Long tagId) {
+    public News findByTagId(Long tagId) {
         NewsEntity newsEntity =
                 newsJpaRepository
-                        .findBytagId(tagId)
+                        .findByTagId(tagId)
                         .orElseThrow(() -> new ApplicationException(ErrorType.NEWS_NOT_FOUND));
         return NewsMapper.toModel(newsEntity);
+    }
+
+    @Override
+    public Optional<News> findByNewsUrl(String newsUrl) {
+        return newsJpaRepository.findByNewsUrl(newsUrl).map(NewsMapper::toModel);
     }
 
     @Override

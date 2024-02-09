@@ -28,18 +28,20 @@ public class AsyncCrawlerService {
     protected void crawlingTag(String section, Long tagId) throws IOException {
         String currentUrl = crawlerProperties.getUrl() + section;
         Document document = Jsoup.connect(currentUrl).get();
-
         Elements contents = document.getElementsByClass(crawlerProperties.getSection());
         List<CreateNewsParam> createNewsParamList = new ArrayList<>();
 
         for (Element content : contents) {
             String title = content.getElementsByClass(crawlerProperties.getTitle()).text();
+
             String newsUrl = content.getElementsByClass(crawlerProperties.getNews()).attr("href");
+            if (newsService.checkDuplicateNews(newsUrl)) continue;
+
             String newsProvider = content.getElementsByClass(crawlerProperties.getProvider()).text();
             String thumbUrl = content.getElementsByClass(crawlerProperties.getThumb()).attr("data-src");
 
             log.info(
-                    "[뉴스 크롤링] tagId: {}, title: {}, thumbnailUrl: {}, newsUrl: {}, newsProvider: {}",
+                    "[뉴스 크롤링] name: {}, title: {}, thumbnailUrl: {}, newsUrl: {}, newsProvider: {}",
                     tagId,
                     title,
                     thumbUrl,

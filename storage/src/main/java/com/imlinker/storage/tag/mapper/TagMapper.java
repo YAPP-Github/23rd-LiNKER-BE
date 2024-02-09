@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 public class TagMapper {
 
     public static Tag toModel(TagEntity entity) {
-        return new Tag(entity.getId(), entity.getSection(), entity.getName());
+        return new Tag(entity.getId(), entity.getPlatformId(), entity.getName());
     }
 
     public static TagEntity toEntity(Tag model) {
-        return new TagEntity(model.getId(), model.getSection(), model.getName());
+        return new TagEntity(model.getId(), model.getPlatformId(), model.getName());
     }
 }

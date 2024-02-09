@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateTagParam {
-    private String section;
+    private Long platformId;
     private String name;
 }

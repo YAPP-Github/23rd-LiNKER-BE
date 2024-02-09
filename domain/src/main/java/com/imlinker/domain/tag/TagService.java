@@ -21,10 +21,10 @@ public class TagService {
 
     @Transactional
     public OperationResult create(CreateTagParam createTagParam) {
-        String section = createTagParam.getSection();
+        Long platformId = createTagParam.getPlatformId();
         String name = createTagParam.getName();
-        log.info("[태그 생성] section: {}, name: {}", section, name);
-        tagUpdater.create(section, name);
+        log.info("[태그 생성] section: {}, name: {}", platformId, name);
+        tagUpdater.create(platformId, name);
         return OperationResult.SUCCESS;
     }
 }

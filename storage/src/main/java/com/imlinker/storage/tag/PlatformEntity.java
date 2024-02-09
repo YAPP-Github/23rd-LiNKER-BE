@@ -1,6 +1,5 @@
 package com.imlinker.storage.tag;
 
-import com.imlinker.storage.common.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,17 +9,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @AllArgsConstructor
-@Table(name = "tags")
+@Table(name = "platforms")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TagEntity extends BaseTimeEntity {
-
+public class PlatformEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ref_platform_id")
-    private Long platformId;
-
     @Column(name = "name")
     private String name;
+
+    @Column(name = "section")
+    private String section;
 }
