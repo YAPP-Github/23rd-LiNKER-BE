@@ -1,18 +1,18 @@
 package com.imlinker.storage.tag;
 
-import com.imlinker.storage.common.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.jdbc.core.RowMapper;
 
 @Getter
 @Entity
 @AllArgsConstructor
 @Table(name = "tags")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TagEntity extends BaseTimeEntity {
+public class TagEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +20,8 @@ public class TagEntity extends BaseTimeEntity {
 
     @Column(name = "name")
     private String name;
+
+    public static RowMapper<TagEntity> getRowMapper() {
+        return (rs, rowNum) -> new TagEntity(rs.getLong("id"), rs.getString("name"));
+    }
 }

@@ -1,5 +1,6 @@
 package com.imlinker.coreapi.core.schedules.reponse;
 
+import com.imlinker.domain.schedules.model.ScheduleDetail;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,5 +19,15 @@ public class GetUpComingSchedulesResponse {
             @Schema(description = "제목") String title,
             @Schema(description = "프로필 이미지 URL") String profileImgUrl,
             @Schema(description = "시작 날짜") LocalDateTime startDateTime,
-            @Schema(description = "종료 날짜") LocalDateTime endDateTime) {}
+            @Schema(description = "종료 날짜") LocalDateTime endDateTime) {
+
+        public static SimpleSchedule fromScheduleDetail(ScheduleDetail detail) {
+            return new SimpleSchedule(
+                    detail.id(),
+                    detail.title(),
+                    detail.profileImgUrl().getValue(),
+                    detail.startDateTime(),
+                    detail.endDateTime());
+        }
+    }
 }

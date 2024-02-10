@@ -1,10 +1,12 @@
 package com.imlinker.domain.user.model;
 
+import com.imlinker.domain.tag.model.Tag;
+
 import java.util.List;
 
 public interface UserInterestRepository {
 
-    List<UserInterest> findAllByUserId(Long userId);
+    List<Tag> findAllByUserId(Long userId);
 
     UserInterest save(UserInterest userInterest);
 

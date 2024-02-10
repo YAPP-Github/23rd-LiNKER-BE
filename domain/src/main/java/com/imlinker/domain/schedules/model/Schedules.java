@@ -11,5 +11,27 @@ public record Schedules(
         String category,
         String color,
         String description,
+        int participantsNum,
         LocalDateTime startDateTime,
-        LocalDateTime endDateTime) {}
+        LocalDateTime endDateTime) {
+
+    public Schedules update(
+            String title,
+            String category,
+            String color,
+            String description,
+            int participantsNum,
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime) {
+        return new Schedules(
+                id,
+                userId,
+                title,
+                category,
+                color,
+                description,
+                participantsNum,
+                startDateTime,
+                endDateTime);
+    }
+}

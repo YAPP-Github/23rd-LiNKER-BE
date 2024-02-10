@@ -4,6 +4,7 @@ import com.imlinker.domain.contacts.model.ContactInterest;
 import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.tag.model.Tag;
+import com.imlinker.domain.schedules.ScheduleParticipantReader;
 import com.imlinker.enums.OperationResult;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,12 +19,13 @@ public class ContactsService {
     private final ContactsUpdater contactsUpdater;
     private final ContactInterestReader contactInterestReader;
     private final ContactInterestUpdater contactInterestUpdater;
+    private final ScheduleParticipantReader scheduleParticipantReader;
 
     public ContactProfile getContactProfile(Long contactId, Long userId) {
 
-        Contacts contact = contactsReader.findContactByIdAndUserId(userId, contactId);
+        Contacts contact = contactsReader.findContactByIdAndUserId(contactId, userId);
         List<Tag> contactInterests = contactInterestReader.findAllByContact(contact);
-        LocalDate recentMeetingTime = contactsReader.findContactRecentMeetingTime(contactId);
+        LocalDate recentMeetingTime = scheduleParticipantReader.findContactRecentMeetingTime(contactId);
 
         return new ContactProfile(contact, contactInterests, recentMeetingTime);
     }

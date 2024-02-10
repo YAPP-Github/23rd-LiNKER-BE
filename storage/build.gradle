@@ -6,5 +6,10 @@ dependencies {
     implementation(project(":common:error"))
     implementation(project(":modules:local-cache"))
 
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+repositories {
+    mavenCentral()
 }

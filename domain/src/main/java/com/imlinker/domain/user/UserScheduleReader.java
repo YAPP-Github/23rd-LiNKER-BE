@@ -1,5 +1,6 @@
 package com.imlinker.domain.user;
 
+import com.imlinker.domain.schedules.model.ScheduleRepository;
 import com.imlinker.domain.schedules.model.Schedules;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,8 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserScheduleReader {
 
+    private final ScheduleRepository scheduleRepository;
+
     List<Schedules> findUpcomingSchedules(Long userId, LocalDateTime baseTime) {
-        // TODO
-        return List.of();
+        return scheduleRepository.findAllUpcomingSchedules(userId, baseTime);
     }
 }
