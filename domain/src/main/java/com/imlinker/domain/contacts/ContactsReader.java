@@ -23,4 +23,8 @@ public class ContactsReader {
     public List<Contacts> findContactsByUserId(Long userId) {
         return contactsRepository.findAllByUserId(userId);
     }
+
+    public List<Contacts> findAllContactsByUserIdAndContactsIdIn(Long userId, List<Long> contactsId) {
+        return contactsRepository.findAllContactsByUserIdAndContactsIdIn(userId, contactsId);
+    }
 }

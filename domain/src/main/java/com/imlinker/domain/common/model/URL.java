@@ -20,6 +20,10 @@ public class URL {
 
     private String value;
 
+    public static URL empty() {
+        return new URL(null);
+    }
+
     public static URL of(String value) {
         if (value != null && !URL_PATTERN.matcher(value).matches()) {
             log.info("[URL][Invalid] (value: {})", value);

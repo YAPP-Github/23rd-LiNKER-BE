@@ -11,6 +11,7 @@ public record Schedules(
         String category,
         String color,
         String description,
+        int participantsNum,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime) {
 
@@ -19,9 +20,18 @@ public record Schedules(
             String category,
             String color,
             String description,
+            int participantsNum,
             LocalDateTime startDateTime,
             LocalDateTime endDateTime) {
         return new Schedules(
-                id, userId, title, category, color, description, startDateTime, endDateTime);
+                id,
+                userId,
+                title,
+                category,
+                color,
+                description,
+                participantsNum,
+                startDateTime,
+                endDateTime);
     }
 }
