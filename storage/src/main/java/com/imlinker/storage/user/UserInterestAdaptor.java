@@ -14,18 +14,18 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class UserInterestAdaptor implements UserInterestRepository {
 
-    private final UserInterestJdbcQueryRepository queryRepo;
-    private final UserInterestJpaRepository commandRepo;
+    private final UserInterestJdbcQueryRepository jdbcRepo;
+    private final UserInterestJpaRepository jpaRepo;
 
     @Override
     public List<Tag> findAllByUserId(Long userId) {
-        List<TagEntity> entities = queryRepo.findAllByUserId(userId);
+        List<TagEntity> entities = jdbcRepo.findAllByUserId(userId);
         return entities.stream().map(TagMapper::toModel).toList();
     }
 
     @Override
     public UserInterest save(UserInterest userInterest) {
-        UserInterestEntity entity = commandRepo.save(UserInterestMapper.toEntity(userInterest));
+        UserInterestEntity entity = jpaRepo.save(UserInterestMapper.toEntity(userInterest));
         return UserInterestMapper.toModel(entity);
     }
 
@@ -33,11 +33,11 @@ public class UserInterestAdaptor implements UserInterestRepository {
     public List<UserInterest> saveAll(List<UserInterest> userInterests) {
         List<UserInterestEntity> entities =
                 userInterests.stream().map(UserInterestMapper::toEntity).toList();
-        return commandRepo.saveAll(entities).stream().map(UserInterestMapper::toModel).toList();
+        return jpaRepo.saveAll(entities).stream().map(UserInterestMapper::toModel).toList();
     }
 
     @Override
     public void deleteAllByUserId(Long userId) {
-        commandRepo.deleteAllByUserId(userId);
+        jpaRepo.deleteAllByUserId(userId);
     }
 }

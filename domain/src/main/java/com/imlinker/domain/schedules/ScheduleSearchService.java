@@ -1,6 +1,5 @@
 package com.imlinker.domain.schedules;
 
-import com.imlinker.domain.contacts.ContactsReader;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.schedules.model.ScheduleDetail;
 import com.imlinker.domain.schedules.model.Schedules;
@@ -13,11 +12,11 @@ import org.springframework.stereotype.Service;
 public class ScheduleSearchService {
 
     private final ScheduleReader scheduleReader;
-    private final ContactsReader contactsReader;
+    private final ScheduleParticipantReader scheduleParticipantReader;
 
     public ScheduleDetail getScheduleDetails(Long userId, Long scheduleId) {
         Schedules schedules = scheduleReader.getSchedule(userId, scheduleId);
-        List<Contacts> participants = contactsReader.findScheduleParticipants(scheduleId);
+        List<Contacts> participants = scheduleParticipantReader.findScheduleParticipants(scheduleId);
 
         return new ScheduleDetail(
                 schedules.id(),

@@ -13,18 +13,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ContactInterestAdaptor implements ContactInterestRepository {
 
-    private final ContactInterestJdbcQueryRepository queryRepo;
-    private final ContactsInterestJpaRepository commandRepo;
+    private final ContactsInterestJpaRepository jpaRepo;
+    private final ContactInterestJdbcQueryRepository jdbcRepo;
 
     @Override
     public List<Tag> findAllByContactId(Long contactId) {
-        return queryRepo.findAllByContactId(contactId).stream().map(TagMapper::toModel).toList();
+        return jdbcRepo.findAllByContactId(contactId).stream().map(TagMapper::toModel).toList();
     }
 
     @Override
     public ContactInterest save(ContactInterest contactInterest) {
-        ContactInterestEntity entity =
-                commandRepo.save(ContactsInterestMapper.toEntity(contactInterest));
+        ContactInterestEntity entity = jpaRepo.save(ContactsInterestMapper.toEntity(contactInterest));
         return ContactsInterestMapper.toModel(entity);
     }
 
@@ -32,11 +31,11 @@ public class ContactInterestAdaptor implements ContactInterestRepository {
     public List<ContactInterest> saveAll(List<ContactInterest> contactInterests) {
         List<ContactInterestEntity> entities =
                 contactInterests.stream().map(ContactsInterestMapper::toEntity).toList();
-        return commandRepo.saveAll(entities).stream().map(ContactsInterestMapper::toModel).toList();
+        return jpaRepo.saveAll(entities).stream().map(ContactsInterestMapper::toModel).toList();
     }
 
     @Override
     public void deleteAllByContactId(Long contactId) {
-        commandRepo.deleteAllByContactId(contactId);
+        jpaRepo.deleteAllByContactId(contactId);
     }
 }

@@ -18,7 +18,7 @@ public class ContactInterestJdbcQueryRepository {
     public List<TagEntity> findAllByContactId(Long contactId) {
         String sql = """
             SELECT
-                *
+                t.*
             FROM
                 contact_interest ci
             JOIN

@@ -13,6 +13,7 @@ import com.imlinker.coreapi.support.response.ApiResponse;
 import com.imlinker.domain.schedules.CreateScheduleParam;
 import com.imlinker.domain.schedules.ScheduleSearchService;
 import com.imlinker.domain.schedules.ScheduleService;
+import com.imlinker.domain.schedules.UpdateScheduleParam;
 import com.imlinker.domain.schedules.model.ScheduleDetail;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -129,10 +130,17 @@ public class ScheduleController {
         return ApiResponse.success(result);
     }
 
-    @PutMapping
-    @Operation(summary = "일정 수정하기 (mock)")
-    public ApiResponse<OperationResult> updateSchedule(@RequestBody UpdateScheduleRequest request) {
-        return ApiResponse.success(OperationResult.SUCCESS);
+    @PutMapping("/{scheduleId}")
+    @Operation(summary = "일정 수정하기")
+    public ApiResponse<OperationResult> updateSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody UpdateScheduleRequest request,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+
+        UpdateScheduleParam param = request.toParam(userContext.getId(), scheduleId);
+        OperationResult result = scheduleService.update(param);
+
+        return ApiResponse.success(result);
     }
 
     @DeleteMapping("/{scheduleId}")

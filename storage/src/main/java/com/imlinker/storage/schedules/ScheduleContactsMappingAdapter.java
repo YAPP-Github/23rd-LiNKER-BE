@@ -16,12 +16,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ScheduleContactsMappingAdapter implements ScheduleParticipantRepository {
 
-    private final ScheduleContactJdbcQueryRepository queryRepo;
-    private final ScheduleContactsMappingJpaRepository commandRepo;
+    private final ScheduleContactJdbcQueryRepository jdbcRepo;
+    private final ScheduleContactsMappingJpaRepository jpaRepo;
 
     @Override
     public LocalDate findRecentMeetingTimeByContactId(Long contactId) {
-        return commandRepo
+        return jpaRepo
                 .findTop1ByContactIdAndScheduleStartAtIsBeforeOrderByScheduleStartAtDesc(
                         contactId, LocalDateTime.now())
                 .map(it -> it.getScheduleStartAt().toLocalDate())
@@ -31,7 +31,7 @@ public class ScheduleContactsMappingAdapter implements ScheduleParticipantReposi
     @Override
     public List<ScheduleParticipant> saveAll(List<ScheduleParticipant> scheduleParticipants) {
         List<ScheduleContactsMappingEntity> entities =
-                commandRepo.saveAll(
+                jpaRepo.saveAll(
                         scheduleParticipants.stream()
                                 .map(ScheduleContactMappingMapper::toEntity)
                                 .collect(Collectors.toList()));
@@ -42,16 +42,16 @@ public class ScheduleContactsMappingAdapter implements ScheduleParticipantReposi
 
     @Override
     public List<Contacts> findAllByContactId(Long contactId) {
-        return queryRepo.findAllByContactId(contactId).stream().map(ContactsMapper::toModel).toList();
+        return jdbcRepo.findAllByContactId(contactId).stream().map(ContactsMapper::toModel).toList();
     }
 
     @Override
     public List<Contacts> findAllByScheduleId(Long scheduleId) {
-        return queryRepo.findAllByScheduleId(scheduleId).stream().map(ContactsMapper::toModel).toList();
+        return jdbcRepo.findAllByScheduleId(scheduleId).stream().map(ContactsMapper::toModel).toList();
     }
 
     @Override
     public void deleteAllByScheduleId(Long scheduleId) {
-        commandRepo.deleteAllByScheduleId(scheduleId);
+        jpaRepo.deleteAllByScheduleId(scheduleId);
     }
 }

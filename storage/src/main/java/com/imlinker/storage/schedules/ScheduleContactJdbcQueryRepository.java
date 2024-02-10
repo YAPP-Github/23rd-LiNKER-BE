@@ -26,7 +26,7 @@ public class ScheduleContactJdbcQueryRepository {
             JOIN
                 contacts c
             ON
-                s.id=scm.ref_schedule_id
+                c.id=scm.ref_contact_id
             WHERE
                 s.id=:scheduleId
         """;
