@@ -54,9 +54,4 @@ public class ScheduleContactsMappingAdapter implements ScheduleParticipantReposi
     public void deleteAllByScheduleId(Long scheduleId) {
         commandRepo.deleteAllByScheduleId(scheduleId);
     }
-
-    @Override
-    public void deleteAllByScheduleId(Long scheduleId) {
-        repo.deleteAllByScheduleId(scheduleId);
-    }
 }
