@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             String requestUri = ((HttpServletRequest) servletRequest).getRequestURI();
             String token = ((HttpServletRequest) servletRequest).getHeader("Authorization");
             if (!whiteList.contains(requestUri) && token != null && token.startsWith("Bearer ")) {
-                log.info("[인증필터][시작] token: {}", token);
                 Claims claims =
                         jwtTokenProvider.parseClaims(token.replace("Bearer ", ""), TokenType.ACCESS_TOKEN);
                 if (claims != null) {

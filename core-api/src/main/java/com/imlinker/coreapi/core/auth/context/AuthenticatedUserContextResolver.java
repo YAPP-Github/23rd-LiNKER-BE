@@ -1,5 +1,7 @@
 package com.imlinker.coreapi.core.auth.context;
 
+import com.imlinker.error.ApplicationException;
+import com.imlinker.error.ErrorType;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -20,6 +22,15 @@ public class AuthenticatedUserContextResolver implements HandlerMethodArgumentRe
             ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory) {
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof AuthenticatedUserContextHolder)) {
+            /**
+             * oAuth 로그인 이후, SecurityContextHolder에 자동으로 CustomOAuth2User가 등록이 됨 별도의 JWT를 통한 인증/인가를 구현하고있기
+             * 때문에, ArgumentResolver에서 TypeChecking
+             */
+            throw new ApplicationException(ErrorType.UNAUTHENTICATED);
+        }
+
+        return principal;
     }
 }

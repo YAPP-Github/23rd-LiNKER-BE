@@ -1,6 +1,5 @@
 package com.imlinker.storage.news;
 
-import com.imlinker.storage.common.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "news")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class NewsEntity extends BaseTimeEntity {
+public class NewsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

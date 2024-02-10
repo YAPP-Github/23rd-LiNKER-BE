@@ -1,8 +1,8 @@
-INSERT INTO tags (name,created_at,updated_at)
-VALUES ('스포츠',NOW(),null),
-       ('엔터테인먼트',NOW(),null),
-       ('비즈니스',NOW(),null),
-       ('건강',NOW(),null),
-       ('과학/기술',NOW(),null),
-       ('우주',NOW(),null),
-       ('교육',NOW(),null);
+INSERT INTO tags (name)
+VALUES ('스포츠'),
+       ('엔터테인먼트'),
+       ('비즈니스'),
+       ('건강'),
+       ('과학/기술'),
+       ('우주'),
+       ('교육');

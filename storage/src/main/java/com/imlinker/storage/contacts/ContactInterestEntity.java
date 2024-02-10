@@ -15,9 +15,9 @@ public class ContactInterestEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "contact_id")
+    @Column(name = "ref_contact_id")
     Long contactId;
 
-    @Column(name = "tag_id")
+    @Column(name = "ref_tag_id")
     Long tagId;
 }
