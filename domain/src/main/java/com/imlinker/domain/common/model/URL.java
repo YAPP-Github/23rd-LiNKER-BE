@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class URL {
 
     private static final String URL_REGEX =
-            "^((http|https)://)?([a-zA-Z0-9가-힣.]+)\\.[a-z]{2,20}(:\\d{1,20})?(/[a-zA-Z0-9가-힣%._~/?#-]*)?$";
+            "^((http|https)://)?([a-zA-Z0-9가-힣.-]+)\\.[a-z]{2,15}(:\\d{1,8})?(/[a-zA-Z0-9가-힣%._~/?#-]*)?$";
 
     private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
