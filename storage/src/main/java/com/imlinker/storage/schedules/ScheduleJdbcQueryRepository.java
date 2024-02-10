@@ -7,14 +7,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
 public class ScheduleJdbcQueryRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    public List<ScheduleEntity> findAllNearTermSchedules(
+    public List<ScheduleEntity> findAllNearTermSchedulesWithLimit(
             SearchNearTermScheduleQueryCondition condition
     ){
         StringBuffer sql = new StringBuffer().append(

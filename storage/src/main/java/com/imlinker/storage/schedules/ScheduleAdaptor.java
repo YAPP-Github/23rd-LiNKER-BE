@@ -5,6 +5,7 @@ import com.imlinker.domain.schedules.model.Schedules;
 import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
 import com.imlinker.storage.schedules.mapper.ScheduleMapper;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,15 @@ public class ScheduleAdaptor implements ScheduleRepository {
     private final ScheduleJdbcQueryRepository jdbcRepo;
 
     @Override
+    public List<Schedules> findAllUpcomingSchedules(Long userId, LocalDateTime baseDateTime) {
+        return jpaRepo.findAllByUserIdAndStartDateTimeAfter(userId, baseDateTime).stream()
+                .map(ScheduleMapper::toModel)
+                .toList();
+    }
+
+    @Override
     public List<Schedules> findAllNearTermSchedules(SearchNearTermScheduleQueryCondition condition) {
-        return jdbcRepo.findAllNearTermSchedules(condition).stream()
+        return jdbcRepo.findAllNearTermSchedulesWithLimit(condition).stream()
                 .map(ScheduleMapper::toModel)
                 .toList();
     }
