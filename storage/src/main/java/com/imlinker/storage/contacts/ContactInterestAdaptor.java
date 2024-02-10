@@ -23,8 +23,7 @@ public class ContactInterestAdaptor implements ContactInterestRepository {
 
     @Override
     public ContactInterest save(ContactInterest contactInterest) {
-        ContactInterestEntity entity =
-                jpaRepo.save(ContactsInterestMapper.toEntity(contactInterest));
+        ContactInterestEntity entity = jpaRepo.save(ContactsInterestMapper.toEntity(contactInterest));
         return ContactsInterestMapper.toModel(entity);
     }
 
