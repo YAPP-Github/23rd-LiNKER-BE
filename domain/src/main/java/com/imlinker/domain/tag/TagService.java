@@ -21,10 +21,9 @@ public class TagService {
 
     @Transactional
     public OperationResult create(CreateTagParam createTagParam) {
-        Long platformId = createTagParam.getPlatformId();
         String name = createTagParam.getName();
-        log.info("[태그 생성] section: {}, name: {}", platformId, name);
-        tagUpdater.create(platformId, name);
+        log.info("[태그 생성] platform: {}", name);
+        tagUpdater.create(name);
         return OperationResult.SUCCESS;
     }
 }

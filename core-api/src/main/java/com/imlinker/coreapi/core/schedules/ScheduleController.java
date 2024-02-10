@@ -158,7 +158,7 @@ public class ScheduleController {
                         "이지우 외 1명",
                         List.of(
                                 new GetUpComingScheduleRecommendationResponse.Recommendation(
-                                        new com.imlinker.domain.tag.model.Tag(1L, 1L, "스포츠"),
+                                        new com.imlinker.domain.tag.model.Tag(1L, "스포츠"),
                                         List.of(
                                                 new GetUpComingScheduleRecommendationResponse.SimpleNews(
                                                         1L,

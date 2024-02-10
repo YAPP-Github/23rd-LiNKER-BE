@@ -9,15 +9,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @AllArgsConstructor
-@Table(name = "platforms")
+@Table(name = "tags_crawling")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PlatformEntity {
+public class TagCrawlingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "ref_tag_id")
+    private Long tagId;
+
+    @Column(name = "platform")
+    private String platform;
 
     @Column(name = "section")
     private String section;

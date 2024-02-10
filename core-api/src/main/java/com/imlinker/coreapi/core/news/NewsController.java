@@ -25,7 +25,7 @@ public class NewsController {
         List<GetNewsResponse.Entry> entries =
                 List.of(
                         new GetNewsResponse.Entry(
-                                new com.imlinker.domain.tag.model.Tag(1L, 1L, "스포츠"),
+                                new com.imlinker.domain.tag.model.Tag(1L, "스포츠"),
                                 List.of(
                                         new GetNewsResponse.SimpleNews(
                                                 1L,

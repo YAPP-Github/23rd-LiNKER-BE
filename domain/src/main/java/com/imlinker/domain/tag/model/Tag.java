@@ -7,6 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Tag {
     private Long id;
-    private Long platformId;
     private String name;
 }

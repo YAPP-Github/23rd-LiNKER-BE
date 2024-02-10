@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class TagUpdater {
     private final TagRepository tagRepository;
 
-    public Tag create(Long platformId, String name) {
-        return tagRepository.save(new Tag(null, platformId, name));
+    public Tag create(String name) {
+        return tagRepository.save(new Tag(null, name));
     }
 }

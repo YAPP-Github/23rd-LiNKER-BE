@@ -41,7 +41,7 @@ public class AsyncCrawlerService {
             String thumbUrl = content.getElementsByClass(crawlerProperties.getThumb()).attr("data-src");
 
             log.info(
-                    "[뉴스 크롤링] name: {}, title: {}, thumbnailUrl: {}, newsUrl: {}, newsProvider: {}",
+                    "[뉴스 크롤링] tagId: {}, title: {}, thumbnailUrl: {}, newsUrl: {}, newsProvider: {}",
                     tagId,
                     title,
                     thumbUrl,

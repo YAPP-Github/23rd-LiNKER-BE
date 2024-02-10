@@ -18,9 +18,6 @@ public class TagEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ref_platform_id")
-    private Long platformId;
-
     @Column(name = "name")
     private String name;
 }

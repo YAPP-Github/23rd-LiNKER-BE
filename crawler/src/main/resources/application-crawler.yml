@@ -6,4 +6,5 @@ spring:
     news: ${CRAWLING_NEWS}
     provider: ${CRAWLING_PROVIDER}
     thumb: ${CRAWLING_THUMB}
-  token: ${CRAWLER_TOKEN}
+  token: ${CRAWLING_TOKEN}
+  platform: ${CRAWLING_PLATFORM}

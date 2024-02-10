@@ -27,7 +27,7 @@ public class NewsService {
     public OperationResult create(
             Long tagId, String title, String thumbnailUrl, URL newsUrl, String newsProvider) {
         log.info(
-                "[뉴스 생성] name: {}, title: {}, thumbnailUrl: {}, newsUrl: {}, newsProvider: {}",
+                "[뉴스 생성] tagId: {}, title: {}, thumbnailUrl: {}, newsUrl: {}, newsProvider: {}",
                 tagId,
                 title,
                 thumbnailUrl,
