@@ -80,6 +80,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 jwtTokenProvider.generateToken(user.id(), user.email(), TokenType.REFRESH_TOKEN);
 
         authService.updateRefreshToken(user.id(), refreshToken);
+        log.info(
+                "[oAuth2][로그인][{}] (userId={}, email={})", oAuth2User.getVendor(), user.id(), user.email());
 
         String redirectUri =
                 String.format(

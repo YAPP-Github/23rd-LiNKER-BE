@@ -1,6 +1,5 @@
 package com.imlinker.storage.user;
 
-import com.imlinker.storage.common.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "user_interest")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserInterestEntity extends BaseTimeEntity {
+public class UserInterestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

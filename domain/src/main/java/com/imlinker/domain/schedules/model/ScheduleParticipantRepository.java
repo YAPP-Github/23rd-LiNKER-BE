@@ -1,5 +1,6 @@
 package com.imlinker.domain.schedules.model;
 
+import com.imlinker.domain.contacts.model.Contacts;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,9 +9,9 @@ public interface ScheduleParticipantRepository {
 
     List<ScheduleParticipant> saveAll(List<ScheduleParticipant> scheduleParticipants);
 
-    List<ScheduleParticipant> findAllByContactId(Long contactId);
+    List<Contacts> findAllByContactId(Long contactId);
 
-    List<ScheduleParticipant> findAllByScheduleId(Long scheduleId);
+    List<Contacts> findAllByScheduleId(Long scheduleId);
 
     void deleteAllByScheduleId(Long scheduleId);
 }

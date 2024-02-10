@@ -16,3 +16,11 @@ spring:
         format_sql: true
     open-in-view: false
     defer-datasource-initialization: true
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core:
+            JdbcTemplate: debug

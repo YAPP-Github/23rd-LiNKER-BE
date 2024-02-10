@@ -1,10 +1,15 @@
 package com.imlinker.storage.contacts;
 
+import com.imlinker.storage.common.converters.JdbcConverterRegistry;
 import com.imlinker.storage.common.converters.SecureStringConverter;
-import com.imlinker.storage.common.model.BaseTimeEntity;
 import com.imlinker.storage.common.model.SecureString;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.jdbc.core.RowMapper;
 
 @Getter
 @Entity
@@ -12,7 +17,8 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "contacts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ContactsEntity extends BaseTimeEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class ContactsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,4 +48,30 @@ public class ContactsEntity extends BaseTimeEntity {
     // memo: 400자
     @Column(name = "description")
     private String description;
+
+    @CreatedDate
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    public static RowMapper<ContactsEntity> getRowMapper() {
+        SecureStringConverter secureStringConverter =
+                (SecureStringConverter) JdbcConverterRegistry.getConverter(SecureString.class);
+        return ((rs, rowNum) ->
+                new ContactsEntity(
+                        rs.getLong("id"),
+                        rs.getLong("ref_user_id"),
+                        rs.getString("name"),
+                        secureStringConverter.convertToEntityAttribute(rs.getString("phone_number")),
+                        secureStringConverter.convertToEntityAttribute(rs.getString("email")),
+                        rs.getString("school"),
+                        rs.getString("careers"),
+                        rs.getString("profile_img_url"),
+                        rs.getString("description"),
+                        rs.getObject("created_at", LocalDateTime.class),
+                        rs.getObject("updated_at", LocalDateTime.class)));
+    }
 }

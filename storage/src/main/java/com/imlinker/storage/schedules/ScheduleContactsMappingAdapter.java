@@ -1,7 +1,9 @@
 package com.imlinker.storage.schedules;
 
+import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.schedules.model.ScheduleParticipant;
 import com.imlinker.domain.schedules.model.ScheduleParticipantRepository;
+import com.imlinker.storage.contacts.mapper.ContactsMapper;
 import com.imlinker.storage.schedules.mapper.ScheduleContactMappingMapper;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,11 +16,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ScheduleContactsMappingAdapter implements ScheduleParticipantRepository {
 
-    private final ScheduleContactsMappingJpaRepository repo;
+    private final ScheduleContactJdbcQueryRepository queryRepo;
+    private final ScheduleContactsMappingJpaRepository commandRepo;
 
     @Override
     public LocalDate findRecentMeetingTimeByContactId(Long contactId) {
-        return repo.findTop1ByContactIdAndScheduleStartAtIsBeforeOrderByScheduleStartAtDesc(
+        return commandRepo
+                .findTop1ByContactIdAndScheduleStartAtIsBeforeOrderByScheduleStartAtDesc(
                         contactId, LocalDateTime.now())
                 .map(it -> it.getScheduleStartAt().toLocalDate())
                 .orElse(null);
@@ -27,7 +31,7 @@ public class ScheduleContactsMappingAdapter implements ScheduleParticipantReposi
     @Override
     public List<ScheduleParticipant> saveAll(List<ScheduleParticipant> scheduleParticipants) {
         List<ScheduleContactsMappingEntity> entities =
-                repo.saveAll(
+                commandRepo.saveAll(
                         scheduleParticipants.stream()
                                 .map(ScheduleContactMappingMapper::toEntity)
                                 .collect(Collectors.toList()));
@@ -37,23 +41,17 @@ public class ScheduleContactsMappingAdapter implements ScheduleParticipantReposi
     }
 
     @Override
-    public List<ScheduleParticipant> findAllByContactId(Long contactId) {
-        List<ScheduleContactsMappingEntity> entities = repo.findAllByContactId(contactId);
-        return entities.stream()
-                .map(ScheduleContactMappingMapper::toModel)
-                .collect(Collectors.toList());
+    public List<Contacts> findAllByContactId(Long contactId) {
+        return queryRepo.findAllByContactId(contactId).stream().map(ContactsMapper::toModel).toList();
     }
 
     @Override
-    public List<ScheduleParticipant> findAllByScheduleId(Long scheduleId) {
-        List<ScheduleContactsMappingEntity> entities = repo.findAllByScheduleId(scheduleId);
-        return entities.stream()
-                .map(ScheduleContactMappingMapper::toModel)
-                .collect(Collectors.toList());
+    public List<Contacts> findAllByScheduleId(Long scheduleId) {
+        return queryRepo.findAllByScheduleId(scheduleId).stream().map(ContactsMapper::toModel).toList();
     }
 
     @Override
     public void deleteAllByScheduleId(Long scheduleId) {
-        repo.deleteAllByScheduleId(scheduleId);
+        commandRepo.deleteAllByScheduleId(scheduleId);
     }
 }
