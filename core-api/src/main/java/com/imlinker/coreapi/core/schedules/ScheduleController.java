@@ -33,14 +33,14 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     private final ScheduleSearchService scheduleSearchService;
 
-    @GetMapping("near-term")
+    @GetMapping("/near-term")
     @Operation(summary = "현재시점에서 가까운 지나갔거나 다가오는 일정 가져오기")
     public ApiResponse<GetUpComingSchedulesResponse.Schedules> getNearTermSchedules(
             @RequestParam int limit,
             @RequestParam NearTermSearchType type,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
         List<ScheduleDetail> schedules =
-                scheduleSearchService.getNearTermSchedules(
+                scheduleSearchService.searchNearTermSchedules(
                         limit, userContext.getId(), type == NearTermSearchType.UPCOMING, LocalDateTime.now());
 
         return ApiResponse.success(
@@ -51,7 +51,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "일정 검색하기 (mock)")
+    @Operation(summary = "일정 검색하기")
     public ApiResponse<SearchSchedulesResponse.Schedules> searchSchedules(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime from,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime to,
@@ -65,6 +65,7 @@ public class ScheduleController {
                                 LocalDateTime.now().plusHours(1),
                                 LocalDateTime.now().plusHours(2),
                                 "#FF70B0",
+                                "카테고리",
                                 "설명",
                                 List.of(
                                         new SearchSchedulesResponse.SimpleContact(
@@ -88,30 +89,21 @@ public class ScheduleController {
     }
 
     @GetMapping("/contacts/{contactId}")
-    @Operation(summary = "연락처기반 일정 검색하기 (mock)")
+    @Operation(summary = "연락처기반 일정 검색하기")
     public ApiResponse<SearchSchedulesResponse.Schedules> getContactSchedules(
             @PathVariable Long contactId,
+            @RequestParam int limit,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime from,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime to,
-            @RequestParam int limit) {
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
 
-        List<SearchSchedulesResponse.SimpleSchedule> schedules =
-                List.of(
-                        new SearchSchedulesResponse.SimpleSchedule(
-                                1L,
-                                "일정 1",
-                                LocalDateTime.now().plusHours(1),
-                                LocalDateTime.now().plusHours(2),
-                                "#FF70B0",
-                                "설명",
-                                List.of(
-                                        new SearchSchedulesResponse.SimpleContact(
-                                                1L,
-                                                "김태준",
-                                                "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966"),
-                                        new SearchSchedulesResponse.SimpleContact(2L, "이우성", null))));
+        List<ScheduleDetail> schedules =
+                scheduleSearchService.searchScheduleByContactAndDateRange(
+                        userContext.getId(), contactId, limit, from, to);
+        List<SearchSchedulesResponse.SimpleSchedule> response =
+                schedules.stream().map(SearchSchedulesResponse.SimpleSchedule::fromScheduleDetail).toList();
 
-        return ApiResponse.success(new SearchSchedulesResponse.Schedules(schedules));
+        return ApiResponse.success(new SearchSchedulesResponse.Schedules(response));
     }
 
     @PostMapping

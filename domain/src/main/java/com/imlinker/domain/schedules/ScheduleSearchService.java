@@ -22,10 +22,25 @@ public class ScheduleSearchService {
         return ScheduleDetail.of(schedules, participants);
     }
 
-    public List<ScheduleDetail> getNearTermSchedules(
+    public List<ScheduleDetail> searchNearTermSchedules(
             int size, Long userId, boolean isUpcoming, LocalDateTime baseDateTime) {
         List<Schedules> schedules =
                 scheduleReader.findNearTermSchedules(size, userId, isUpcoming, baseDateTime);
+        return schedules.stream()
+                .map(
+                        schedule -> {
+                            List<Contacts> participants =
+                                    scheduleParticipantReader.findScheduleParticipants(schedule.id());
+                            return ScheduleDetail.of(schedule, participants);
+                        })
+                .toList();
+    }
+
+    public List<ScheduleDetail> searchScheduleByContactAndDateRange(
+            Long userId, Long contactId, int size, LocalDateTime from, LocalDateTime to) {
+        List<Schedules> schedules =
+                scheduleReader.findScheduleByContactIdAndDateRange(userId, contactId, size, from, to);
+
         return schedules.stream()
                 .map(
                         schedule -> {
