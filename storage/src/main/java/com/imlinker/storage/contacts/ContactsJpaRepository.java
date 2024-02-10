@@ -13,4 +13,6 @@ public interface ContactsJpaRepository extends JpaRepository<ContactsEntity, Lon
     List<ContactsEntity> findAllByUserId(Long userId);
 
     List<ContactsEntity> findAllByIdIn(List<Long> ids);
+
+    List<ContactsEntity> findAllByUserIdAndIdIn(Long userId, List<Long> ids);
 }

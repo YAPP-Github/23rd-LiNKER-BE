@@ -19,7 +19,6 @@ import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,24 +34,20 @@ public class ScheduleController {
     private final ScheduleSearchService scheduleSearchService;
 
     @GetMapping("near-term")
-    @Operation(summary = "현재시점에서 가까운 지나갔거나 다가오는 일정 가져오기 (mock)")
-    public ApiResponse<GetUpComingSchedulesResponse.Schedules> getUpComingSchedules(
-            @RequestParam int limit, @RequestParam NearTermSearchType type) {
+    @Operation(summary = "현재시점에서 가까운 지나갔거나 다가오는 일정 가져오기")
+    public ApiResponse<GetUpComingSchedulesResponse.Schedules> getNearTermSchedules(
+            @RequestParam int limit,
+            @RequestParam NearTermSearchType type,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        List<ScheduleDetail> schedules =
+                scheduleSearchService.getNearTermSchedules(
+                        limit, userContext.getId(), type == NearTermSearchType.UPCOMING, LocalDateTime.now());
 
-        LocalDateTime now = LocalDateTime.now();
-        List<GetUpComingSchedulesResponse.SimpleSchedule> schedules = new ArrayList<>();
-
-        for (int i = 1; i <= limit; i++) {
-            schedules.add(
-                    new GetUpComingSchedulesResponse.SimpleSchedule(
-                            1L,
-                            "일정" + i,
-                            "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                            type == NearTermSearchType.PREV ? now.minusHours(i + 1) : now.plusHours(i),
-                            type == NearTermSearchType.PREV ? now.minusHours(i) : now.plusHours(i + 1)));
-        }
-
-        return ApiResponse.success(new GetUpComingSchedulesResponse.Schedules(schedules));
+        return ApiResponse.success(
+                new GetUpComingSchedulesResponse.Schedules(
+                        schedules.stream()
+                                .map(GetUpComingSchedulesResponse.SimpleSchedule::fromScheduleDetail)
+                                .toList()));
     }
 
     @GetMapping("/search")

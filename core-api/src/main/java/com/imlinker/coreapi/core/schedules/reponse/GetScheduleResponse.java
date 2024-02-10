@@ -12,6 +12,7 @@ public record GetScheduleResponse(
         @Schema(description = "종료 날짜") LocalDateTime endDateTime,
         @Schema(description = "색") String color,
         @Schema(description = "설명") String description,
+        @Schema(description = "프로필 이미지 URL") String profileImgUrl,
         @Schema(description = "연락처 List") List<SimpleContact> contacts) {
 
     public static GetScheduleResponse fromScheduleDetail(ScheduleDetail detail) {
@@ -22,6 +23,7 @@ public record GetScheduleResponse(
                 detail.endDateTime(),
                 detail.color(),
                 detail.description(),
+                detail.profileImgUrl().getValue(),
                 detail.participants().stream()
                         .map(
                                 contact ->

@@ -20,11 +20,20 @@ public class ScheduleUpdater {
             String category,
             String color,
             String description,
+            int participantsNum,
             LocalDateTime startDateTime,
             LocalDateTime endDateTime) {
         return scheduleRepository.save(
                 new Schedules(
-                        null, userId, title, category, color, description, startDateTime, endDateTime));
+                        null,
+                        userId,
+                        title,
+                        category,
+                        color,
+                        description,
+                        participantsNum,
+                        startDateTime,
+                        endDateTime));
     }
 
     @Transactional
@@ -35,11 +44,14 @@ public class ScheduleUpdater {
             String category,
             String color,
             String description,
+            int participantsNum,
             LocalDateTime startDateTime,
             LocalDateTime endDateTime) {
 
         Schedules updatedSchedules =
-                fetch(id, userId).update(title, category, color, description, startDateTime, endDateTime);
+                fetch(id, userId)
+                        .update(
+                                title, category, color, description, participantsNum, startDateTime, endDateTime);
 
         return scheduleRepository.save(updatedSchedules);
     }

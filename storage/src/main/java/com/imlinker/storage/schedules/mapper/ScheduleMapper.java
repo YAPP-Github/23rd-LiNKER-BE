@@ -15,6 +15,7 @@ public class ScheduleMapper {
                 .description(entity.getDescription())
                 .color(entity.getColor())
                 .description(entity.getDescription())
+                .participantsNum(entity.getParticipantsNum())
                 .startDateTime(entity.getStartDateTime())
                 .endDateTime(entity.getEndDateTime())
                 .build();
@@ -28,6 +29,7 @@ public class ScheduleMapper {
                 .category(model.category())
                 .color(model.color())
                 .description(model.description())
+                .participantsNum(model.participantsNum())
                 .startDateTime(model.startDateTime())
                 .endDateTime(model.endDateTime())
                 .build();
