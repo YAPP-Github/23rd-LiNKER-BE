@@ -2,6 +2,10 @@ package com.imlinker.storage.news;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -9,6 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "news")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class NewsEntity {
 
     @Id
@@ -29,4 +34,8 @@ public class NewsEntity {
 
     @Column(name = "news_provider")
     private String newsProvider;
+
+    @CreatedDate
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }
