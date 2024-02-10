@@ -1,6 +1,6 @@
 package com.imlinker.domain.contacts.model;
 
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import java.util.List;
 
 public interface ContactInterestRepository {

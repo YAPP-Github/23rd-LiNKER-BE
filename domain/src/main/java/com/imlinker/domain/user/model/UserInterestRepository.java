@@ -1,6 +1,6 @@
 package com.imlinker.domain.user.model;
 
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import java.util.List;
 
 public interface UserInterestRepository {

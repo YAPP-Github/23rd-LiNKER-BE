@@ -2,7 +2,7 @@ package com.imlinker.storage.contacts;
 
 import com.imlinker.domain.contacts.model.ContactInterest;
 import com.imlinker.domain.contacts.model.ContactInterestRepository;
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.storage.contacts.mapper.ContactsInterestMapper;
 import com.imlinker.storage.tag.mapper.TagMapper;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.imlinker.coreapi.core.my.response;
 
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.domain.user.model.MyProfile;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;

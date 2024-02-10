@@ -1,7 +1,7 @@
 package com.imlinker.storage.news.mapper;
 
 import com.imlinker.domain.common.model.URL;
-import com.imlinker.domain.news.News;
+import com.imlinker.domain.news.model.News;
 import com.imlinker.storage.news.NewsEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -13,18 +13,20 @@ public class NewsMapper {
                 .id(entity.getId())
                 .tagId(entity.getTagId())
                 .title(entity.getTitle())
-                .thumbnailUrl(URL.of(entity.getThumbnailUrl()))
+                .thumbnailUrl(entity.getThumbnailUrl())
+                .newsUrl(URL.of(entity.getNewsUrl()))
                 .newsProvider(entity.getNewsProvider())
                 .build();
     }
 
     public static NewsEntity toEntity(News model) {
         return NewsEntity.builder()
-                .id(model.id())
-                .tagId(model.tagId())
-                .title(model.title())
-                .thumbnailUrl(model.thumbnailUrl().getValue())
-                .newsProvider(model.newsProvider())
+                .id(model.getId())
+                .tagId(model.getTagId())
+                .title(model.getTitle())
+                .thumbnailUrl(model.getThumbnailUrl())
+                .newsProvider(model.getNewsProvider())
+                .newsUrl(model.getNewsUrl().getValue())
                 .build();
     }
 }

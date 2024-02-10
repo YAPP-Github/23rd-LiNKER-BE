@@ -1,6 +1,6 @@
 package com.imlinker.storage.user;
 
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.domain.user.model.UserInterest;
 import com.imlinker.domain.user.model.UserInterestRepository;
 import com.imlinker.storage.tag.TagEntity;

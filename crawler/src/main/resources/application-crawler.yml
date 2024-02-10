@@ -1,0 +1,10 @@
+spring:
+  crawler:
+    url: ${CRAWLING_BASE_URL}
+    section: ${CRAWLING_SECTION}
+    title: ${CRAWLING_TITLE}
+    news: ${CRAWLING_NEWS}
+    provider: ${CRAWLING_PROVIDER}
+    thumb: ${CRAWLING_THUMB}
+  token: ${CRAWLING_TOKEN}
+  platform: ${CRAWLING_PLATFORM}

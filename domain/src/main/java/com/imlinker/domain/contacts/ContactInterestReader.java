@@ -2,7 +2,7 @@ package com.imlinker.domain.contacts;
 
 import com.imlinker.domain.contacts.model.ContactInterestRepository;
 import com.imlinker.domain.contacts.model.Contacts;
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

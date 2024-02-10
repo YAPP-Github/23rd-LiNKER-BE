@@ -3,7 +3,7 @@ package com.imlinker.domain.contacts.model;
 import com.imlinker.domain.common.model.Email;
 import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.common.model.URL;
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import java.time.LocalDate;
 import java.util.List;
 

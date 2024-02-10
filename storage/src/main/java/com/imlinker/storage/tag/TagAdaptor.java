@@ -1,7 +1,7 @@
 package com.imlinker.storage.tag;
 
-import com.imlinker.domain.tag.Tag;
-import com.imlinker.domain.tag.TagRepository;
+import com.imlinker.domain.tag.model.Tag;
+import com.imlinker.domain.tag.model.TagRepository;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import com.imlinker.storage.tag.mapper.TagMapper;

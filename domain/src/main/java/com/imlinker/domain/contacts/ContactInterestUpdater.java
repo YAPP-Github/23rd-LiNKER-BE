@@ -2,7 +2,7 @@ package com.imlinker.domain.contacts;
 
 import com.imlinker.domain.contacts.model.ContactInterest;
 import com.imlinker.domain.contacts.model.ContactInterestRepository;
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class ContactInterestUpdater {
         contactInterestRepository.deleteAllByContactId(contactId);
         List<ContactInterest> updatedInterests =
                 interests.stream()
-                        .map(interest -> new ContactInterest(null, contactId, interest.id()))
+                        .map(interest -> new ContactInterest(null, contactId, interest.getId()))
                         .toList();
 
         return contactInterestRepository.saveAll(updatedInterests);

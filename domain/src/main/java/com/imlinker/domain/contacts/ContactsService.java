@@ -4,7 +4,7 @@ import com.imlinker.domain.contacts.model.ContactInterest;
 import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.schedules.ScheduleParticipantReader;
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.enums.OperationResult;
 import java.time.LocalDate;
 import java.util.List;

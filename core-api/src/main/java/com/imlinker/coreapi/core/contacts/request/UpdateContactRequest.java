@@ -4,7 +4,7 @@ import com.imlinker.domain.common.model.Email;
 import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.contacts.UpdateContactParam;
-import com.imlinker.domain.tag.Tag;
+import com.imlinker.domain.tag.model.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
