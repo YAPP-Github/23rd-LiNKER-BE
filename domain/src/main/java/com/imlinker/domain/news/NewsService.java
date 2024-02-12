@@ -25,9 +25,9 @@ public class NewsService {
         return news.isPresent();
     }
 
-    public GetNewsParam findAllByTagIdWithCursor(int size, Long tagId, Long cursorId) {
-        Tag tag = tagReader.findById(tagId);
-        List<News> newsList = newsReader.findAllByTagIdWithCursor(size, tagId, cursorId);
+    public GetNewsParam findAllByTagIdWithCursor(int size, List<Long> tagIds, Long cursorId) {
+        List<Tag> tagList = tagReader.findAllByIdIn(tagIds);
+        List<News> newsList = newsReader.findAllByTagIdWithCursor(size, tagIds, cursorId);
 
         Long nextCursor = null;
         int curListSize = newsList.size();
@@ -37,7 +37,7 @@ public class NewsService {
             nextCursor = newsList.get(curListSize - 1).getId();
         }
 
-        return new GetNewsParam(tag, newsList, nextCursor);
+        return new GetNewsParam(tagList, newsList, nextCursor);
     }
 
     @Transactional

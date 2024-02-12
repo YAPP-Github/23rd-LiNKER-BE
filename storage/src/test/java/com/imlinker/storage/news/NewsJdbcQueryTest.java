@@ -3,6 +3,7 @@ package com.imlinker.storage.news;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.imlinker.domain.news.model.query.NewsPaginationQueryCondition;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,8 @@ public class NewsJdbcQueryTest {
         NewsEntity newsEntity = NewsEntity.builder().id(1L).tagId(1L).build();
         newsJpaRepository.save(newsEntity);
 
-        NewsPaginationQueryCondition condition = new NewsPaginationQueryCondition(20, 1L, null);
+        NewsPaginationQueryCondition condition =
+                new NewsPaginationQueryCondition(20, Collections.singletonList(1L), null);
         List<NewsEntity> newsEntityList = newsJdbcQueryRepository.findAllByTagIdWithCursor(condition);
 
         assertThat(newsEntityList.get(0).getId()).isEqualTo(newsEntity.getId());

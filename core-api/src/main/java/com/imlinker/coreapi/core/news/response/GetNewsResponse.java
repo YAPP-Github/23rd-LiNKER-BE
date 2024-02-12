@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class GetNewsResponse {
     @Schema(description = "관심사 및 뉴스")
     public record Entry(
-            @Schema(description = "관심사") Tag tag,
+            @Schema(description = "관심사") List<Tag> tags,
             @Schema(description = "뉴스 List") List<SimpleNews> news,
             @Schema(description = "next cursor ID") Long nextCursor) {}
 

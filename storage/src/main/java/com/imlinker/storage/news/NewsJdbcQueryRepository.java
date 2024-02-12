@@ -21,7 +21,7 @@ public class NewsJdbcQueryRepository {
                         FROM
                         news
                         WHERE
-                        ref_tag_id=:tagId
+                        ref_tag_id IN (:tagIds)
                         AND
                         id < :cursorId
                         ORDER BY
@@ -29,8 +29,9 @@ public class NewsJdbcQueryRepository {
                         LIMIT :limit
                 """;
 
+
         MapSqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("tagId", condition.tagId())
+                .addValue("tagIds", condition.tagIds())
                 .addValue("cursorId", condition.cursorId() == null? 9223372036854775807L : condition.cursorId())
                 .addValue("limit", condition.size());
 

@@ -15,6 +15,10 @@ public class TagReader {
         return tagRepository.findById(id);
     }
 
+    public List<Tag> findAllByIdIn(List<Long> ids) {
+        return tagRepository.findAllByIdIn(ids);
+    }
+
     public List<Tag> findAll() {
         return tagRepository.findAll();
     }

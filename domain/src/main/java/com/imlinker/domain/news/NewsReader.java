@@ -17,9 +17,9 @@ public class NewsReader {
         return newsRepository.findByNewsUrl(newsUrl);
     }
 
-    public List<News> findAllByTagIdWithCursor(int size, Long tagId, Long cursorId) {
+    public List<News> findAllByTagIdWithCursor(int size, List<Long> tagIds, Long cursorId) {
         NewsPaginationQueryCondition condition =
-                new NewsPaginationQueryCondition(size, tagId, cursorId);
+                new NewsPaginationQueryCondition(size, tagIds, cursorId);
         return newsRepository.findAllByTagIdWithCursor(condition);
     }
 }
