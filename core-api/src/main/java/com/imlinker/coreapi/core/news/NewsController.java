@@ -2,6 +2,7 @@ package com.imlinker.coreapi.core.news;
 
 import com.imlinker.coreapi.core.news.response.GetNewsResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
+import com.imlinker.domain.news.GetNewsParam;
 import com.imlinker.domain.news.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,8 +33,26 @@ public class NewsController {
                                                 "스포츠",
                                                 "연합뉴스",
                                                 "https://r.yna.co.kr/global/home",
-                                                "https://r.yna.co.kr/global/home/v01/img/yonhapnews_logo_600x600_kr01.jpg\""))));
+                                                "https://r.yna.co.kr/global/home/v01/img/yonhapnews_logo_600x600_kr01.jpg\"")),
+                                1L));
 
         return ApiResponse.success(entries);
+    }
+
+    @GetMapping("/profile")
+    @Operation(summary = "지인 프로필 - 태그에 맞는 뉴스 가져오기 (pagination)")
+    public ApiResponse<GetNewsResponse.Entry> getProfileNews(
+            @RequestParam int size,
+            @RequestParam Long tagId,
+            @RequestParam(required = false) Long cursorId) {
+        GetNewsParam getNewsParam = newsService.findAllByTagIdWithCursor(size, tagId, cursorId);
+
+        GetNewsResponse.Entry entry =
+                new GetNewsResponse.Entry(
+                        getNewsParam.tag(),
+                        getNewsParam.news().stream().map(GetNewsResponse.SimpleNews::fromNews).toList(),
+                        getNewsParam.nextCursor());
+
+        return ApiResponse.success(entry);
     }
 }

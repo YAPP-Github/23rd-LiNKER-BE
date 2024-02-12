@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 public class TagReader {
     private final TagRepository tagRepository;
 
+    public Tag findById(Long id) {
+        return tagRepository.findById(id);
+    }
+
     public List<Tag> findAll() {
         return tagRepository.findAll();
     }

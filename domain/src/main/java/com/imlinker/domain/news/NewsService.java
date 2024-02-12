@@ -2,6 +2,8 @@ package com.imlinker.domain.news;
 
 import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.news.model.News;
+import com.imlinker.domain.tag.TagReader;
+import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.enums.OperationResult;
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +18,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class NewsService {
     private final NewsUpdater newsUpdater;
     private final NewsReader newsReader;
+    private final TagReader tagReader;
 
     public Boolean checkDuplicateNews(String newsUrl) {
         Optional<News> news = newsReader.findByNewsUrl(newsUrl);
-        if (news.isPresent()) return true;
-        else return false;
+        return news.isPresent();
+    }
+
+    public GetNewsParam findAllByTagIdWithCursor(int size, Long tagId, Long cursorId) {
+        Tag tag = tagReader.findById(tagId);
+        List<News> newsList = newsReader.findAllByTagIdWithCursor(size, tagId, cursorId);
+
+        Long nextCursor = null;
+        int curListSize = newsList.size();
+        if (curListSize < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = newsList.get(curListSize - 1).getId();
+        }
+
+        return new GetNewsParam(tag, newsList, nextCursor);
     }
 
     @Transactional
