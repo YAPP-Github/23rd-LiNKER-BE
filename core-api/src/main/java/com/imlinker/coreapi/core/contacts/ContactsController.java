@@ -50,6 +50,27 @@ public class ContactsController {
         return ApiResponse.success(new GetContactsResponse.Contacts(simpleContacts));
     }
 
+    @GetMapping("/bookmarks")
+    @Operation(summary = "즐겨찾기 된 연락처 모두 가져오기")
+    public ApiResponse<GetContactsResponse.Contacts> getBookMarkContacts(
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        List<Contacts> contacts = service.getAllBookMarkContacts(userContext.getId());
+        List<GetContactsResponse.SimpleContact> simpleContacts =
+                contacts.stream()
+                        .map(
+                                contact ->
+                                        new GetContactsResponse.SimpleContact(
+                                                contact.id(),
+                                                contact.name(),
+                                                contact.profileImgUrl().getValue(),
+                                                contact.email().getValue(),
+                                                contact.school(),
+                                                contact.careers()))
+                        .toList();
+
+        return ApiResponse.success(new GetContactsResponse.Contacts(simpleContacts));
+    }
+
     @GetMapping("/search")
     @Operation(summary = "연락처 검색하기")
     public ApiResponse<SearchContactResponse.Contacts> searchContacts(
@@ -106,6 +127,15 @@ public class ContactsController {
         return ApiResponse.success(result);
     }
 
+    @PostMapping("/{contactId}/bookmark")
+    @Operation(summary = "연락처 즐겨찾기")
+    public ApiResponse<OperationResult> bookMarkContact(
+            @PathVariable Long contactId,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        OperationResult result = service.bookmark(userContext.getId(), contactId);
+        return ApiResponse.success(result);
+    }
+
     @PutMapping("/{contactId}")
     @Operation(summary = "연락처 수정하기")
     public ApiResponse<OperationResult> updateContact(
@@ -124,6 +154,15 @@ public class ContactsController {
             @PathVariable Long contactId,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
         OperationResult result = service.deleteContact(contactId, userContext.getId());
+        return ApiResponse.success(result);
+    }
+
+    @DeleteMapping("/{contactId}/bookmark")
+    @Operation(summary = "연락처 즐겨찾기 해제")
+    public ApiResponse<OperationResult> unBookMarkContact(
+            @PathVariable Long contactId,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        OperationResult result = service.unBookmark(userContext.getId(), contactId);
         return ApiResponse.success(result);
     }
 }
