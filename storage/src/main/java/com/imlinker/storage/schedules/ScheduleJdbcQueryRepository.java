@@ -17,7 +17,10 @@ public class ScheduleJdbcQueryRepository {
     public List<ScheduleEntity> findAllNearTermSchedulesWithLimit(
             SearchNearTermScheduleQueryCondition condition
     ){
-        StringBuffer sql = new StringBuffer().append(
+        LocalDateTime startRange = condition.isUpcoming()? condition.baseDateTime() : condition.baseDateTime().minusWeeks(2);
+        LocalDateTime endRange = condition.isUpcoming()? condition.baseDateTime().plusWeeks(2) : condition.baseDateTime();
+
+        String sql =
         """
             SELECT 
                 s.*
@@ -25,27 +28,19 @@ public class ScheduleJdbcQueryRepository {
                 schedules s
             WHERE 1=1
             AND ref_user_id=:userId
+            AND s.start_date_time BETWEEN :start_range AND :end_range
             ORDER BY s.start_date_time
-        """);
-
-        if(condition.isUpcoming()){
-            sql
-                    .append("AND s.start_date_time > :baseDateTime\n")
-                    .append("ORDER BY s.start_date_time ASC\n");
-        }else{
-            sql
-                    .append("AND s.start_date_time < :baseDateTime\n")
-                    .append("ORDER BY s.start_date_time DESC\n");
-        }
-        sql.append("LIMIT :limit");
+            LIMIT :limit
+        """;
 
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("limit",condition.size())
                 .addValue("userId",condition.userId())
-                .addValue("baseDateTime",condition.baseDateTime());
+                .addValue("start_range",startRange)
+                .addValue("end_range",endRange);
 
-        return jdbcTemplate.query(sql.toString(),namedParameters,ScheduleEntity.getRowMapper());
+        return jdbcTemplate.query(sql,namedParameters,ScheduleEntity.getRowMapper());
     }
 
     public List<ScheduleEntity> findByContactIdAndDateRange(
@@ -67,7 +62,7 @@ public class ScheduleJdbcQueryRepository {
                     AND (
                             s.start_date_time BETWEEN :from AND :to
                             OR s.end_date_time BETWEEN :from AND :to
-                    )
+                    ) 
                     ORDER BY s.start_date_time
                     LIMIT :limit
                 """;
