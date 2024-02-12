@@ -25,6 +25,7 @@ public class ScheduleJdbcQueryRepository {
                 schedules s
             WHERE 1=1
             AND ref_user_id=:userId
+            ORDER BY s.start_date_time
         """);
 
         if(condition.isUpcoming()){

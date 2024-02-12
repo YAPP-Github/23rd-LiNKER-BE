@@ -18,6 +18,7 @@ import com.imlinker.domain.schedules.model.ScheduleDetail;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -109,7 +110,7 @@ public class ScheduleController {
     @PostMapping
     @Operation(summary = "일정 생성하기")
     public ApiResponse<OperationResult> createSchedule(
-            @RequestBody CreateScheduleRequest request,
+            @Valid @RequestBody CreateScheduleRequest request,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
         CreateScheduleParam param = request.toParam(userContext.getId());
         OperationResult result = scheduleService.create(param);
@@ -121,7 +122,7 @@ public class ScheduleController {
     @Operation(summary = "일정 수정하기")
     public ApiResponse<OperationResult> updateSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody UpdateScheduleRequest request,
+            @Valid @RequestBody UpdateScheduleRequest request,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
 
         UpdateScheduleParam param = request.toParam(userContext.getId(), scheduleId);

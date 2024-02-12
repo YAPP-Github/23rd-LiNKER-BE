@@ -5,12 +5,13 @@ import com.imlinker.domain.common.model.PhoneNumber;
 import com.imlinker.domain.contacts.CreateContactParam;
 import com.imlinker.domain.tag.model.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 public record CreateContactRequest(
-        @Schema(description = "이름") String name,
+        @NotBlank @Schema(description = "이름") String name,
         @Schema(description = "프로필 이미지 URL") String profileImgUrl,
-        @Schema(description = "핸드폰번호") String phoneNumber,
+        @NotBlank @Schema(description = "핸드폰번호") String phoneNumber,
         @Schema(description = "이메일", nullable = true) String email,
         @Schema(description = "학력", nullable = true) String school,
         @Schema(description = "경력", nullable = true) String careers,

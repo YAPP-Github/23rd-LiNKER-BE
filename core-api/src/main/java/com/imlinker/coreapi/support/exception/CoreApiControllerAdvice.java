@@ -14,7 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
@@ -24,6 +28,42 @@ public class CoreApiControllerAdvice {
 
     private final Environment env;
     private final ObjectMapper objectMapper;
+
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Object>> handleHttpMethodNotSupportedException(
+            HttpRequestMethodNotSupportedException e) {
+        return handleException(
+                new ApplicationException(
+                        ErrorType.METHOD_NOT_ALLOWED, ErrorType.METHOD_NOT_ALLOWED.getMessage(), e));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Object>> handleHttpMethodNotReadableException(
+            HttpMessageNotReadableException e) {
+        return handleException(
+                new ApplicationException(ErrorType.INVALID_REQUEST_PARAMETER, "잘못된 HttpBody 형식입니다.", e));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Object>> handleRequestValidException(
+            MethodArgumentNotValidException e) {
+        StringBuilder builder = new StringBuilder();
+        e.getBindingResult()
+                .getFieldErrors()
+                .forEach(
+                        fieldError -> {
+                            builder
+                                    .append(
+                                            String.format(
+                                                    "[%s](은)는 %s", fieldError.getField(), fieldError.getDefaultMessage()))
+                                    .append("\n");
+                        });
+        String message = builder.toString();
+
+        return handleException(
+                new ApplicationException(ErrorType.INVALID_REQUEST_PARAMETER, message, e));
+    }
 
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ApiResponse<Object>> handleApplicationException(ApplicationException e) {

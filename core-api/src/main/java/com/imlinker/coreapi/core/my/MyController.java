@@ -10,6 +10,7 @@ import com.imlinker.domain.user.model.MyProfile;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class MyController {
     @Operation(summary = "내 정보 수정하기")
     public ApiResponse<OperationResult> updateMyInfo(
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext,
-            @RequestBody UpdateMyInfoRequest request) {
+            @Valid @RequestBody UpdateMyInfoRequest request) {
         OperationResult result = service.update(request.toParam(userContext.getId()));
         return ApiResponse.success(result);
     }

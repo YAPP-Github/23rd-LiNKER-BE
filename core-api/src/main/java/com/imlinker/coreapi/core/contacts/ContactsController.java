@@ -16,6 +16,7 @@ import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -97,7 +98,7 @@ public class ContactsController {
     @PostMapping
     @Operation(summary = "연락처 생성하기")
     public ApiResponse<OperationResult> createContact(
-            @RequestBody CreateContactRequest request,
+            @Valid @RequestBody CreateContactRequest request,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
         CreateContactParam param = request.toParam(userContext.getId());
         OperationResult result = service.createContact(param);
@@ -109,7 +110,7 @@ public class ContactsController {
     @Operation(summary = "연락처 수정하기")
     public ApiResponse<OperationResult> updateContact(
             @PathVariable Long contactId,
-            @RequestBody UpdateContactRequest request,
+            @Valid @RequestBody UpdateContactRequest request,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
         UpdateContactParam param = request.toParam(contactId, userContext.getId());
         OperationResult result = service.updateContact(param);
