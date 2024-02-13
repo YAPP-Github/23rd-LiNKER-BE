@@ -2,6 +2,7 @@ package com.imlinker.storage.news;
 
 import com.imlinker.domain.news.model.News;
 import com.imlinker.domain.news.model.NewsRepository;
+import com.imlinker.domain.news.model.query.NewsPaginationQueryCondition;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import com.imlinker.storage.news.mapper.NewsMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 public class NewsAdaptor implements NewsRepository {
 
     private final NewsJpaRepository newsJpaRepository;
+    private final NewsJdbcQueryRepository newsJdbcQueryRepository;
 
     @Override
     public News findById(Long id) {
@@ -32,6 +34,13 @@ public class NewsAdaptor implements NewsRepository {
                         .findByTagId(tagId)
                         .orElseThrow(() -> new ApplicationException(ErrorType.NEWS_NOT_FOUND));
         return NewsMapper.toModel(newsEntity);
+    }
+
+    @Override
+    public List<News> findAllByTagIdWithCursor(NewsPaginationQueryCondition condition) {
+        return newsJdbcQueryRepository.findAllByTagIdWithCursor(condition).stream()
+                .map(NewsMapper::toModel)
+                .toList();
     }
 
     @Override

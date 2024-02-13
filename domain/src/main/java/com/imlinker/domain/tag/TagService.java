@@ -15,6 +15,10 @@ public class TagService {
     private final TagReader tagReader;
     private final TagUpdater tagUpdater;
 
+    public Tag getTag(Long id) {
+        return tagReader.findById(id);
+    }
+
     public List<Tag> getTags() {
         return tagReader.findAll();
     }

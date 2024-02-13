@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.jdbc.core.RowMapper;
 
 @Getter
 @Entity
@@ -37,4 +38,16 @@ public class NewsEntity {
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    public static RowMapper<NewsEntity> getRowMapper() {
+        return ((rs, rowNum) ->
+                new NewsEntity(
+                        rs.getLong("id"),
+                        rs.getLong("ref_tag_id"),
+                        rs.getString("title"),
+                        rs.getString("thumbnail_url"),
+                        rs.getString("news_url"),
+                        rs.getString("news_provider"),
+                        rs.getObject("created_at", LocalDateTime.class)));
+    }
 }
