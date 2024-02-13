@@ -20,8 +20,8 @@ public class NewsController {
 
     private final NewsService newsService;
 
-    @GetMapping("/profile")
-    @Operation(summary = "태그에 맞는 뉴스 가져오기 - 지인 프로필/트렌드 핫이슈 (pagination)")
+    @GetMapping()
+    @Operation(summary = "태그에 맞는 뉴스 가져오기 (pagination)")
     public ApiResponse<GetNewsResponse.Entry> getProfileNews(
             @RequestParam(defaultValue = "20") int size,
             @RequestParam List<Long> tagIds,
