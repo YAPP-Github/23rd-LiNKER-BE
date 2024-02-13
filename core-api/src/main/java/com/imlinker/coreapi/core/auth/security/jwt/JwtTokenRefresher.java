@@ -4,6 +4,7 @@ import com.imlinker.domain.auth.AuthService;
 import com.imlinker.domain.user.model.User;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +23,23 @@ public class JwtTokenRefresher {
         Long userId = extractUserId(accessToken);
         User user = authService.findByUserId(userId);
 
-        if (user.refreshToken() == null || !user.refreshToken().equals(refreshToken)) {
-            log.info("[AccessToken][재발급][실패] refreshToken이 존재하지 않거나, 일치하지 않음 (userId={})", user.id());
-            throw new ApplicationException(ErrorType.UNAUTHORIZED);
+        // if (user.refreshToken() == null || !user.refreshToken().equals(refreshToken)) {
+        //    log.info("[AccessToken][재발급][실패] refreshToken이 존재하지 않거나, 일치하지 않음 (userId={})", user.id());
+        //    throw new ApplicationException(ErrorType.UNAUTHORIZED);
+        // }
+
+        Claims claims = provider.parseClaims(refreshToken, TokenType.REFRESH_TOKEN);
+        if (claims.getExpiration().before(new Date())) {
+            log.info("[AccessToken][재발급][실패] 이미 만료된 RefreshToken (userId={})", user.id());
+            throw new ApplicationException(ErrorType.UNAUTHORIZED, "만료된 RefreshToken 입니다.", null);
         }
 
-        Date expiration = provider.parseClaims(refreshToken, TokenType.REFRESH_TOKEN).getExpiration();
-        if (expiration.before(new Date())) {
-            log.info("[AccessToken][재발급][실패] 이미 만료된 RefreshToken (userId={})", user.id());
-            throw new ApplicationException(ErrorType.UNAUTHORIZED);
+        if (Long.parseLong(claims.get("id").toString()) != userId) {
+            log.info(
+                    "[AccessToken][재발급][실패] RefreshToken의 id와 AccessToken의 id가 일치하지 않음 (userId={})",
+                    user.id());
+            throw new ApplicationException(
+                    ErrorType.UNAUTHORIZED, "AccessToken과 RefresToken의 사용자가 일치하지 않습니다.", null);
         }
 
         String reIssuedAccessToken =
