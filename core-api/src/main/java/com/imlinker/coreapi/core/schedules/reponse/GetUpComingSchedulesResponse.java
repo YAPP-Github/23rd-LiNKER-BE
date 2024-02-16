@@ -18,16 +18,35 @@ public class GetUpComingSchedulesResponse {
             @Schema(description = "식별자") Long scheduleId,
             @Schema(description = "제목") String title,
             @Schema(description = "프로필 이미지 URL") String profileImgUrl,
+            @Schema(description = "색") String color,
+            @Schema(description = "카테고리") String category,
             @Schema(description = "시작 날짜") LocalDateTime startDateTime,
-            @Schema(description = "종료 날짜") LocalDateTime endDateTime) {
+            @Schema(description = "종료 날짜") LocalDateTime endDateTime,
+            @Schema(description = "연락처 List") List<SimpleContact> contacts) {
 
         public static SimpleSchedule fromScheduleDetail(ScheduleDetail detail) {
             return new SimpleSchedule(
                     detail.id(),
                     detail.title(),
                     detail.profileImgUrl().getValue(),
+                    detail.color(),
+                    detail.category(),
                     detail.startDateTime(),
-                    detail.endDateTime());
+                    detail.endDateTime(),
+                    detail.participants().stream()
+                            .map(
+                                    participant ->
+                                            new SimpleContact(
+                                                    participant.id(),
+                                                    participant.name(),
+                                                    participant.profileImgUrl().getValue()))
+                            .toList());
         }
+
+        @Schema(description = "연락처")
+        public record SimpleContact(
+                @Schema(description = "식별자") Long contactId,
+                @Schema(description = "이름") String name,
+                @Schema(description = "프로필 이미지 URL") String profileImgUrl) {}
     }
 }

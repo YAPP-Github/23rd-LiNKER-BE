@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @AllArgsConstructor
-@Table(name = "contacts_bookmark")
+@Table(
+        name = "contacts_bookmark",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"ref_user_id", "ref_contact_id"})})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ContactsBookmarkEntity {
     @Id

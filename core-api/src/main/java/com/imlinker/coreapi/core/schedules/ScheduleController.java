@@ -52,7 +52,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "일정 검색하기")
+    @Operation(summary = "일정 검색하기 (mock)")
     public ApiResponse<SearchSchedulesResponse.Schedules> searchSchedules(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime from,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime to,
