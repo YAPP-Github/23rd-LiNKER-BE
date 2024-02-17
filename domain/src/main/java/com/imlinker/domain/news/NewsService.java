@@ -5,9 +5,8 @@ import com.imlinker.domain.news.model.News;
 import com.imlinker.domain.tag.TagReader;
 import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.enums.OperationResult;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.imlinker.pagination.CursorPaginationResult;
+import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,39 +25,42 @@ public class NewsService {
         return news.isPresent();
     }
 
-    public List<GetNewsParam> findTop20ByTagIdOrderByCreatedAtDesc() {
-        List<Tag> tagList = tagReader.findAll();
+    /** TagId가 여러개이면 ALL 취급이다. (ALL이 여러개면 아닐 수 잇지만) */
+    public List<TagSpecificNews> findAllByTagIdWithCursor(
+            int size, List<Long> tagIds, Long cursorId) {
 
-        List<GetNewsParam> getNewsParams = new ArrayList<>();
-        List<Long> allTags = tagList.stream().map(Tag::getId).toList();
-        List<News> newsListFromAllTags = newsReader.findTop20ByTagIdInOrderByCreatedAtDesc(allTags);
-        getNewsParams.add(
-                new GetNewsParam(tagList, newsListFromAllTags, getNextCursor(20, newsListFromAllTags)));
+        List<Tag> allTags = tagReader.findAll();
+        CursorPaginationResult<News> selectedTagsNewsList =
+                newsReader.findAllByTagIdWithCursor(size, tagIds, cursorId);
 
-        for (Tag tag : tagList) {
-            List<News> newsList = newsReader.findTop20ByTagIdOrderByCreatedAtDesc(tag.getId());
-            getNewsParams.add(new GetNewsParam(List.of(tag), newsList, getNextCursor(20, newsList)));
-        }
-        return getNewsParams;
-    }
+        // tag가 비어있다면 ALL을 의미한다.
+        List<Tag> selectedTags =
+                tagIds.isEmpty()
+                        ? allTags
+                        : allTags.stream().filter(tag -> tagIds.contains(tag.getId())).toList();
+        TagSpecificNews seletedTagSpecificNews =
+                new TagSpecificNews(selectedTags, selectedTagsNewsList);
 
-    public GetNewsParam findAllByTagIdWithCursor(int size, List<Long> tagIds, Long cursorId) {
-        List<Tag> tagList = tagReader.findAllByIdIn(tagIds);
-        List<News> newsList = newsReader.findAllByTagIdWithCursor(size, tagIds, cursorId);
+        // 선택된 Tag는 맨 앞에 위치한다.
+        ArrayList<TagSpecificNews> tagSpecificNewsList = new ArrayList<>();
+        tagSpecificNewsList.add(seletedTagSpecificNews);
 
-        Long nextCursor = getNextCursor(size, newsList);
-        return new GetNewsParam(tagList, newsList, nextCursor);
-    }
-
-    private static Long getNextCursor(int size, List<News> newsList) {
-        Long nextCursor = null;
-        int curListSize = newsList.size();
-        if (curListSize < size) {
-            nextCursor = -1L;
+        if (tagIds.size() == 1) {
+            // 단일 Tag 조회
+            tagSpecificNewsList.addAll(
+                    allTags.stream()
+                            .filter(tag -> !tag.equals(selectedTags.get(0)))
+                            .map(tag -> new TagSpecificNews(List.of(tag), CursorPaginationResult.initial()))
+                            .toList());
         } else {
-            nextCursor = newsList.get(curListSize - 1).getId();
+            // 복합 Tag 조회
+            tagSpecificNewsList.addAll(
+                    allTags.stream()
+                            .map(tag -> new TagSpecificNews(List.of(tag), CursorPaginationResult.initial()))
+                            .toList());
         }
-        return nextCursor;
+
+        return tagSpecificNewsList;
     }
 
     @Transactional

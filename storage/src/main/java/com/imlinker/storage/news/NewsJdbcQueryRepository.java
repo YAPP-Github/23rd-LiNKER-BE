@@ -1,6 +1,5 @@
 package com.imlinker.storage.news;
 
-import com.imlinker.domain.news.model.query.NewsPaginationQueryCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,29 +12,29 @@ import java.util.List;
 public class NewsJdbcQueryRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<NewsEntity> findAllByTagIdWithCursor(NewsPaginationQueryCondition condition){
+    public List<NewsEntity> findAllByTagIdWithCursor(int size, List<Long> tagIds, Long cursorId){
         String sql =
                 """
-                        SELECT
+                    SELECT
                         *
-                        FROM
+                    FROM
                         news
-                        WHERE
-                        ref_tag_id IN (:tagIds)
-                        AND
-                        id < :cursorId
-                        ORDER BY
-                        created_at DESC
-                        LIMIT :limit
+                    WHERE
+                        1=1
+                        AND ref_tag_id IN (:tagIds)
+                        AND id <=:cursorId
+                    ORDER BY
+                        id DESC
+                    LIMIT 
+                        :limit
                 """;
 
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("tagIds", condition.tagIds())
-                .addValue("cursorId", condition.cursorId() == null? 9223372036854775807L : condition.cursorId())
-                .addValue("limit", condition.size());
+                .addValue("tagIds", tagIds)
+                .addValue("cursorId", cursorId == null? 9223372036854775807L : cursorId)
+                .addValue("limit", size);
 
         return jdbcTemplate.query(sql, namedParameters, NewsEntity.getRowMapper());
-
     }
 }

@@ -2,8 +2,8 @@ package com.imlinker.coreapi.core.news;
 
 import com.imlinker.coreapi.core.news.response.GetNewsResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
-import com.imlinker.domain.news.GetNewsParam;
 import com.imlinker.domain.news.NewsService;
+import com.imlinker.domain.news.TagSpecificNews;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -22,38 +22,35 @@ public class NewsController {
 
     @GetMapping()
     @Operation(summary = "태그에 맞는 뉴스 가져오기 (pagination)")
-    public ApiResponse<GetNewsResponse.Entry> getNews(
+    public ApiResponse<GetNewsResponse.Recommendations> getNews(
             @RequestParam(defaultValue = "20") int size,
             @RequestParam List<Long> tagIds,
             @RequestParam(required = false) Long cursorId) {
-        GetNewsParam getNewsParam = newsService.findAllByTagIdWithCursor(size, tagIds, cursorId);
+        List<TagSpecificNews> tagSpecificNewsList =
+                newsService.findAllByTagIdWithCursor(size, tagIds, cursorId);
 
-        GetNewsResponse.Entry entry =
-                new GetNewsResponse.Entry(
-                        getNewsParam.tags(),
-                        getNewsParam.news().stream().map(GetNewsResponse.SimpleNews::fromNews).toList(),
-                        getNewsParam.nextCursor());
+        GetNewsResponse.Recommendations recommendations =
+                new GetNewsResponse.Recommendations(
+                        tagSpecificNewsList.stream()
+                                .map(GetNewsResponse.Recommendation::fromTagSpecificNews)
+                                .toList());
 
-        return ApiResponse.success(entry);
+        return ApiResponse.success(recommendations);
     }
 
     @GetMapping("/trend")
     @Operation(summary = "트랜드 핫이슈")
-    public ApiResponse<List<GetNewsResponse.Entry>> getTrendNews() {
-        List<GetNewsParam> getNewsParams = newsService.findTop20ByTagIdOrderByCreatedAtDesc();
+    public ApiResponse<GetNewsResponse.Recommendations> getTrendNews(
+            @RequestParam(defaultValue = "20") int size) {
+        List<TagSpecificNews> tagSpecificNewsList =
+                newsService.findAllByTagIdWithCursor(size, List.of(), null);
 
-        List<GetNewsResponse.Entry> entryList =
-                getNewsParams.stream()
-                        .map(
-                                getNewsParam ->
-                                        new GetNewsResponse.Entry(
-                                                getNewsParam.tags(),
-                                                getNewsParam.news().stream()
-                                                        .map(GetNewsResponse.SimpleNews::fromNews)
-                                                        .toList(),
-                                                getNewsParam.nextCursor()))
-                        .toList();
+        GetNewsResponse.Recommendations recommendations =
+                new GetNewsResponse.Recommendations(
+                        tagSpecificNewsList.stream()
+                                .map(GetNewsResponse.Recommendation::fromTagSpecificNews)
+                                .toList());
 
-        return ApiResponse.success(entryList);
+        return ApiResponse.success(recommendations);
     }
 }

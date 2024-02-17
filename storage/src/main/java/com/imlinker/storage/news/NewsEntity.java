@@ -1,5 +1,6 @@
 package com.imlinker.storage.news;
 
+import com.imlinker.pagination.CursorExtractable;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.*;
@@ -14,7 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 @Table(name = "news")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class NewsEntity {
+public class NewsEntity implements CursorExtractable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

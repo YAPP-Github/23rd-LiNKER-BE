@@ -2,9 +2,10 @@ package com.imlinker.storage.news;
 
 import com.imlinker.domain.news.model.News;
 import com.imlinker.domain.news.model.NewsRepository;
-import com.imlinker.domain.news.model.query.NewsPaginationQueryCondition;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
+import com.imlinker.pagination.CursorPaginationResult;
+import com.imlinker.pagination.CursorPaginationTemplate;
 import com.imlinker.storage.news.mapper.NewsMapper;
 import java.util.List;
 import java.util.Optional;
@@ -51,10 +52,14 @@ public class NewsAdaptor implements NewsRepository {
     }
 
     @Override
-    public List<News> findAllByTagIdWithCursor(NewsPaginationQueryCondition condition) {
-        return newsJdbcQueryRepository.findAllByTagIdWithCursor(condition).stream()
-                .map(NewsMapper::toModel)
-                .toList();
+    public CursorPaginationResult<News> findAllByTagIdWithCursor(
+            int size, List<Long> tagIds, Long cursorId) {
+        CursorPaginationResult<NewsEntity> result =
+                CursorPaginationTemplate.execute(
+                        size,
+                        (limit) -> newsJdbcQueryRepository.findAllByTagIdWithCursor(limit, tagIds, cursorId));
+
+        return result.transform(NewsMapper::toModel);
     }
 
     @Override

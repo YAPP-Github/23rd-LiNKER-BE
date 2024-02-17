@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":common:error"))
     implementation(project(":common:enums"))
+    implementation(project(":common:pagination"))
 
     implementation(project(":modules:aws"))
     implementation(project(":modules:logging"))

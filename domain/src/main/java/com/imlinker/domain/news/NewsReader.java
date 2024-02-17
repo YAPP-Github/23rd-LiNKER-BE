@@ -2,7 +2,7 @@ package com.imlinker.domain.news;
 
 import com.imlinker.domain.news.model.News;
 import com.imlinker.domain.news.model.NewsRepository;
-import com.imlinker.domain.news.model.query.NewsPaginationQueryCondition;
+import com.imlinker.pagination.CursorPaginationResult;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +17,8 @@ public class NewsReader {
         return newsRepository.findByNewsUrl(newsUrl);
     }
 
-    public List<News> findTop20ByTagIdOrderByCreatedAtDesc(Long tagId) {
-        return newsRepository.findTop20ByTagIdOrderByCreatedAtDesc(tagId);
-    }
-
-    public List<News> findTop20ByTagIdInOrderByCreatedAtDesc(List<Long> tagIds) {
-        return newsRepository.findTop20ByTagIdInOrderByCreatedAtDesc(tagIds);
-    }
-
-    public List<News> findAllByTagIdWithCursor(int size, List<Long> tagIds, Long cursorId) {
-        NewsPaginationQueryCondition condition =
-                new NewsPaginationQueryCondition(size, tagIds, cursorId);
-        return newsRepository.findAllByTagIdWithCursor(condition);
+    public CursorPaginationResult<News> findAllByTagIdWithCursor(
+            int size, List<Long> tagIds, Long cursorId) {
+        return newsRepository.findAllByTagIdWithCursor(size, tagIds, cursorId);
     }
 }

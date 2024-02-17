@@ -1,7 +1,9 @@
 package com.imlinker.coreapi.core.news.response;
 
+import com.imlinker.domain.news.TagSpecificNews;
 import com.imlinker.domain.news.model.News;
 import com.imlinker.domain.tag.model.Tag;
+import com.imlinker.pagination.CursorPaginationResult;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.AccessLevel;
@@ -10,10 +12,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetNewsResponse {
     @Schema(description = "관심사 및 뉴스")
-    public record Entry(
+    public record Recommendations(@Schema(description = "추천") List<Recommendation> recommendations) {}
+
+    @Schema(description = "관심사 및 뉴스")
+    public record Recommendation(
             @Schema(description = "관심사") List<Tag> tags,
-            @Schema(description = "뉴스 List") List<SimpleNews> news,
-            @Schema(description = "next cursor ID") Long nextCursor) {}
+            @Schema(description = "뉴스 List") CursorPaginationResult<SimpleNews> newsList) {
+
+        public static Recommendation fromTagSpecificNews(TagSpecificNews tagSpecificNews) {
+            return new Recommendation(
+                    tagSpecificNews.tags(), tagSpecificNews.newsList().transform(SimpleNews::fromNews));
+        }
+    }
 
     @Schema(description = "뉴스")
     public record SimpleNews(
