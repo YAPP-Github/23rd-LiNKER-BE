@@ -22,7 +22,7 @@ public class NewsController {
 
     @GetMapping()
     @Operation(summary = "태그에 맞는 뉴스 가져오기 (pagination)")
-    public ApiResponse<GetNewsResponse.Entry> getProfileNews(
+    public ApiResponse<GetNewsResponse.Entry> getNews(
             @RequestParam(defaultValue = "20") int size,
             @RequestParam List<Long> tagIds,
             @RequestParam(required = false) Long cursorId) {
@@ -35,5 +35,25 @@ public class NewsController {
                         getNewsParam.nextCursor());
 
         return ApiResponse.success(entry);
+    }
+
+    @GetMapping("/trend")
+    @Operation(summary = "트랜드 핫이슈")
+    public ApiResponse<List<GetNewsResponse.Entry>> getTrendNews() {
+        List<GetNewsParam> getNewsParams = newsService.findTop20ByTagIdOrderByCreatedAtDesc();
+
+        List<GetNewsResponse.Entry> entryList =
+                getNewsParams.stream()
+                        .map(
+                                getNewsParam ->
+                                        new GetNewsResponse.Entry(
+                                                getNewsParam.tags(),
+                                                getNewsParam.news().stream()
+                                                        .map(GetNewsResponse.SimpleNews::fromNews)
+                                                        .toList(),
+                                                getNewsParam.nextCursor()))
+                        .toList();
+
+        return ApiResponse.success(entryList);
     }
 }

@@ -17,6 +17,14 @@ public class NewsReader {
         return newsRepository.findByNewsUrl(newsUrl);
     }
 
+    public List<News> findTop20ByTagIdOrderByCreatedAtDesc(Long tagId) {
+        return newsRepository.findTop20ByTagIdOrderByCreatedAtDesc(tagId);
+    }
+
+    public List<News> findTop20ByTagIdInOrderByCreatedAtDesc(List<Long> tagIds) {
+        return newsRepository.findTop20ByTagIdInOrderByCreatedAtDesc(tagIds);
+    }
+
     public List<News> findAllByTagIdWithCursor(int size, List<Long> tagIds, Long cursorId) {
         NewsPaginationQueryCondition condition =
                 new NewsPaginationQueryCondition(size, tagIds, cursorId);

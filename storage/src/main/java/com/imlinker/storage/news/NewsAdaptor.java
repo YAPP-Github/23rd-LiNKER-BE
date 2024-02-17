@@ -37,6 +37,20 @@ public class NewsAdaptor implements NewsRepository {
     }
 
     @Override
+    public List<News> findTop20ByTagIdOrderByCreatedAtDesc(Long tagId) {
+        return newsJpaRepository.findTop20ByTagIdOrderByCreatedAtDesc(tagId).stream()
+                .map(NewsMapper::toModel)
+                .toList();
+    }
+
+    @Override
+    public List<News> findTop20ByTagIdInOrderByCreatedAtDesc(List<Long> tagIds) {
+        return newsJpaRepository.findTop20ByTagIdInOrderByCreatedAtDesc(tagIds).stream()
+                .map(NewsMapper::toModel)
+                .toList();
+    }
+
+    @Override
     public List<News> findAllByTagIdWithCursor(NewsPaginationQueryCondition condition) {
         return newsJdbcQueryRepository.findAllByTagIdWithCursor(condition).stream()
                 .map(NewsMapper::toModel)

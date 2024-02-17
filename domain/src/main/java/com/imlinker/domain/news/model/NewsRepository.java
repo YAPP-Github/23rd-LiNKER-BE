@@ -9,6 +9,10 @@ public interface NewsRepository {
 
     News findByTagId(Long tagId);
 
+    List<News> findTop20ByTagIdOrderByCreatedAtDesc(Long tagId);
+
+    List<News> findTop20ByTagIdInOrderByCreatedAtDesc(List<Long> tagIds);
+
     List<News> findAllByTagIdWithCursor(NewsPaginationQueryCondition condition);
 
     Optional<News> findByNewsUrl(String newsUrl);
