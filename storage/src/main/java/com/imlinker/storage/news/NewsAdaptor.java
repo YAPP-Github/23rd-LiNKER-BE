@@ -2,6 +2,7 @@ package com.imlinker.storage.news;
 
 import com.imlinker.domain.news.model.News;
 import com.imlinker.domain.news.model.NewsRepository;
+import com.imlinker.domain.news.model.query.NewsPaginationQueryCondition;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import com.imlinker.pagination.CursorPaginationResult;
@@ -53,11 +54,13 @@ public class NewsAdaptor implements NewsRepository {
 
     @Override
     public CursorPaginationResult<News> findAllByTagIdWithCursor(
-            int size, List<Long> tagIds, Long cursorId) {
+            NewsPaginationQueryCondition condition) {
         CursorPaginationResult<NewsEntity> result =
                 CursorPaginationTemplate.execute(
-                        size,
-                        (limit) -> newsJdbcQueryRepository.findAllByTagIdWithCursor(limit, tagIds, cursorId));
+                        condition.cursorId(),
+                        condition.size(),
+                        (cursor, size) ->
+                                newsJdbcQueryRepository.findAllByTagIdWithCursor(cursor, size, condition.tagIds()));
 
         return result.transform(NewsMapper::toModel);
     }

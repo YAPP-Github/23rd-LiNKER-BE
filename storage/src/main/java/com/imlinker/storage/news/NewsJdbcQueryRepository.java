@@ -12,7 +12,7 @@ import java.util.List;
 public class NewsJdbcQueryRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<NewsEntity> findAllByTagIdWithCursor(int size, List<Long> tagIds, Long cursorId){
+    public List<NewsEntity> findAllByTagIdWithCursor(Long cursorId, int size, List<Long> tagIds){
         String sql =
                 """
                     SELECT
