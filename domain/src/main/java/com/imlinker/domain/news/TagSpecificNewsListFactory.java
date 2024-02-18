@@ -27,6 +27,7 @@ public class TagSpecificNewsListFactory {
                         : allTags.stream().filter(tag -> tagIds.contains(tag.getId())).toList();
         TagSpecificNews seletedTagSpecificNews =
                 new TagSpecificNews(selectedTags, selectedTagsNewsList);
+        tagSpecificNewsList.add(seletedTagSpecificNews);
 
         if (tagIds.size() == 1) {
             // 단일 Tag 조회

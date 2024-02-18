@@ -8,12 +8,6 @@ import java.util.Optional;
 public interface NewsRepository {
     News findById(Long id);
 
-    News findByTagId(Long tagId);
-
-    List<News> findTop20ByTagIdOrderByCreatedAtDesc(Long tagId);
-
-    List<News> findTop20ByTagIdInOrderByCreatedAtDesc(List<Long> tagIds);
-
     CursorPaginationResult<News> findAllByTagIdWithCursor(NewsPaginationQueryCondition condition);
 
     Optional<News> findByNewsUrl(String newsUrl);

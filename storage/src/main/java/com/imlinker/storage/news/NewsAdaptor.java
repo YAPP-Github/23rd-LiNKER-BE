@@ -30,29 +30,6 @@ public class NewsAdaptor implements NewsRepository {
     }
 
     @Override
-    public News findByTagId(Long tagId) {
-        NewsEntity newsEntity =
-                newsJpaRepository
-                        .findByTagId(tagId)
-                        .orElseThrow(() -> new ApplicationException(ErrorType.NEWS_NOT_FOUND));
-        return NewsMapper.toModel(newsEntity);
-    }
-
-    @Override
-    public List<News> findTop20ByTagIdOrderByCreatedAtDesc(Long tagId) {
-        return newsJpaRepository.findTop20ByTagIdOrderByCreatedAtDesc(tagId).stream()
-                .map(NewsMapper::toModel)
-                .toList();
-    }
-
-    @Override
-    public List<News> findTop20ByTagIdInOrderByCreatedAtDesc(List<Long> tagIds) {
-        return newsJpaRepository.findTop20ByTagIdInOrderByCreatedAtDesc(tagIds).stream()
-                .map(NewsMapper::toModel)
-                .toList();
-    }
-
-    @Override
     public CursorPaginationResult<News> findAllByTagIdWithCursor(
             NewsPaginationQueryCondition condition) {
         CursorPaginationResult<NewsEntity> result =
