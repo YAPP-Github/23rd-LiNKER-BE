@@ -1,0 +1,12 @@
+name: 2-hour-crawler-cron
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call crawler API
+        run: |
+          curl --request GET \
+            --url '${{ secrets.CRAWLER_URL }}?token=${{ secrets.CRAWLER_TOKEN }}'
