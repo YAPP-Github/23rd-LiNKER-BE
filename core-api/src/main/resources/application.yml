@@ -3,6 +3,7 @@ server:
     remoteip:
       remote-ip-header: "x-forwarded-for"
       protocol-header: "x-forwarded-proto"
+    max-http-form-post-size: 100MB
 spring:
   web:
     resources:
