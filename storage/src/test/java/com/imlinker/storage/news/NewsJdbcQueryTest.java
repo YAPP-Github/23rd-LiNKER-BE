@@ -24,7 +24,7 @@ public class NewsJdbcQueryTest {
         newsJpaRepository.save(newsEntity);
 
         List<NewsEntity> newsEntityList =
-                newsJdbcQueryRepository.findAllByTagIdWithCursor(20, Collections.singletonList(1L), null);
+                newsJdbcQueryRepository.findAllByTagIdWithCursor(null, 20, Collections.singletonList(1L));
 
         assertThat(newsEntityList.get(0).getId()).isEqualTo(newsEntity.getId());
         assertThat(newsEntityList.get(0).getTagId()).isEqualTo(newsEntity.getTagId());

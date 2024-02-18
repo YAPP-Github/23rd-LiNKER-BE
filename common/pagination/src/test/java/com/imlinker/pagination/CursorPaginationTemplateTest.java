@@ -12,7 +12,7 @@ public class CursorPaginationTemplateTest {
     @DisplayName("마지막 Pagination이라면, 다음 Cursor는 null이고, hasNext도 false여야 한다.")
     void cursorIsNullAndHasNextFalseWhenLastPaging() {
         CursorPaginationResult<CursorExtractable> actual =
-                CursorPaginationTemplate.execute(20, limit -> List.of(() -> 1L));
+                CursorPaginationTemplate.execute(1L, 20, (cursor, size) -> List.of(() -> 1L));
 
         assertThat(actual.hasNext()).isFalse();
         assertThat(actual.nextCursor()).isNull();
@@ -25,7 +25,7 @@ public class CursorPaginationTemplateTest {
 
         CursorPaginationResult<CursorExtractable> actual =
                 CursorPaginationTemplate.execute(
-                        3, limit -> List.of(() -> 1L, () -> 2L, () -> 3L, () -> 4L));
+                        1L, 3, (cursor, size) -> List.of(() -> 1L, () -> 2L, () -> 3L, () -> 4L));
 
         assertThat(actual.hasNext()).isTrue();
         assertThat(actual.nextCursor()).isEqualTo(4L);
@@ -38,7 +38,7 @@ public class CursorPaginationTemplateTest {
 
         CursorPaginationResult<CursorExtractable> actual =
                 CursorPaginationTemplate.execute(
-                        3, limit -> List.of(() -> 1L, () -> 2L, () -> 3L, () -> 4L));
+                        1L, 3, (cursor, size) -> List.of(() -> 1L, () -> 2L, () -> 3L, () -> 4L));
 
         assertThat(actual.hasNext()).isTrue();
         assertThat(actual.nextCursor()).isEqualTo(4L);

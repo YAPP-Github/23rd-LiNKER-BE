@@ -4,15 +4,18 @@ import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContext;
 import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContextHolder;
 import com.imlinker.coreapi.core.contacts.request.CreateContactRequest;
 import com.imlinker.coreapi.core.contacts.request.UpdateContactRequest;
+import com.imlinker.coreapi.core.contacts.response.GetContactInterestNewsResponse;
 import com.imlinker.coreapi.core.contacts.response.GetContactResponse;
 import com.imlinker.coreapi.core.contacts.response.GetContactsResponse;
 import com.imlinker.coreapi.core.contacts.response.SearchContactResponse;
 import com.imlinker.coreapi.support.response.ApiResponse;
+import com.imlinker.domain.contacts.ContactSearchService;
 import com.imlinker.domain.contacts.ContactsService;
 import com.imlinker.domain.contacts.CreateContactParam;
 import com.imlinker.domain.contacts.UpdateContactParam;
 import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
+import com.imlinker.domain.news.TagSpecificNews;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,12 +31,13 @@ import org.springframework.web.bind.annotation.*;
 public class ContactsController {
 
     private final ContactsService service;
+    private final ContactSearchService searchService;
 
     @GetMapping
     @Operation(summary = "연락처 모두 가져오기")
     public ApiResponse<GetContactsResponse.Contacts> getContacts(
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
-        List<Contacts> contacts = service.getAllContacts(userContext.getId());
+        List<Contacts> contacts = searchService.getAllContacts(userContext.getId());
         List<GetContactsResponse.SimpleContact> simpleContacts =
                 contacts.stream()
                         .map(
@@ -54,7 +58,7 @@ public class ContactsController {
     @Operation(summary = "즐겨찾기 된 연락처 모두 가져오기")
     public ApiResponse<GetContactsResponse.Contacts> getBookMarkContacts(
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
-        List<Contacts> contacts = service.getAllBookMarkContacts(userContext.getId());
+        List<Contacts> contacts = searchService.getAllBookMarkContacts(userContext.getId());
         List<GetContactsResponse.SimpleContact> simpleContacts =
                 contacts.stream()
                         .map(
@@ -76,7 +80,7 @@ public class ContactsController {
     public ApiResponse<SearchContactResponse.Contacts> searchContacts(
             @RequestParam String query,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
-        List<Contacts> searchedContacts = service.search(query, userContext.getId());
+        List<Contacts> searchedContacts = searchService.search(query, userContext.getId());
         SearchContactResponse.Contacts contacts =
                 new SearchContactResponse.Contacts(
                         searchedContacts.stream()
@@ -99,7 +103,7 @@ public class ContactsController {
     public ApiResponse<GetContactResponse> getContact(
             @PathVariable Long contactId,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
-        ContactProfile contactProfile = service.getContactProfile(contactId, userContext.getId());
+        ContactProfile contactProfile = searchService.getContactProfile(contactId, userContext.getId());
 
         GetContactResponse response =
                 new GetContactResponse(
@@ -114,6 +118,23 @@ public class ContactsController {
                         contactProfile.recentMeetingDate());
 
         return ApiResponse.success(response);
+    }
+
+    @GetMapping("/{contactId}/interest/news")
+    @Operation(summary = "연락처 관심사 기반 뉴스 가져오기")
+    public ApiResponse<GetContactInterestNewsResponse.Recommendations> getContactInterestRelatedNews(
+            @PathVariable Long contactId,
+            @RequestParam(defaultValue = "20") int size,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContextHolder) {
+        List<TagSpecificNews> tagSpecificNewsList =
+                searchService.searchContactInterestRelatedNews(contactId, userContextHolder.getId(), size);
+
+        GetContactInterestNewsResponse.Recommendations recommendations =
+                new GetContactInterestNewsResponse.Recommendations(
+                        tagSpecificNewsList.stream()
+                                .map(GetContactInterestNewsResponse.Recommendation::fromTagSpecificNews)
+                                .toList());
+        return ApiResponse.success(recommendations);
     }
 
     @PostMapping
