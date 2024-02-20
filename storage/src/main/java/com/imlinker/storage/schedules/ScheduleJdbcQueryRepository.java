@@ -4,7 +4,6 @@ import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeSche
 import com.imlinker.domain.schedules.model.query.SearchContactNearTermScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchUserNearTermScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchDateRangeScheduleQueryCondition;
-import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

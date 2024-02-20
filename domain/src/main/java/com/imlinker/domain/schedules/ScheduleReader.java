@@ -8,7 +8,6 @@ import com.imlinker.domain.schedules.model.query.SearchContactNearTermScheduleQu
 import com.imlinker.domain.schedules.model.query.SearchUserNearTermScheduleQueryCondition;
 import com.imlinker.domain.user.model.User;
 import com.imlinker.domain.schedules.model.query.SearchDateRangeScheduleQueryCondition;
-import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import java.time.LocalDateTime;

@@ -6,7 +6,6 @@ import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeSche
 import com.imlinker.domain.schedules.model.query.SearchContactNearTermScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchUserNearTermScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchDateRangeScheduleQueryCondition;
-import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
 import com.imlinker.storage.schedules.mapper.ScheduleMapper;
 import java.time.LocalDateTime;
 import java.util.List;
