@@ -5,6 +5,8 @@ import com.imlinker.domain.schedules.model.Schedules;
 import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchContactNearTermScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchUserNearTermScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchDateRangeScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
 import com.imlinker.storage.schedules.mapper.ScheduleMapper;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,6 +50,11 @@ public class ScheduleAdaptor implements ScheduleRepository {
         return jdbcRepo.findByContactIdAndDateRange(condition).stream()
                 .map(ScheduleMapper::toModel)
                 .toList();
+    }
+
+    @Override
+    public List<Schedules> findByDateRange(SearchDateRangeScheduleQueryCondition condition) {
+        return jdbcRepo.findByDateRange(condition).stream().map(ScheduleMapper::toModel).toList();
     }
 
     @Override

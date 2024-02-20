@@ -3,6 +3,8 @@ package com.imlinker.storage.schedules;
 import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchContactNearTermScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchUserNearTermScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchDateRangeScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -109,6 +111,30 @@ public class ScheduleJdbcQueryRepository {
         return jdbcTemplate.query(sql,namedParameters,ScheduleEntity.getRowMapper());
     }
 
+    public List<ScheduleEntity> findByDateRange(
+            SearchDateRangeScheduleQueryCondition condition
+    ){
+        String sql =
+                """
+                    SELECT 
+                        s.*
+                    FROM
+                        schedules s
+                    WHERE 1=1
+                    AND s.ref_user_id=:userId
+                    AND (
+                            s.start_date_time BETWEEN :from AND :to
+                            OR s.end_date_time BETWEEN :from AND :to
+                    ) 
+                    ORDER BY s.start_date_time
+                    LIMIT :limit
+                """;
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("userId",condition.userId())
+                .addValue("from",condition.from())
+                .addValue("to",condition.to())
+                .addValue("limit",condition.size());
 
-
+        return jdbcTemplate.query(sql,namedParameters,ScheduleEntity.getRowMapper());
+    }
 }
