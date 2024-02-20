@@ -20,7 +20,7 @@ public class NewsController {
 
     private final NewsService newsService;
 
-    @GetMapping()
+    @GetMapping
     @Operation(summary = "태그에 맞는 뉴스 가져오기 (pagination)")
     public ApiResponse<GetNewsResponse.Recommendations> getNews(
             @RequestParam(defaultValue = "20") int size,

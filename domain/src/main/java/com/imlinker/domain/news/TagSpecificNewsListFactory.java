@@ -17,7 +17,7 @@ public class TagSpecificNewsListFactory {
 
     public List<TagSpecificNews> build(
             List<Long> tagIds, CursorPaginationResult<News> selectedTagsNewsList) {
-        List<Tag> selectedTags = tagReader.findAll();
+        List<Tag> selectedTags = tagReader.findAllByIdIn(tagIds);
         ArrayList<TagSpecificNews> tagSpecificNewsList = new ArrayList<>();
 
         TagSpecificNews seletedTagSpecificNews =

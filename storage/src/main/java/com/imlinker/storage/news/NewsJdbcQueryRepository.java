@@ -31,7 +31,7 @@ public class NewsJdbcQueryRepository {
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("tagIds", tagIds)
-                .addValue("cursorId", cursorId == null? 9223372036854775807L : cursorId)
+                .addValue("cursorId", cursorId == null? Long.MAX_VALUE : cursorId)
                 .addValue("limit", size);
 
         return jdbcTemplate.query(sql, namedParameters, NewsEntity.getRowMapper());
