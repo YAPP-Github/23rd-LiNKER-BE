@@ -114,6 +114,7 @@ public class ContactsController {
                         contactProfile.email().getValue(),
                         contactProfile.school(),
                         contactProfile.careers(),
+                        contactProfile.description(),
                         contactProfile.interests(),
                         contactProfile.recentMeetingDate());
 

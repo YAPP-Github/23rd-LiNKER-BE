@@ -13,5 +13,6 @@ public record GetContactResponse(
         @Schema(description = "이메일", nullable = true) String email,
         @Schema(description = "학력", nullable = true) String school,
         @Schema(description = "경력", nullable = true) String careers,
+        @Schema(description = "메모") String description,
         @Schema(description = "관심사") List<Tag> tags,
         @Schema(description = "최근 만난 날짜") LocalDate recentMeetingDate) {}

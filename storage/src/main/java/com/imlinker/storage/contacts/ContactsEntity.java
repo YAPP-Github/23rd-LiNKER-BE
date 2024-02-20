@@ -45,7 +45,8 @@ public class ContactsEntity {
 
     @Column(name = "profile_img_url")
     private String profileImgUrl;
-    // memo: 400자
+
+    @Lob
     @Column(name = "description")
     private String description;
 
