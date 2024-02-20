@@ -12,6 +12,10 @@ public class ContactsInterestMapper {
     }
 
     public static ContactInterestEntity toEntity(ContactInterest model) {
-        return new ContactInterestEntity(model.id(), model.contactId(), model.interestId());
+        return ContactInterestEntity.builder()
+                .id(model.id())
+                .contactId(model.contactId())
+                .tagId(model.interestId())
+                .build();
     }
 }

@@ -6,6 +6,8 @@ import java.util.List;
 public interface ContactInterestRepository {
     List<Tag> findAllByContactId(Long contactId);
 
+    List<Tag> findAllByContactIdOrderByCreatedAt(Long contactId);
+
     ContactInterest save(ContactInterest contactInterest);
 
     List<ContactInterest> saveAll(List<ContactInterest> contactInterests);

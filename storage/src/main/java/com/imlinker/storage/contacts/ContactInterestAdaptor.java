@@ -22,6 +22,13 @@ public class ContactInterestAdaptor implements ContactInterestRepository {
     }
 
     @Override
+    public List<Tag> findAllByContactIdOrderByCreatedAt(Long contactId) {
+        return jdbcRepo.findAllByContactIdOrderByCreatedAt(contactId).stream()
+                .map(TagMapper::toModel)
+                .toList();
+    }
+
+    @Override
     public ContactInterest save(ContactInterest contactInterest) {
         ContactInterestEntity entity = jpaRepo.save(ContactsInterestMapper.toEntity(contactInterest));
         return ContactsInterestMapper.toModel(entity);

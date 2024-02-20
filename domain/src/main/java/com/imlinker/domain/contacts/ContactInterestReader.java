@@ -14,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ContactInterestReader {
     private final ContactInterestRepository contactInterestRepository;
 
-    List<Tag> findAllByContact(Contacts contact) {
+    public List<Tag> findAllByContact(Contacts contact) {
         return contactInterestRepository.findAllByContactId(contact.id());
+    }
+
+    public List<Tag> findAllByContactOrderByCreatedAt(Contacts contact) {
+        return contactInterestRepository.findAllByContactIdOrderByCreatedAt(contact.id());
     }
 }
