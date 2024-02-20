@@ -2,6 +2,8 @@ package com.imlinker.domain.news;
 
 import com.imlinker.domain.common.model.URL;
 import com.imlinker.domain.news.model.News;
+import com.imlinker.domain.tag.TagReader;
+import com.imlinker.domain.tag.model.Tag;
 import com.imlinker.enums.OperationResult;
 import com.imlinker.pagination.CursorPaginationResult;
 import java.util.*;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class NewsService {
+    private final TagReader tagReader;
     private final NewsUpdater newsUpdater;
     private final NewsReader newsReader;
     private final TagSpecificNewsListFactory tagSpecificNewsListFactory;
@@ -25,6 +28,7 @@ public class NewsService {
 
     public List<TagSpecificNews> findAllByTagIdWithCursor(
             int size, List<Long> tagIds, Long cursorId) {
+        tagIds = tagIds.isEmpty() ? tagReader.findAll().stream().map(Tag::getId).toList() : tagIds;
         CursorPaginationResult<News> selectedTagsNewsList =
                 newsReader.findAllByTagIdWithCursor(size, tagIds, cursorId);
 

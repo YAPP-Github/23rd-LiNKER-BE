@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ public class NewsJdbcQueryTest {
     @Autowired NewsJdbcQueryRepository newsJdbcQueryRepository;
     @Autowired NewsJpaRepository newsJpaRepository;
 
-    @Test
+    @ParameterizedTest()
     @DisplayName("태그에 맞는 뉴스를 가져온다.")
     public void findAllByTagIdWithCursor() {
         NewsEntity newsEntity = NewsEntity.builder().id(1L).tagId(1L).build();

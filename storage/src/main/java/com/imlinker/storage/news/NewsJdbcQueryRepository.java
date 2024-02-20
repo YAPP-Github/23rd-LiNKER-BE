@@ -25,8 +25,7 @@ public class NewsJdbcQueryRepository {
                         AND id <=:cursorId
                     ORDER BY
                         id DESC
-                    LIMIT 
-                        :limit
+                    LIMIT :limit
                 """;
 
 
