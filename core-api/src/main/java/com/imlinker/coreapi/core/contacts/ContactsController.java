@@ -128,7 +128,7 @@ public class ContactsController {
             @RequestParam(defaultValue = "20") int size,
             @AuthenticatedUserContext AuthenticatedUserContextHolder userContextHolder) {
         List<TagSpecificNews> tagSpecificNewsList =
-                searchService.searchContactInterestRelatedNews(contactId, userContextHolder.getId(), size);
+                searchService.searchContactInterestRelatedNews(userContextHolder.getId(), contactId, size);
 
         GetContactInterestNewsResponse.Recommendations recommendations =
                 new GetContactInterestNewsResponse.Recommendations(
