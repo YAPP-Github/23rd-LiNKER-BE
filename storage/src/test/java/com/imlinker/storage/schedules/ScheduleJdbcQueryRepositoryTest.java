@@ -3,7 +3,7 @@ package com.imlinker.storage.schedules;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeScheduleQueryCondition;
-import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchUserNearTermScheduleQueryCondition;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,9 +20,9 @@ public class ScheduleJdbcQueryRepositoryTest {
     public void findNearTermSchedulesTest() {
         assertDoesNotThrow(
                 () -> {
-                    SearchNearTermScheduleQueryCondition condition =
-                            new SearchNearTermScheduleQueryCondition(1, 1L, true, LocalDateTime.now());
-                    scheduleJdbcQueryRepository.findAllNearTermSchedulesWithLimit(condition);
+                    SearchUserNearTermScheduleQueryCondition condition =
+                            new SearchUserNearTermScheduleQueryCondition(1, 1L, true, LocalDateTime.now());
+                    scheduleJdbcQueryRepository.findAllUserNearTermSchedulesWithLimit(condition);
                 });
     }
 

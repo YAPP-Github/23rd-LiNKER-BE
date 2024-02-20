@@ -2,14 +2,12 @@ package com.imlinker.domain.contacts;
 
 import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
-import com.imlinker.domain.news.NewsReader;
 import com.imlinker.domain.news.TagSpecificNews;
-import com.imlinker.domain.news.TagSpecificNewsListFactory;
-import com.imlinker.domain.news.model.News;
 import com.imlinker.domain.schedules.ScheduleParticipantReader;
+import com.imlinker.domain.schedules.model.ScheduleDetail;
 import com.imlinker.domain.tag.model.Tag;
-import com.imlinker.pagination.CursorPaginationResult;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,12 +16,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ContactSearchService {
 
-    private final NewsReader newsReader;
     private final ContactsReader contactsReader;
     private final ContactInterestReader contactInterestReader;
     private final ContactsBookmarkReader contactsBookmarkReader;
     private final ScheduleParticipantReader scheduleParticipantReader;
-    private final TagSpecificNewsListFactory tagSpecificNewsListFactory;
+    private final ContactsScheduleSearchManager contactsScheduleSearchManager;
+    private final ContactsInterestedNewsSearchManager contactsInterestedNewsSearchManager;
 
     public List<Contacts> getAllContacts(Long userId) {
         return contactsReader.findContactsByUserId(userId);
@@ -41,13 +39,14 @@ public class ContactSearchService {
     public List<TagSpecificNews> searchContactInterestRelatedNews(
             Long userId, Long contactId, int size) {
         Contacts contacts = contactsReader.findContactByIdAndUserId(contactId, userId);
-        List<Long> contactInterestTagIds =
-                contactInterestReader.findAllByContact(contacts).stream().map(Tag::getId).toList();
+        return contactsInterestedNewsSearchManager.searchContactInterestRelatedNews(contacts, size);
+    }
 
-        CursorPaginationResult<News> contactInterestRelatedNewsList =
-                newsReader.findAllByTagIdWithCursor(size, contactInterestTagIds, null);
-
-        return tagSpecificNewsListFactory.build(contactInterestTagIds, contactInterestRelatedNewsList);
+    public List<ScheduleDetail> searchContactNearTermSchedules(
+            int size, Long userId, Long contactsId, boolean isUpcoming) {
+        Contacts contacts = contactsReader.findContactByIdAndUserId(contactsId, userId);
+        return contactsScheduleSearchManager.searchContactsNearTermSchedules(
+                size, contacts, isUpcoming, LocalDateTime.now());
     }
 
     public List<Contacts> search(String query, Long userId) {

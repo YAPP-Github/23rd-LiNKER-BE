@@ -4,10 +4,9 @@ import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContext;
 import com.imlinker.coreapi.core.auth.context.AuthenticatedUserContextHolder;
 import com.imlinker.coreapi.core.contacts.request.CreateContactRequest;
 import com.imlinker.coreapi.core.contacts.request.UpdateContactRequest;
-import com.imlinker.coreapi.core.contacts.response.GetContactInterestNewsResponse;
-import com.imlinker.coreapi.core.contacts.response.GetContactResponse;
-import com.imlinker.coreapi.core.contacts.response.GetContactsResponse;
-import com.imlinker.coreapi.core.contacts.response.SearchContactResponse;
+import com.imlinker.coreapi.core.contacts.response.*;
+import com.imlinker.coreapi.core.schedules.reponse.GetUpComingSchedulesResponse;
+import com.imlinker.coreapi.core.schedules.request.NearTermSearchType;
 import com.imlinker.coreapi.support.response.ApiResponse;
 import com.imlinker.domain.contacts.ContactSearchService;
 import com.imlinker.domain.contacts.ContactsService;
@@ -16,6 +15,7 @@ import com.imlinker.domain.contacts.UpdateContactParam;
 import com.imlinker.domain.contacts.model.ContactProfile;
 import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.news.TagSpecificNews;
+import com.imlinker.domain.schedules.model.ScheduleDetail;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -136,6 +136,24 @@ public class ContactsController {
                                 .map(GetContactInterestNewsResponse.Recommendation::fromTagSpecificNews)
                                 .toList());
         return ApiResponse.success(recommendations);
+    }
+
+    @GetMapping("/{contactId}/schedules/near-term")
+    @Operation(summary = "연락처 기반으로 현재시점에서 가까운 지나갔거나 다가오는 일정 가져오기")
+    public ApiResponse<GetContactsUpcomingScheduleResponse.Schedules> getContactNearTermSchedules(
+            @RequestParam int limit,
+            @PathVariable Long contactId,
+            @RequestParam NearTermSearchType type,
+            @AuthenticatedUserContext AuthenticatedUserContextHolder userContext) {
+        List<ScheduleDetail> schedules =
+                searchService.searchContactNearTermSchedules(
+                        limit, userContext.getId(), contactId, type == NearTermSearchType.UPCOMING);
+
+        return ApiResponse.success(
+                new GetContactsUpcomingScheduleResponse.Schedules(
+                        schedules.stream()
+                                .map(GetUpComingSchedulesResponse.SimpleSchedule::fromScheduleDetail)
+                                .toList()));
     }
 
     @PostMapping

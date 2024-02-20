@@ -8,6 +8,8 @@ import com.imlinker.domain.news.TagSpecificNews;
 import com.imlinker.domain.schedules.model.ScheduleDetail;
 import com.imlinker.domain.schedules.model.Schedules;
 import com.imlinker.domain.tag.model.Tag;
+import com.imlinker.domain.user.UserReader;
+import com.imlinker.domain.user.model.User;
 import com.imlinker.pagination.CursorPaginationResult;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ScheduleSearchService {
+    private final UserReader userReader;
     private final NewsReader newsReader;
     private final ScheduleReader scheduleReader;
     private final ScheduleParticipantReader scheduleParticipantReader;
@@ -31,8 +34,9 @@ public class ScheduleSearchService {
 
     public List<ScheduleDetail> searchNearTermSchedules(
             int size, Long userId, boolean isUpcoming, LocalDateTime baseDateTime) {
+        User user = userReader.findById(userId);
         List<Schedules> schedules =
-                scheduleReader.findNearTermSchedules(size, userId, isUpcoming, baseDateTime);
+                scheduleReader.findUserNearTermSchedules(size, user, isUpcoming, baseDateTime);
         return schedules.stream()
                 .map(
                         schedule -> {
@@ -45,7 +49,9 @@ public class ScheduleSearchService {
 
     public GetRecommendationParam getUpcomingRecommendation(
             Long userId, LocalDateTime baseDateTime, int size) {
-        List<Schedules> schedules = scheduleReader.findNearTermSchedules(1, userId, true, baseDateTime);
+        User user = userReader.findById(userId);
+        List<Schedules> schedules =
+                scheduleReader.findUserNearTermSchedules(1, user, true, baseDateTime);
 
         if (schedules.isEmpty()) return null;
         Schedules upComingSchedule = schedules.get(0);

@@ -3,7 +3,8 @@ package com.imlinker.storage.schedules;
 import com.imlinker.domain.schedules.model.ScheduleRepository;
 import com.imlinker.domain.schedules.model.Schedules;
 import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeScheduleQueryCondition;
-import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchContactNearTermScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchUserNearTermScheduleQueryCondition;
 import com.imlinker.storage.schedules.mapper.ScheduleMapper;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,8 +27,17 @@ public class ScheduleAdaptor implements ScheduleRepository {
     }
 
     @Override
-    public List<Schedules> findAllNearTermSchedules(SearchNearTermScheduleQueryCondition condition) {
-        return jdbcRepo.findAllNearTermSchedulesWithLimit(condition).stream()
+    public List<Schedules> findAllUserNearTermSchedules(
+            SearchUserNearTermScheduleQueryCondition condition) {
+        return jdbcRepo.findAllUserNearTermSchedulesWithLimit(condition).stream()
+                .map(ScheduleMapper::toModel)
+                .toList();
+    }
+
+    @Override
+    public List<Schedules> findAllContactNearTermSchedules(
+            SearchContactNearTermScheduleQueryCondition condition) {
+        return jdbcRepo.findAllContactNearTermSchedulesWithLimit(condition).stream()
                 .map(ScheduleMapper::toModel)
                 .toList();
     }

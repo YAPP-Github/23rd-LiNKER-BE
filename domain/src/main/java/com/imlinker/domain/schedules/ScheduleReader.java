@@ -1,9 +1,12 @@
 package com.imlinker.domain.schedules;
 
+import com.imlinker.domain.contacts.model.Contacts;
 import com.imlinker.domain.schedules.model.ScheduleRepository;
 import com.imlinker.domain.schedules.model.Schedules;
 import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeScheduleQueryCondition;
-import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchContactNearTermScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchUserNearTermScheduleQueryCondition;
+import com.imlinker.domain.user.model.User;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
 import java.time.LocalDateTime;
@@ -25,11 +28,19 @@ public class ScheduleReader {
                 .orElseThrow(() -> new ApplicationException(ErrorType.SCHEDULE_NOT_FOUND));
     }
 
-    public List<Schedules> findNearTermSchedules(
-            int size, Long userId, boolean isUpcoming, LocalDateTime baseDateTime) {
-        SearchNearTermScheduleQueryCondition condition =
-                new SearchNearTermScheduleQueryCondition(size, userId, isUpcoming, baseDateTime);
-        return scheduleRepository.findAllNearTermSchedules(condition);
+    public List<Schedules> findUserNearTermSchedules(
+            int size, User user, boolean isUpcoming, LocalDateTime baseDateTime) {
+        SearchUserNearTermScheduleQueryCondition condition =
+                new SearchUserNearTermScheduleQueryCondition(size, user.id(), isUpcoming, baseDateTime);
+        return scheduleRepository.findAllUserNearTermSchedules(condition);
+    }
+
+    public List<Schedules> findContactNearTermSchedules(
+            int size, Contacts contacts, boolean isUpcoming, LocalDateTime baseDateTime) {
+        SearchContactNearTermScheduleQueryCondition condition =
+                new SearchContactNearTermScheduleQueryCondition(
+                        size, contacts.id(), isUpcoming, baseDateTime);
+        return scheduleRepository.findAllContactNearTermSchedules(condition);
     }
 
     public List<Schedules> findScheduleByContactIdAndDateRange(

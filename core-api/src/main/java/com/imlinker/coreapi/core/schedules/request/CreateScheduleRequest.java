@@ -1,6 +1,7 @@
 package com.imlinker.coreapi.core.schedules.request;
 
 import com.imlinker.domain.schedules.CreateScheduleParam;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
@@ -19,6 +20,7 @@ public record CreateScheduleRequest(
         @NotEmpty(message = "일정 참여자가 충분하지 않습니다.") @Schema(description = "연락처 식별자 List")
                 List<Long> contactIds) {
 
+    @Hidden
     @AssertTrue(message = "시작 날짜가 종료 날짜보다 늦을 수 없습니다.")
     public boolean isValidPeriod() {
         return startDateTime != null && endDateTime != null && !startDateTime.isAfter(endDateTime);
