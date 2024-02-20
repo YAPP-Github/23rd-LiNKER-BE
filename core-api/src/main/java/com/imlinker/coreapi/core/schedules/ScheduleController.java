@@ -10,10 +10,7 @@ import com.imlinker.coreapi.core.schedules.request.CreateScheduleRequest;
 import com.imlinker.coreapi.core.schedules.request.NearTermSearchType;
 import com.imlinker.coreapi.core.schedules.request.UpdateScheduleRequest;
 import com.imlinker.coreapi.support.response.ApiResponse;
-import com.imlinker.domain.schedules.CreateScheduleParam;
-import com.imlinker.domain.schedules.ScheduleSearchService;
-import com.imlinker.domain.schedules.ScheduleService;
-import com.imlinker.domain.schedules.UpdateScheduleParam;
+import com.imlinker.domain.schedules.*;
 import com.imlinker.domain.schedules.model.ScheduleDetail;
 import com.imlinker.enums.OperationResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -141,26 +138,29 @@ public class ScheduleController {
     }
 
     @GetMapping("/upcoming/recommendation")
-    @Operation(summary = "다가오는 일정 추천 (mock)")
+    @Operation(summary = "다가오는 일정 추천")
     public ApiResponse<GetUpComingScheduleRecommendationResponse.Schedule>
-            getUpComingScheduleRecommendation() {
+            getUpComingScheduleRecommendation(
+                    @RequestParam(defaultValue = "20") int size,
+                    @AuthenticatedUserContext AuthenticatedUserContextHolder userContextHolder) {
+        GetRecommendationParam upcomingRecommendation =
+                scheduleSearchService.getUpcomingRecommendation(
+                        userContextHolder.getId(), LocalDateTime.now(), size);
+
         GetUpComingScheduleRecommendationResponse.Schedule response =
-                new GetUpComingScheduleRecommendationResponse.Schedule(
-                        1L,
-                        "일정 1",
-                        "https://postfiles.pstatic.net/MjAyMjA5MTdfMTE1/MDAxNjYzMzc3MDc1MTA2.bToArUww9E15OT_Mmt5mz7xAkuK98KGBbeI_dsJeaDAg.WJAhfo5kHehNQKWLEWKURBlZ7m_GZVZ9hoCBM2b_lL0g.JPEG.drusty97/IMG_0339.jpg?type=w966",
-                        LocalDateTime.now().plusHours(1),
-                        LocalDateTime.now().plusHours(2),
-                        "이지우 외 1명",
-                        List.of(
-                                new GetUpComingScheduleRecommendationResponse.Recommendation(
-                                        new com.imlinker.domain.tag.model.Tag(1L, "스포츠"),
-                                        List.of(
-                                                new GetUpComingScheduleRecommendationResponse.SimpleNews(
-                                                        1L,
-                                                        "스포츠 뉴스",
-                                                        "연합뉴스",
-                                                        "https://r.yna.co.kr/global/home/v01/img/yonhapnews_logo_600x600_kr01.jpg")))));
+                upcomingRecommendation == null
+                        ? null
+                        : new GetUpComingScheduleRecommendationResponse.Schedule(
+                                upcomingRecommendation.schedules().id(),
+                                upcomingRecommendation.schedules().title(),
+                                upcomingRecommendation.profileImgUrl().getValue(),
+                                upcomingRecommendation.schedules().startDateTime(),
+                                upcomingRecommendation.schedules().endDateTime(),
+                                upcomingRecommendation.newsList().stream()
+                                        .map(
+                                                GetUpComingScheduleRecommendationResponse.Recommendation
+                                                        ::fromTagSpecificNews)
+                                        .toList());
         return ApiResponse.success(response);
     }
 }
