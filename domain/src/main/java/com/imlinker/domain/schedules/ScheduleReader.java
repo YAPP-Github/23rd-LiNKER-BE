@@ -3,6 +3,7 @@ package com.imlinker.domain.schedules;
 import com.imlinker.domain.schedules.model.ScheduleRepository;
 import com.imlinker.domain.schedules.model.Schedules;
 import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchDateRangeScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
 import com.imlinker.error.ApplicationException;
 import com.imlinker.error.ErrorType;
@@ -38,5 +39,13 @@ public class ScheduleReader {
                 new SearchContactIdAndDateRangeScheduleQueryCondition(userId, contactId, size, from, to);
 
         return scheduleRepository.findByContactIdAndDateRange(condition);
+    }
+
+    public List<Schedules> findScheduleByDateRange(
+            Long userId, int size, LocalDateTime from, LocalDateTime to) {
+        SearchDateRangeScheduleQueryCondition condition =
+                new SearchDateRangeScheduleQueryCondition(userId, size, from, to);
+
+        return scheduleRepository.findByDateRange(condition);
     }
 }

@@ -123,4 +123,18 @@ public class ScheduleSearchService {
                         })
                 .toList();
     }
+
+    public List<ScheduleDetail> searchScheduleByDateRange(
+            Long userId, int size, LocalDateTime from, LocalDateTime to) {
+        List<Schedules> schedules = scheduleReader.findScheduleByDateRange(userId, size, from, to);
+
+        return schedules.stream()
+                .map(
+                        schedule -> {
+                            List<Contacts> participants =
+                                    scheduleParticipantReader.findScheduleParticipants(schedule.id());
+                            return ScheduleDetail.of(schedule, participants);
+                        })
+                .toList();
+    }
 }

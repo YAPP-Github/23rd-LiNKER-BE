@@ -1,6 +1,7 @@
 package com.imlinker.domain.schedules.model;
 
 import com.imlinker.domain.schedules.model.query.SearchContactIdAndDateRangeScheduleQueryCondition;
+import com.imlinker.domain.schedules.model.query.SearchDateRangeScheduleQueryCondition;
 import com.imlinker.domain.schedules.model.query.SearchNearTermScheduleQueryCondition;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,8 @@ public interface ScheduleRepository {
 
     List<Schedules> findByContactIdAndDateRange(
             SearchContactIdAndDateRangeScheduleQueryCondition condition);
+
+    List<Schedules> findByDateRange(SearchDateRangeScheduleQueryCondition condition);
 
     Optional<Schedules> findByIdAndUserId(Long id, Long userId);
 
