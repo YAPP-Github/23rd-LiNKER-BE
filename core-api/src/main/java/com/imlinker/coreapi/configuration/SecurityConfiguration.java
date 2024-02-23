@@ -82,7 +82,7 @@ public class SecurityConfiguration {
                                         "/api/v1/auth/**",
                                         "/api/v1/tags/**",
                                         "/api/v1/crawler",
-                                        "/api/v1/news/trend")
+                                        "/api/v1/news/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated());
