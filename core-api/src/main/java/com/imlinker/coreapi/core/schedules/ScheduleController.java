@@ -145,6 +145,11 @@ public class ScheduleController {
                                 upcomingRecommendation.profileImgUrl().getValue(),
                                 upcomingRecommendation.schedules().startDateTime(),
                                 upcomingRecommendation.schedules().endDateTime(),
+                                upcomingRecommendation.schedules().participants().get(0).name()
+                                        + (upcomingRecommendation.schedules().participants().size() > 1
+                                                ? String.format(
+                                                        " 외 %d명", upcomingRecommendation.schedules().participants().size() - 1)
+                                                : ""),
                                 upcomingRecommendation.newsList().stream()
                                         .map(
                                                 GetUpComingScheduleRecommendationResponse.Recommendation

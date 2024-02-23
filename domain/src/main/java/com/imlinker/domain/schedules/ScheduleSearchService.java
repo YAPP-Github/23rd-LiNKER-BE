@@ -50,18 +50,27 @@ public class ScheduleSearchService {
     public GetRecommendationParam getUpcomingRecommendation(
             Long userId, LocalDateTime baseDateTime, int size) {
         User user = userReader.findById(userId);
-        List<Schedules> schedules =
-                scheduleReader.findUserNearTermSchedules(1, user, true, baseDateTime);
+        List<ScheduleDetail> schedules =
+                scheduleReader.findUserNearTermSchedules(1, user, true, baseDateTime).stream()
+                        .map(
+                                schedule -> {
+                                    List<Contacts> participants =
+                                            scheduleParticipantReader.findScheduleParticipants(schedule.id());
+                                    return ScheduleDetail.of(schedule, participants);
+                                })
+                        .toList();
 
         if (schedules.isEmpty()) return null;
-        Schedules upComingSchedule = schedules.get(0);
+        ScheduleDetail upComingSchedule = schedules.get(0);
         List<Contacts> participants =
                 scheduleParticipantReader.findScheduleParticipants(upComingSchedule.id());
         List<List<Tag>> contactTagList =
                 participants.stream().map(contactInterestReader::findAllByContactOrderByCreatedAt).toList();
 
         URL returnImageUrl =
-                upComingSchedule.participantsNum() == 1 ? participants.get(0).profileImgUrl() : null;
+                upComingSchedule.participants().size() == 1
+                        ? participants.get(0).profileImgUrl()
+                        : URL.empty();
         List<Tag> recommendedTags = getRecommendedTags(contactTagList);
         List<TagSpecificNews> newsList = getRecommendedNews(size, recommendedTags);
 
